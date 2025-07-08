@@ -179,9 +179,52 @@
       .profile { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
       .profile img { width: 70px; height: 70px; }
     }
+	html {
+	  scroll-behavior: smooth; /* 啟用滑順滾動 */
+	}
+
+	.back-to-top {
+	  position: fixed;
+	  right: clamp(10px, 10vw, 330px);
+      bottom: clamp(16px, 4vw, 40px);
+	  width: 50px;
+	  height: 50px;
+	  background: linear-gradient(135deg, #4ca3ff 0%, #2b90d9 100%);
+	  color: #fff;
+	  border-radius: 50%;
+	  box-shadow: 0 4px 16px rgba(76,163,255,0.12);
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	  font-size: 2.1rem;
+	  text-decoration: none;
+	  transition: background 0.2s, transform 0.2s, box-shadow 0.23s, opacity 0.3s;
+	  z-index: 999;
+	  opacity: 0;
+	  pointer-events: none;
+	}
+	.back-to-top.visible {
+	  opacity: 0.85;
+	  pointer-events: auto;
+	}
+	.back-to-top:hover {
+	  background: linear-gradient(135deg, #337ab7 0%, #4ca3ff 100%);
+	  transform: scale(1.12);
+	  box-shadow: 0 8px 32px rgba(50,130,240,0.18);
+	  opacity: 1;
+	}
+	@media (max-width: 600px) {
+	  .back-to-top {
+		right: 16px;
+		bottom: 18px;
+		width: 40px;
+		height: 40px;
+		font-size: 1.4rem;
+	  }
+	}
   </style>
 </head>
-<body>
+<body id="top">
   <header>
     <h1>Jun Rong Chen</h1>
     <p>Software Engineer • Backend / Java / Distributed Systems</p>
@@ -265,5 +308,18 @@
       </div>
     </section>
   </div>
+  <a href="#top" class="back-to-top" title="Back to Top">&#8679;</a>
 </body>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const btn = document.querySelector('.back-to-top');
+    window.addEventListener('scroll', function () {
+      if (window.scrollY > 200) {
+        btn.classList.add('visible');
+      } else {
+        btn.classList.remove('visible');
+      }
+    });
+  });
+</script>
 </html>

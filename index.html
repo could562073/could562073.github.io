@@ -1,46 +1,231 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <title>Hello Rex</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jun Rong Chen - Software Engineer Blog</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans', '微軟正黑體', sans-serif;
+      background: #f8f9fa;
+      color: #222;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #222;
+      color: #fff;
+      padding: 2rem 0 1.5rem 0;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.4rem;
+      letter-spacing: 2px;
+    }
+    header p {
+      margin: 0.7rem 0 0 0;
+      font-size: 1.1rem;
+      color: #aaa;
+    }
+    nav {
+      margin: 1.5rem 0 1rem 0;
+      text-align: center;
+    }
+    nav a {
+      color: #337ab7;
+      text-decoration: none;
+      margin: 0 1rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    nav a:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+    .container {
+      max-width: 780px;
+      margin: 2.5rem auto;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 2px 8px rgba(34,34,34,0.06);
+      padding: 2rem 2.3rem 2rem 2.3rem;
+    }
+    .section-title {
+      border-left: 4px solid #337ab7;
+      padding-left: 0.6rem;
+      margin: 2.2rem 0 1.2rem 0;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #222;
+      letter-spacing: 1px;
+    }
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 1.7rem;
+    }
+    .profile img {
+      border-radius: 50%;
+      width: 90px;
+      height: 90px;
+      border: 2px solid #eee;
+      object-fit: cover;
+    }
+    .profile-info h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #337ab7;
+    }
+    .profile-info p {
+      margin: 0.2rem 0 0 0;
+      font-size: 1.02rem;
+      color: #333;
+    }
+    .blog-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .blog-list li {
+      padding: 1.1rem 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .blog-list li:last-child {
+      border-bottom: none;
+    }
+    .blog-title {
+      font-size: 1.13rem;
+      color: #337ab7;
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+      text-decoration: none;
+    }
+    .blog-title:hover {
+      text-decoration: underline;
+      color: #0056b3;
+    }
+    .blog-date {
+      font-size: 0.95rem;
+      color: #999;
+    }
+    .tags {
+      margin-top: 0.2rem;
+    }
+    .tag {
+      display: inline-block;
+      background: #e8f0fe;
+      color: #337ab7;
+      font-size: 0.91rem;
+      padding: 2px 10px;
+      border-radius: 10px;
+      margin-right: 0.4em;
+      margin-bottom: 0.1em;
+    }
+    .contact-links {
+      margin-top: 0.7rem;
+    }
+    .contact-links a {
+      margin-right: 1.2rem;
+      color: #337ab7;
+      text-decoration: none;
+      font-size: 1.03rem;
+      transition: color 0.2s;
+    }
+    .contact-links a:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+    @media (max-width: 600px) {
+      .container { padding: 1rem; }
+      .profile { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+      .profile img { width: 70px; height: 70px; }
+    }
+  </style>
 </head>
 <body>
-<div style="text-align: center;">
-    <h1>振奮精神!</h1>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/QPY4h-nDIZ8?si=c_FESqsrnbnnra_7"
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen></iframe>
-</div>
-<div class="codeArea">
-    <h2>你好，這裡是測試程式碼展示區域</h2>
-    <pre>
-          <code>
-            function greet() {
-              console.log("Hello, world!");
-            }
-            greet();
-          </code>
-    </pre>
-</div>
-
+  <header>
+    <h1>Jun Rong Chen</h1>
+    <p>Software Engineer • Backend / Java / Distributed Systems</p>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#blog">Blog</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+  <div class="container">
+    <section id="about">
+      <div class="section-title">About Me</div>
+      <div class="profile">
+        <img src="https://avatars.githubusercontent.com/u/52489430?v=4" alt="profile">
+        <div class="profile-info">
+          <h2>Jun Rong Chen</h2>
+          <p>
+            Hi! I’m a backend engineer from Taiwan, with 5+ years of experience in Java, distributed systems, and platform maintenance.<br>
+            <b>Specialties:</b> Java, Spring Boot, MyBatis, PostgreSQL, Redis, Team Lead.<br>
+            Passionate about clean code, system optimization, and sharing tech insights.<br>
+          </p>
+        </div>
+      </div>
+    </section>
+    <section id="blog">
+      <div class="section-title">Latest Blog Posts</div>
+      <ul class="blog-list">
+        <li>
+          <a class="blog-title" href="#">如何設計高可用的後端系統？</a>
+          <div class="blog-date">2024-07-09</div>
+          <div class="tags">
+            <span class="tag">System Design</span>
+            <span class="tag">Java</span>
+          </div>
+        </li>
+        <li>
+          <a class="blog-title" href="#">GitHub Pages 快速架站教學</a>
+          <div class="blog-date">2024-06-28</div>
+          <div class="tags">
+            <span class="tag">GitHub</span>
+            <span class="tag">教學</span>
+          </div>
+        </li>
+        <li>
+          <a class="blog-title" href="#">MyBatis 性能調校技巧</a>
+          <div class="blog-date">2024-06-15</div>
+          <div class="tags">
+            <span class="tag">MyBatis</span>
+            <span class="tag">SQL</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+    <section id="projects">
+      <div class="section-title">Side Projects</div>
+      <ul class="blog-list">
+        <li>
+          <a class="blog-title" href="https://github.com/your-github-id/project1" target="_blank">台灣股市 LINE BOT</a>
+          <div class="tags">
+            <span class="tag">Node.js</span>
+            <span class="tag">Line Bot</span>
+            <span class="tag">FinTech</span>
+          </div>
+        </li>
+        <li>
+          <a class="blog-title" href="https://github.com/your-github-id/project2" target="_blank">分散式鎖框架實作</a>
+          <div class="tags">
+            <span class="tag">Java</span>
+            <span class="tag">Redis</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+    <section id="contact">
+      <div class="section-title">Contact</div>
+      <div class="contact-links">
+        <a href="mailto:your.email@gmail.com">Email</a>
+        <a href="https://github.com/could562073" target="_blank">GitHub</a>
+        <a href="www.linkedin.com/in/rexchen315" target="_blank">LinkedIn</a>
+      </div>
+    </section>
+  </div>
 </body>
-<style>
-    body {
-        margin: 0 auto; /* 水平居中 */
-        width: 50%; /* 可根据需要调整宽度 */
-    }
-
-    pre {
-        background-color: black;
-        color: white;
-        padding: 10px;
-        border-radius: 5px;
-
-    }
-
-    .codeArea {
-        position: relative;
-    }
-</style>
 </html>

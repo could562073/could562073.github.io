@@ -22,6 +22,11 @@
       margin: 0;
       font-size: 2.4rem;
       letter-spacing: 2px;
+      transition: transform 0.3s;
+    }
+    header h1:hover {
+      transform: scale(1.06);
+      color: #4ca3ff;
     }
     header p {
       margin: 0.7rem 0 0 0;
@@ -37,19 +42,28 @@
       text-decoration: none;
       margin: 0 1rem;
       font-weight: 500;
-      transition: color 0.2s;
+      transition: color 0.2s, transform 0.2s;
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 8px;
     }
     nav a:hover {
-      color: #0056b3;
-      text-decoration: underline;
+      color: #fff;
+      background: linear-gradient(90deg, #4ca3ff 0%, #2b90d9 100%);
+      transform: scale(1.09);
     }
     .container {
       max-width: 780px;
       margin: 2.5rem auto;
       background: #fff;
       border-radius: 15px;
-      box-shadow: 0 2px 8px rgba(34,34,34,0.06);
+      box-shadow: 0 2px 10px rgba(34,34,34,0.07);
       padding: 2rem 2.3rem 2rem 2.3rem;
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    .container:hover {
+      box-shadow: 0 8px 24px rgba(50,130,240,0.13);
+      transform: translateY(-2px) scale(1.01);
     }
     .section-title {
       border-left: 4px solid #337ab7;
@@ -59,6 +73,10 @@
       font-weight: bold;
       color: #222;
       letter-spacing: 1px;
+      transition: color 0.25s;
+    }
+    .section-title:hover {
+      color: #4ca3ff;
     }
     .profile {
       display: flex;
@@ -71,6 +89,11 @@
       height: 90px;
       border: 2px solid #eee;
       object-fit: cover;
+      transition: transform 0.4s cubic-bezier(0.23,1,0.32,1);
+    }
+    .profile img:hover {
+      transform: scale(1.10) rotate(-4deg);
+      border-color: #4ca3ff;
     }
     .profile-info h2 {
       margin: 0;
@@ -90,9 +113,11 @@
     .blog-list li {
       padding: 1.1rem 0;
       border-bottom: 1px solid #f0f0f0;
+      transition: background 0.2s, box-shadow 0.25s;
     }
-    .blog-list li:last-child {
-      border-bottom: none;
+    .blog-list li:hover {
+      background: #f6faff;
+      box-shadow: 0 3px 12px rgba(76,163,255,0.08);
     }
     .blog-title {
       font-size: 1.13rem;
@@ -100,10 +125,13 @@
       font-weight: 500;
       margin-bottom: 0.3rem;
       text-decoration: none;
+      display: inline-block;
+      transition: transform 0.2s, color 0.2s;
     }
     .blog-title:hover {
-      text-decoration: underline;
+      transform: scale(1.06);
       color: #0056b3;
+      text-decoration: underline;
     }
     .blog-date {
       font-size: 0.95rem;
@@ -121,6 +149,11 @@
       border-radius: 10px;
       margin-right: 0.4em;
       margin-bottom: 0.1em;
+      transition: background 0.2s, color 0.2s;
+    }
+    .tag:hover {
+      background: #337ab7;
+      color: #fff;
     }
     .contact-links {
       margin-top: 0.7rem;
@@ -130,10 +163,15 @@
       color: #337ab7;
       text-decoration: none;
       font-size: 1.03rem;
-      transition: color 0.2s;
+      transition: background 0.25s, color 0.23s, transform 0.23s;
+      border-radius: 8px;
+      padding: 4px 12px;
+      display: inline-block;
     }
     .contact-links a:hover {
-      color: #0056b3;
+      color: #fff;
+      background: linear-gradient(90deg, #4ca3ff 0%, #2b90d9 100%);
+      transform: scale(1.09);
       text-decoration: underline;
     }
     @media (max-width: 600px) {
@@ -189,10 +227,10 @@
           </div>
         </li>
         <li>
-          <a class="blog-title" href="#">MyBatis 性能調校技巧</a>
+          <a class="blog-title" href="#">SQL性能調校基本教學</a>
           <div class="blog-date">2024-06-15</div>
           <div class="tags">
-            <span class="tag">MyBatis</span>
+            <span class="tag">PostgreSQL</span>
             <span class="tag">SQL</span>
           </div>
         </li>
@@ -202,7 +240,7 @@
       <div class="section-title">Side Projects</div>
       <ul class="blog-list">
         <li>
-          <a class="blog-title" href="https://github.com/your-github-id/project1" target="_blank">台灣股市 LINE BOT</a>
+          <a class="blog-title" href="https://github.com/could562073/R_Stock" target="_blank">台灣股市 LINE BOT</a>
           <div class="tags">
             <span class="tag">Node.js</span>
             <span class="tag">Line Bot</span>
@@ -210,7 +248,7 @@
           </div>
         </li>
         <li>
-          <a class="blog-title" href="https://github.com/your-github-id/project2" target="_blank">分散式鎖框架實作</a>
+          <a class="blog-title" href="https://github.com/could562073/redis-distributed-lock-implement" target="_blank">Redis分散式鎖實作</a>
           <div class="tags">
             <span class="tag">Java</span>
             <span class="tag">Redis</span>

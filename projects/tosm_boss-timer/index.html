@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>救世者之樹 m - 野王計時器</title>
+<style>
+  :root{
+    --bg:#0f172a;           /* slate-900 */
+    --panel:#111827;        /* gray-900 */
+    --muted:#94a3b8;        /* slate-400/500 */
+    --text:#e5e7eb;         /* gray-200 */
+    --brand:#22d3ee;        /* cyan-400 */
+    --accent:#a78bfa;       /* violet-400 */
+    --ok:#34d399;           /* emerald-400 */
+    --warn:#f59e0b;         /* amber-500 */
+    --danger:#ef4444;       /* red-500 */
+    --card:#0b1220;         /* dark card */
+    --ring:rgba(34,211,238,.4);
+    --shadow: 0 10px 30px rgba(0,0,0,.35);
+    font-synthesis-weight:none;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background: radial-gradient(1200px 600px at 20% -10%, rgba(167,139,250,.14), transparent 60%),
+                radial-gradient(900px 500px at 110% 20%, rgba(34,211,238,.12), transparent 60%),
+                var(--bg);
+    color:var(--text);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Microsoft JhengHei", "Noto Sans TC", Arial, "PingFang TC", sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .wrap{max-width:1200px; margin:28px auto; padding:0 20px;}
+  header{
+    position:sticky; top:0; z-index:10;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    margin-bottom:14px; padding:12px 0;
+    background:linear-gradient(180deg, rgba(15,23,42,.85), rgba(15,23,42,0));
+    backdrop-filter:saturate(120%) blur(2px);
+  }
+  h1{font-size:clamp(18px,2.6vw,28px); margin:0; letter-spacing:.5px}
+  .now{font-variant-numeric:tabular-nums; color:var(--muted); font-size:13px}
+
+  .grid{display:grid; gap:18px; grid-template-columns: 380px 1fr;}
+  .panel{
+    background:linear-gradient(180deg, rgba(255,255,255,.02), transparent 40%), var(--panel);
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:18px; padding:18px; box-shadow:var(--shadow);
+  }
+
+  /* 左側 */
+  .meta{display:grid; gap:14px}
+  .kv{display:grid; gap:8px}
+  .kv label{font-size:13px; color:var(--muted)}
+  .row{display:grid; grid-template-columns: 1fr 1fr; gap:10px;}
+  .triple{display:grid; grid-template-columns: repeat(3,1fr); gap:10px;}
+  .input, select{
+    width:100%; padding:12px 12px; border-radius:12px;
+    border:1px solid rgba(255,255,255,.08);
+    background:var(--card); color:var(--text);
+    outline:none; transition: .15s border, .15s box-shadow, .15s transform;
+    font-size:15px;
+  }
+  select{ white-space:normal; word-break:break-word; }
+  .input:focus, select:focus{ border-color:var(--brand); box-shadow:0 0 0 4px var(--ring); }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:12px 16px; border-radius:12px; border:1px solid rgba(255,255,255,.08);
+    background: linear-gradient(180deg, rgba(34,211,238,.22), rgba(34,211,238,.12));
+    color:#052026; font-weight:600; letter-spacing:.3px; cursor:pointer;
+    transition: .15s transform, .15s filter, .15s box-shadow;
+    box-shadow:var(--shadow); touch-action:manipulation;
+  }
+  .btn:hover{filter:brightness(1.05)}
+  .btn:active{transform:translateY(1px)}
+  .btn-outline{background:transparent; color:var(--brand); border-color:rgba(34,211,238,.35)}
+  .btn-row{display:flex; gap:10px; flex-wrap:wrap}
+
+  .hint{font-size:12px; color:var(--muted); margin-top:4px}
+
+  /* 右側清單 */
+  .list{display:grid; gap:12px;}
+  .card{
+    position:relative; display:grid; gap:6px;
+    padding:14px 16px; border-radius:14px;
+    background:linear-gradient(180deg, rgba(255,255,255,.03), transparent 50%), var(--card);
+    border:1px solid rgba(255,255,255,.06);
+  }
+  .title{font-weight:600; letter-spacing:.3px}
+  .row2{display:flex; align-items:center; justify-content:space-between; gap:10px}
+  .count{font-variant-numeric:tabular-nums; font-size:18px; letter-spacing:.5px}
+  .soon .count{ color:var(--warn)}
+  .expired .count{ color:var(--danger)}
+  .badge{font-size:12px; padding:2px 8px; border-radius:999px; background:rgba(167,139,250,.15); color:var(--accent); border:1px solid rgba(167,139,250,.35)}
+  .tools{display:flex; gap:8px}
+  .iconbtn{
+    width:36px; height:36px; display:inline-grid; place-items:center; border-radius:10px;
+    border:1px solid rgba(255,255,255,.08); background:transparent; color:var(--muted);
+    cursor:pointer; touch-action:manipulation;
+  }
+  .iconbtn:hover{color:#fff; border-color:rgba(255,255,255,.24)}
+  .empty{text-align:center; color:var(--muted); padding:24px 8px; border:1px dashed rgba(255,255,255,.12); border-radius:14px}
+
+  /* Modal（完整填單仍可用） */
+  .modal{position:fixed; inset:0; display:none; place-items:center; z-index:50; background:rgba(3,7,18,.55); backdrop-filter: blur(2px);}
+  .modal.open{display:grid}
+  .sheet{width:min(680px, 92vw); background:var(--panel); border:1px solid rgba(255,255,255,.09); border-radius:18px; padding:18px; box-shadow:var(--shadow)}
+  .sheet h2{margin:0 0 10px 0}
+  .sheet .grid2{display:grid; gap:12px; grid-template-columns: 1fr 1fr}
+  .sheet .footer{display:flex; justify-content:flex-end; gap:10px; margin-top:6px}
+  .req::after{content:"*"; color:var(--danger); margin-left:2px}
+  .small{font-size:12px; color:var(--muted)}
+
+  /* RWD */
+  @media (max-width:980px){ .grid{grid-template-columns:1fr} }
+  @media (max-width:640px){
+    .wrap{padding:0 14px}
+    .panel{padding:14px; border-radius:16px}
+    .row{grid-template-columns:1fr; gap:8px}
+    .triple{grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px}
+    .btn{width:100%}
+    .btn-row{flex-direction:column}
+    .iconbtn{width:40px; height:40px}
+    .count{font-size:20px}
+    .sheet{width:100vw; max-width:100vw; border-radius:16px 16px 0 0; padding:16px; align-self:end}
+    .sheet .grid2{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>救世者之樹 m - 野王計時器</h1>
+      <div class="now" id="now">—</div>
+    </header>
+
+    <div class="grid">
+      <!-- 左邊：操作/說明 -->
+      <section class="panel">
+        <div class="meta">
+          <div class="kv">
+            <label>快速新增</label>
+            <div class="row">
+              <select id="quickA" class="input" title="主分類 (A)"></select>
+              <select id="quickB" class="input" title="次分類 (B)"></select>
+            </div>
+          </div>
+
+          <div class="kv">
+            <label>預設重生時間 (小時/分/秒)</label>
+            <div class="triple">
+              <input id="dH" class="input" type="number" min="0" value="0" />
+              <input id="dM" class="input" type="number" min="0" value="5" />
+              <input id="dS" class="input" type="number" min="0" value="0" />
+            </div>
+            <div class="hint">此區只影響「快速新增」，真正的倒數以每個項目建立時的設定為準。</div>
+          </div>
+
+          <div class="row">
+            <div class="kv">
+              <label>分流</label>
+              <input id="lane" class="input" type="number" min="1" value="1" />
+            </div>
+            <div class="kv">
+              <label>提醒時間 (分)</label>
+              <input id="leadMin" class="input" type="number" min="0" value="0" />
+            </div>
+          </div>
+
+          <div class="kv">
+            <div class="btn-row">
+              <button id="btnQuickAdd" class="btn" type="button">➕ 立即新增</button>
+              <button id="btnOpenForm" class="btn btn-outline" type="button">📝 詳細設定</button>
+            </div>
+            <div class="hint">直接用上方的快速欄位按「立即新增」；若要微調不同數值，可點「詳細設定」。</div>
+          </div>
+
+          <div class="kv">
+            <button id="btnClear" class="btn btn-outline" type="button">🧹 清空所有計時</button>
+            <div class="hint">所有資料會存入 Cookie（保存 1 年）。</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 右邊：清單 -->
+      <section class="panel">
+        <div id="list" class="list"></div>
+        <div id="empty" class="empty" style="display:none">目前沒有計時，點左邊「立即新增」開始吧！</div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Modal 表單（可選） -->
+  <div class="modal" id="modal">
+    <div class="sheet">
+      <h2>新增計時（詳細設定）</h2>
+      <div class="grid2">
+        <div class="kv">
+          <label class="req">主分類 A</label>
+          <select id="formA" class="input"></select>
+        </div>
+        <div class="kv">
+          <label class="req">次分類 B</label>
+          <select id="formB" class="input"></select>
+        </div>
+
+        <div class="kv">
+          <label class="req">重生時間（時 / 分 / 秒）</label>
+          <div class="triple">
+            <input id="formH" class="input" type="number" min="0" value="0">
+            <input id="formM" class="input" type="number" min="0" value="5">
+            <input id="formS" class="input" type="number" min="0" value="0">
+          </div>
+          <div class="small">建立後即開始倒數。</div>
+        </div>
+
+        <div class="kv">
+          <label>分流</label>
+          <input id="formLane" class="input" type="number" min="1" value="1">
+        </div>
+
+        <div class="kv">
+          <label>提醒時間（分）</label>
+          <input id="formLead" class="input" type="number" min="0" value="0">
+        </div>
+      </div>
+      <div class="footer">
+        <button id="btnCancel" class="btn btn-outline" type="button">取消</button>
+        <button id="btnAdd" class="btn" type="button">新增計時</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 小小的 base64 beep（離線可用） -->
+  <audio id="beep" preload="auto">
+    <source src="data:audio/mp3;base64,//uQZAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCAAAACAAACcQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//sQZAAPAAAABAAABAgACAAACAAACAAACAAACAAACAAACAAACAAACAAACAAACAAACAAACAAACAAACAAACAAACAAAA" type="audio/mp3">
+  </audio>
+
+<script>
+/* -------------------- 小工具：Cookie -------------------- */
+const COOKIE_KEY = "bossTimers_v1";
+const COOKIE_FORM = "bossForm_v1";
+function setCookie(name, value, days=365){
+  const expires = new Date(Date.now()+days*864e5).toUTCString();
+  document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; expires=${expires}; path=/; samesite=lax`;
+}
+function getCookie(name){
+  const m = document.cookie.match(new RegExp('(?:^|; )'+encodeURIComponent(name)+'=([^;]*)'));
+  return m ? decodeURIComponent(m[1]) : "";
+}
+
+/* -------------------- 資料模型 -------------------- */
+let timers = []; // {id, a, b, lane, durationMs, leadMin, startAt, alert1Fired, alert2Fired}
+const $ = s => document.querySelector(s);
+const listEl = $('#list');
+const emptyEl = $('#empty');
+const beep = $('#beep');
+
+/* -------------------- 主/次選單資料 -------------------- */
+const B_DICT = {
+  "Episode 1": [
+    "夏奧雷伊西邊森林 Lv.1 - 卑劣的 赤紅布貝門士",
+    "夏奧雷伊東邊森林 Lv.3 - 強韌的 惡靈君主",
+    "蓮帕拉沙池塘 Lv.5 - 不祥的 次元裂縫"
+  ],
+  "Episode 2": [
+    "斯拉屋塔斯峽谷 Lv.10 - 卑劣的 獨眼巨人",
+    "凱利高原 Lv.11 - 強韌的 瑪爾雷飛龍",
+    "奈普里塔斯懸崖 Lv.12 - 強韌的 地獄亡靈",
+    "泰內花園 Lv.13 - 強韌的 王座大蜘蛛",
+    "泰內聖堂地下1層 Lv.15 - 強韌的 豬籠草"
+  ],
+  "Episode 3": [
+    "庫魯森林 Lv.20 - 卑劣的 木乃伊賽西特",
+    "克尼多斯森林 Lv.21 - 強韌的 伊堤斯大嘴獸",
+    "達巴森林 Lv.22 - 強韌的 維尼亞猴子",
+    "諾巴哈公會所 Lv.24 - 不祥的 次元裂縫",
+    "諾巴哈本院 Lv.28 - 憤怒的 死亡魔女"
+  ],
+  "Episode 4": [
+    "貝雅山谷 Lv.30 - 卑劣的 女妖克萊默",
+    "比爾塔溪谷 Lv.31 - 不祥的 次元裂縫",
+    "科博爾特森林 Lv.32 - 強韌的 魔斯怪",
+    "培爾克神殿 Lv.36 - 強韌的 毒魔蛙",
+    "安森塔冰源地 Lv.38 - 憤怒的 水蛭"
+  ],
+  "Episode 5": [
+    "萊塔斯小溪 Lv.42 - 不祥的 次元裂縫",
+    "德慕爾佃農村 Lv.44 - 卑劣的 地心蠕王",
+    "德慕爾莊園 Lv.46 - 強韌的 克萊擔怪",
+    "德慕爾外城 Lv.48 - 憤怒的 赤紅雷班扎特"
+  ],
+  "Episode 6": [
+    "達伊納養蜂地 Lv.50 - 卑劣的 孟提肯",
+    "比爾那森林 Lv.51 - 強韌的 塔奧瑪斯",
+    "烏奇斯耕耘作地 Lv.52 - 不祥的 次元裂縫",
+    "春光樹林 Lv.53 - 憤怒的 佛蘭普",
+    "關口路 Lv.55 - 強韌的 切波勒",
+    "史爾特凱拉森林 Lv.57 - 強韌的 亞魯"
+  ],
+  "Episode 7": [
+    "魯卡斯高原 Lv.60 - 卑劣的 貝亞卡拉斯",
+    "王之高原 Lv.61 - 強韌的 塚主洛德",
+    "札卡里耶耶爾交叉路 Lv.62 - 不祥的 次元裂縫",
+    "王陵1層 Lv.64 - 強韌的 庫勒卡斯",
+    "王陵2層 Lv.66 - 憤怒的 雷克西波",
+    "王陵3層 Lv.68"
+  ],
+  "Episode 8": [
+    "阿雷魯諾男爵領 Lv.70 - 卑劣的 巨魔蟻",
+    "水路橋地區 Lv.70 - 強韌的 克洛提德",
+    "魔族收監所第1區 Lv.71 - 強韌的 布爾魯",
+    "魔族收監所第3區 Lv.72 - 卑劣的 努亞耶雷",
+    "魔族收監所第4區 Lv.73 - 強韌的 迪歐尼斯",
+    "魔族收監所第5區 Lv.74 - 憤怒的 哈勒克"
+  ],
+  "Episode 9": [
+    "女神的古院 Lv.75 - 強韌的 死靈查普利",
+    "佩迪米安外城 Lv.76 - 卑劣的 惡魔葛洛夫",
+    "魔法師之塔1層 Lv.77 - 強韌的 火焰蜘蛛王",
+    "魔法師之塔2層 Lv.78 - 強韌的 瑪因洛德",
+    "魔法師之塔3層 Lv.79 - 憤怒的 林嘉塞露女妖"
+  ],
+  "Episode 10": [
+    "大教堂懺悔路 Lv.80 - 卑劣的 嘎拉庫曼",
+    "大教堂正殿 Lv.81 - 強韌的 火焰權杖",
+    "大教堂大迴廊 Lv.82 - 強韌的 利泰力斯",
+    "大教堂至聖所 Lv.83 - 憤怒的 那柯提斯"
+  ]
+};
+// 自動產生主分類選單
+const A_OPTIONS = Object.keys(B_DICT);
+
+/* -------------------- 初始化選單 -------------------- */
+function fillA(sel){
+  sel.innerHTML = A_OPTIONS.map(v=>`<option value="${v}">${v}</option>`).join('');
+}
+function fillB(sel, aValue){
+  const arr = B_DICT[aValue] || [];
+  sel.innerHTML = arr.map(v=>`<option value="${v}">${v}</option>`).join('');
+}
+
+/* -------------------- 儲存 / 載入 -------------------- */
+function save(){ setCookie(COOKIE_KEY, JSON.stringify(timers)); }
+function load(){
+  const raw = getCookie(COOKIE_KEY);
+  timers = raw ? JSON.parse(raw) : [];
+}
+
+function saveFormState(){
+  const state = {
+    quickA: $('#quickA').value,
+    quickB: $('#quickB').value,
+    dH: +$('#dH').value||0,
+    dM: +$('#dM').value||0,
+    dS: +$('#dS').value||0,
+    lane: +$('#lane').value||1,
+    leadMin: +$('#leadMin').value||0
+  };
+  setCookie(COOKIE_FORM, JSON.stringify(state));
+}
+function loadFormState(){
+  const raw = getCookie(COOKIE_FORM);
+  if(!raw) return;
+  try{
+    const s = JSON.parse(raw);
+    if(s.quickA){ $('#quickA').value = s.quickA; fillB($('#quickB'), s.quickA); }
+    if(s.quickB){ $('#quickB').value = s.quickB; }
+    ['dH','dM','dS','lane','leadMin'].forEach(k=>{
+      if(s[k]!==undefined) $('#'+k).value = s[k];
+    });
+  }catch{}
+}
+
+/* -------------------- 渲染 -------------------- */
+function fmt(ms){
+  if(ms<0) ms=0;
+  const t = Math.floor(ms/1000);
+  const h = Math.floor(t/3600).toString().padStart(2,'0');
+  const m = Math.floor((t%3600)/60).toString().padStart(2,'0');
+  const s = (t%60).toString().padStart(2,'0');
+  return `${h}:${m}:${s}`;
+}
+function render(){
+  // 依剩餘時間排序（已到期放後面）
+  const now = Date.now();
+  const sorted = [...timers].sort((x,y)=>{
+    const rx = x.startAt + x.durationMs - now;
+    const ry = y.startAt + y.durationMs - now;
+    const ax = Math.max(rx, -1);
+    const ay = Math.max(ry, -1);
+    return ax - ay;
+  });
+
+  listEl.innerHTML = '';
+  if(sorted.length===0){
+    emptyEl.style.display='block';
+    return;
+  }
+  emptyEl.style.display='none';
+
+  sorted.forEach(t=>{
+    const remain = t.startAt + t.durationMs - now;
+    const soon = remain <= t.leadMin*60*1000 && remain>0;
+    const expired = remain<=0;
+
+    const card = document.createElement('div');
+    card.className = 'card' + (soon?' soon':'') + (expired?' expired':'');
+    card.innerHTML = `
+      <div class="row2">
+        <div class="title">${t.a} - ${t.b}　<span class="badge">分流 ${t.lane}</span></div>
+        <div class="tools">
+          <button class="iconbtn" title="刪除" data-del="${t.id}">🗑️</button>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="count">${fmt(remain)}</div>
+        <div class="small">提醒：${t.leadMin} 分</div>
+      </div>
+    `;
+    listEl.appendChild(card);
+  });
+}
+
+/* -------------------- 計時循環 / 提醒 -------------------- */
+function tick(){
+  const now = Date.now();
+  timers.forEach(t=>{
+    const alertAt = t.startAt + t.durationMs - t.leadMin*60*1000;
+    if(!t.alert1Fired && t.leadMin>0 && now >= alertAt && now < t.startAt + t.durationMs){
+      t.alert1Fired = true; try{ beep.currentTime=0; beep.play(); }catch{}
+    }
+    if(!t.alert2Fired && now >= t.startAt + t.durationMs){
+      t.alert2Fired = true; try{ beep.currentTime=0; beep.play(); }catch{}
+    }
+  });
+  render();
+}
+setInterval(()=>{ $('#now').textContent = new Date().toLocaleString(); tick(); }, 1000);
+
+/* -------------------- 建立 / 刪除 -------------------- */
+function addTimer(data){
+  const id = crypto.randomUUID ? crypto.randomUUID() : String(Date.now()+Math.random());
+  timers.push({
+    id,
+    a: data.a,
+    b: data.b,
+    lane: +data.lane||1,
+    durationMs: ((+data.h||0)*3600 + (+data.m||0)*60 + (+data.s||0)) * 1000,
+    leadMin: +data.lead||0,
+    startAt: Date.now(),
+    alert1Fired:false,
+    alert2Fired:false
+  });
+  save(); render();
+}
+function deleteTimer(id){
+  timers = timers.filter(t=>t.id!==id);
+  save(); render();
+}
+listEl.addEventListener('click', e=>{
+  const id = e.target?.dataset?.del;
+  if(id){ deleteTimer(id); }
+});
+
+/* -------------------- 快速新增（不彈窗，無確認） -------------------- */
+function quickAdd(){
+  const data = {
+    a: $('#quickA').value,
+    b: $('#quickB').value,
+    h: +$('#dH').value||0,
+    m: +$('#dM').value||0,
+    s: +$('#dS').value||0,
+    lane: +$('#lane').value||1,
+    lead: +$('#leadMin').value||0
+  };
+  if((data.h+data.m+data.s)===0){ alert('重生時間不可為 0'); return; }
+  addTimer(data);
+  // 存快速區狀態
+  saveFormState();
+}
+
+/* -------------------- 表單（可選） -------------------- */
+const modal = $('#modal');
+const openModal = ()=>{ modal.classList.add('open'); syncFormFromQuick(); };
+const closeModal = ()=>{ modal.classList.remove('open'); };
+
+$('#btnOpenForm').addEventListener('click', ()=>{ openModal(); try{beep.play().catch(()=>{});}catch{} }); // 解鎖音訊
+$('#btnCancel').addEventListener('click', closeModal);
+
+function syncFormFromQuick(){
+  $('#formA').value = $('#quickA').value;
+  fillB($('#formB'), $('#formA').value);
+  $('#formB').value = $('#quickB').value;
+
+  $('#formH').value = +$('#dH').value||0;
+  $('#formM').value = +$('#dM').value||0;
+  $('#formS').value = +$('#dS').value||0;
+  $('#formLane').value = +$('#lane').value||1;
+  $('#formLead').value = +$('#leadMin').value||0;
+}
+$('#btnAdd').addEventListener('click', ()=>{
+  const data = {
+    a: $('#formA').value,
+    b: $('#formB').value,
+    h: +$('#formH').value||0,
+    m: +$('#formM').value||0,
+    s: +$('#formS').value||0,
+    lane: +$('#formLane').value||1,
+    lead: +$('#formLead').value||0
+  };
+  if((data.h+data.m+data.s)===0){ alert('重生時間不可為 0'); return; }
+  addTimer(data);
+  // 同步回快速區
+  $('#quickA').value = data.a; fillB($('#quickB'), data.a); $('#quickB').value = data.b;
+  $('#dH').value=data.h; $('#dM').value=data.m; $('#dS').value=data.s;
+  $('#lane').value=data.lane; $('#leadMin').value=data.lead;
+  saveFormState();
+  closeModal();
+});
+
+/* A 變動 → B 重建（快速區與表單區） */
+function hookCascade(aSel, bSel){
+  aSel.addEventListener('change', ()=>{
+    fillB(bSel, aSel.value);
+    saveFormState();
+  });
+}
+hookCascade($('#quickA'), $('#quickB'));
+hookCascade($('#formA'),  $('#formB'));
+
+/* 快速區按鈕 */
+document.getElementById('btnQuickAdd').addEventListener('click', quickAdd);
+
+/* 快速欄位更動 → 存 Cookie */
+['#quickA','#quickB','#dH','#dM','#dS','#lane','#leadMin'].forEach(s=>{
+  $(s).addEventListener('change', saveFormState);
+  $(s).addEventListener('input', saveFormState);
+});
+
+/* 清空 */
+$('#btnClear').addEventListener('click', ()=>{
+  if(confirm('確定要刪除所有計時？')){
+    timers = []; save(); render();
+  }
+});
+
+/* -------------------- 啟動 -------------------- */
+function boot(){
+  fillA($('#quickA')); fillB($('#quickB'), A_OPTIONS[0]);
+  fillA($('#formA'));  fillB($('#formB'), A_OPTIONS[0]);
+
+  // 行動裝置改善：選取一次後自動收起鍵盤（避免遮擋）
+  ['quickA','quickB','formA','formB'].forEach(id=>{
+    const el = document.getElementById(id);
+    el && el.addEventListener('change', ()=>{ el.blur && el.blur(); });
+  });
+
+  loadFormState(); load(); render();
+}
+boot();
+</script>
+</body>
+</html>

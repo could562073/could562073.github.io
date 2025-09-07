@@ -347,10 +347,11 @@ body:not(.light) .iconbtn.danger{ border-color: rgba(255,255,255,.14); color: va
     </div>
   </div>
 
-  <!-- 小小的 base64 beep（離線可用） -->
+  <!-- 使用外部 mp3 音效 -->
   <audio id="beep" preload="auto">
-    <source src="data:audio/mp3;base64,//uQZAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCAAAACAAACcQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//sQZAAPAAAABAAABAgACAAACAAACAAACAAACAAACAAACAAACAAACAAACAAACAAACAAACAAACAAACAAACAAACAAAA" type="audio/mp3">
+    <source src="https://www.pacdv.com/sounds/interface_sound_effects/sound28.mp3" type="audio/mp3">
   </audio>
+
 
 <script>
 /* ===== 主題切換：深/淺色 ===== */
@@ -401,45 +402,6 @@ const $ = s => document.querySelector(s);
 const listEl = $('#list');
 const emptyEl = $('#empty');
 const beepEl = $('#beep');
-// —— 瀏覽器原生蜂鳴器（優先用 Web Audio；失敗再退回 <audio>）——
-const AudioFX = (() => {
-  let ctx;
-  try { ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch {}
-  function unlock() {
-    if (!ctx) return;
-    ctx.resume();
-    // 首次互動後移除監聽，避免重複呼叫
-    window.removeEventListener('pointerdown', unlock);
-    window.removeEventListener('keydown', unlock);
-  }
-  if (ctx && ctx.state === 'suspended') {
-    window.addEventListener('pointerdown', unlock, { once:true, passive:true });
-    window.addEventListener('keydown', unlock, { once:true });
-    document.addEventListener('visibilitychange', ()=>{
-      if (ctx && ctx.state === 'suspended') ctx.resume();
-    });
-  }
-  function beep(duration=0.20, freq=880, type='sine', volume=0.08){
-    // Web Audio
-    if (ctx) {
-      const t = ctx.currentTime;
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, t);
-      gain.gain.setValueAtTime(0, t);
-      gain.gain.linearRampToValueAtTime(volume, t + 0.01);
-      gain.gain.exponentialRampToValueAtTime(0.0001, t + duration);
-      osc.connect(gain).connect(ctx.destination);
-      osc.start(t);
-      osc.stop(t + duration + 0.02);
-      return;
-    }
-    // 退回 <audio>（桌機通常也可用）
-    try { beepEl.currentTime = 0; beepEl.play(); } catch {}
-  }
-  return { beep };
-})();
 
 /* -------------------- 主/次選單資料 -------------------- */
 const B_DICT = {

@@ -113,6 +113,18 @@
     background:rgba(167,139,250,.15); color:var(--accent);
     border:1px solid rgba(167,139,250,.35)
   }
+  /* Episode 標籤顏色 */
+  .badge-ep1 { background: rgba(239,68,68,.15); color: #ef4444; border:1px solid rgba(239,68,68,.35);}   /* red-500 */
+  .badge-ep2 { background: rgba(245,158,11,.15); color: #f59e0b; border:1px solid rgba(245,158,11,.35);} /* amber-500 */
+  .badge-ep3 { background: rgba(132,204,22,.15); color: #84cc16; border:1px solid rgba(132,204,22,.35);} /* lime-500 */
+  .badge-ep4 { background: rgba(34,197,94,.15); color: #22c55e; border:1px solid rgba(34,197,94,.35);}   /* green-500 */
+  .badge-ep5 { background: rgba(16,185,129,.15); color: #10b981; border:1px solid rgba(16,185,129,.35);} /* emerald-500 */
+  .badge-ep6 { background: rgba(6,182,212,.15); color: #06b6d4; border:1px solid rgba(6,182,212,.35);}   /* cyan-500 */
+  .badge-ep7 { background: rgba(59,130,246,.15); color: #3b82f6; border:1px solid rgba(59,130,246,.35);} /* blue-500 */
+  .badge-ep8 { background: rgba(139,92,246,.15); color: #8b5cf6; border:1px solid rgba(139,92,246,.35);} /* violet-500 */
+  .badge-ep9 { background: rgba(236,72,153,.15); color: #ec4899; border:1px solid rgba(236,72,153,.35);} /* pink-500 */
+  .badge-ep10{ background: rgba(107,114,128,.15); color: #6b7280; border:1px solid rgba(107,114,128,.35);} /* gray-500 */
+
   .tools{display:flex; gap:8px}
   .iconbtn{
     width:36px; height:36px; display:inline-grid; place-items:center; border-radius:10px;
@@ -575,10 +587,14 @@ function render(){
     const badgeText = textColorFor(color);
     const borderCol = color;
 
+    // Episode 編號 (從 t.a 裡抓數字)
+    const epNum = (t.a.match(/\d+/) || [0])[0];
+
     card.innerHTML = `
       <div class="row2">
         <div class="title">
-          ${t.a} - ${t.b}
+          <span class="badge badge-ep${epNum}">${t.a}</span>
+          ${t.b}
           <span class="badge" style="
             background:${badgeBg};
             color:${badgeText};

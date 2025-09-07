@@ -6,18 +6,9 @@
 <title>救世者之樹 m - 野王計時器</title>
 <style>
   :root{
-    --bg:#0f172a;           /* slate-900 */
-    --panel:#111827;        /* gray-900 */
-    --muted:#94a3b8;        /* slate-400/500 */
-    --text:#e5e7eb;         /* gray-200 */
-    --brand:#22d3ee;        /* cyan-400 */
-    --accent:#a78bfa;       /* violet-400 */
-    --ok:#34d399;           /* emerald-400 */
-    --warn:#f59e0b;         /* amber-500 */
-    --danger:#ef4444;       /* red-500 */
-    --card:#0b1220;         /* dark card */
-    --ring:rgba(34,211,238,.4);
-    --shadow: 0 10px 30px rgba(0,0,0,.35);
+    --bg:#0f172a; --panel:#111827; --muted:#94a3b8; --text:#e5e7eb;
+    --brand:#22d3ee; --accent:#a78bfa; --ok:#34d399; --warn:#f59e0b; --danger:#ef4444;
+    --card:#0b1220; --ring:rgba(34,211,238,.4); --shadow:0 10px 30px rgba(0,0,0,.35);
     font-synthesis-weight:none;
   }
   *{box-sizing:border-box}
@@ -53,7 +44,17 @@
   .meta{display:grid; gap:14px}
   .kv{display:grid; gap:8px}
   .kv label{font-size:13px; color:var(--muted)}
+
   .row{display:grid; grid-template-columns: 1fr 1fr; gap:10px;}
+  /* 新的三欄：A / B / 分流+色塊 */
+  .row3{grid-template-columns: 1fr 1fr auto;}
+  .laneWrap{display:flex; align-items:center; gap:8px;}
+  .laneWrap .input{width:76px; text-align:center}
+  .swatch{
+    width:28px; height:28px; border-radius:8px; border:1px solid rgba(255,255,255,.2);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.2);
+  }
+
   .triple{display:grid; grid-template-columns: repeat(3,1fr); gap:10px;}
   .input, select{
     width:100%; padding:12px 12px; border-radius:12px;
@@ -70,13 +71,24 @@
     padding:12px 16px; border-radius:12px; border:1px solid rgba(255,255,255,.08);
     background: linear-gradient(180deg, rgba(34,211,238,.22), rgba(34,211,238,.12));
     color:#052026; font-weight:600; letter-spacing:.3px; cursor:pointer;
-    transition: .15s transform, .15s filter, .15s box-shadow;
-    box-shadow:var(--shadow); touch-action:manipulation;
+    transition: .15s transform, .15s filter, .15s box-shadow; box-shadow:var(--shadow);
+    touch-action:manipulation;
   }
   .btn:hover{filter:brightness(1.05)}
   .btn:active{transform:translateY(1px)}
   .btn-outline{background:transparent; color:var(--brand); border-color:rgba(34,211,238,.35)}
   .btn-row{display:flex; gap:10px; flex-wrap:wrap}
+
+  /* 讓「立即新增」更醒目 */
+  #btnQuickAdd{
+    background: radial-gradient(80% 120% at 50% -10%, rgba(167,139,250,.35), transparent 60%),
+                linear-gradient(180deg, rgba(34,211,238,.35), rgba(34,211,238,.16));
+    border-color: rgba(34,211,238,.55);
+    box-shadow: 0 0 0 4px rgba(34,211,238,.18), 0 12px 26px rgba(0,0,0,.35);
+    font-weight:800;
+  }
+  #btnQuickAdd:hover{ filter:brightness(1.08) }
+  #btnQuickAdd:active{ transform: translateY(1px) }
 
   .hint{font-size:12px; color:var(--muted); margin-top:4px}
 
@@ -93,7 +105,11 @@
   .count{font-variant-numeric:tabular-nums; font-size:18px; letter-spacing:.5px}
   .soon .count{ color:var(--warn)}
   .expired .count{ color:var(--danger)}
-  .badge{font-size:12px; padding:2px 8px; border-radius:999px; background:rgba(167,139,250,.15); color:var(--accent); border:1px solid rgba(167,139,250,.35)}
+  .badge{
+    font-size:12px; padding:2px 8px; border-radius:999px;
+    background:rgba(167,139,250,.15); color:var(--accent);
+    border:1px solid rgba(167,139,250,.35)
+  }
   .tools{display:flex; gap:8px}
   .iconbtn{
     width:36px; height:36px; display:inline-grid; place-items:center; border-radius:10px;
@@ -119,6 +135,8 @@
     .wrap{padding:0 14px}
     .panel{padding:14px; border-radius:16px}
     .row{grid-template-columns:1fr; gap:8px}
+    /* 行動：三欄自動改為直排 */
+    .row3{grid-template-columns:1fr}
     .triple{grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px}
     .btn{width:100%}
     .btn-row{flex-direction:column}
@@ -140,11 +158,17 @@
       <!-- 左邊：操作/說明 -->
       <section class="panel">
         <div class="meta">
+
           <div class="kv">
             <label>快速新增</label>
-            <div class="row">
+            <!-- 三欄：A / B / 分流+顏色 -->
+            <div class="row row3">
               <select id="quickA" class="input" title="主分類 (A)"></select>
               <select id="quickB" class="input" title="次分類 (B)"></select>
+              <div class="laneWrap">
+                <input id="lane" class="input" type="number" min="1" value="1" title="分流">
+                <span id="laneSwatch" class="swatch" title="此次分流顏色"></span>
+              </div>
             </div>
           </div>
 
@@ -159,11 +183,8 @@
           </div>
 
           <div class="row">
-            <div class="kv">
-              <label>分流</label>
-              <input id="lane" class="input" type="number" min="1" value="1" />
-            </div>
-            <div class="kv">
+            <!-- 已把分流移上去，這裡只留提醒分 -->
+            <div class="kv" style="grid-column:1/-1">
               <label>提醒時間 (分)</label>
               <input id="leadMin" class="input" type="number" min="0" value="0" />
             </div>
@@ -252,7 +273,7 @@ function getCookie(name){
 }
 
 /* -------------------- 資料模型 -------------------- */
-let timers = []; // {id, a, b, lane, durationMs, leadMin, startAt, alert1Fired, alert2Fired}
+let timers = []; // {id, a, b, lane, laneColor, durationMs, leadMin, startAt, alert1Fired, alert2Fired}
 const $ = s => document.querySelector(s);
 const listEl = $('#list');
 const emptyEl = $('#empty');
@@ -330,8 +351,20 @@ const B_DICT = {
     "大教堂至聖所 Lv.83 - 憤怒的 那柯提斯"
   ]
 };
-// 自動產生主分類選單
 const A_OPTIONS = Object.keys(B_DICT);
+
+/* -------------------- 隨機色與對比色 -------------------- */
+const COLOR_POOL = ['#22d3ee','#a78bfa','#34d399','#f59e0b','#ef4444','#60a5fa','#f472b6','#84cc16','#eab308','#fb7185'];
+function randomColor(){ return COLOR_POOL[Math.floor(Math.random()*COLOR_POOL.length)]; }
+function textColorFor(hex){
+  // 簡易 YIQ 對比：> 150 用深字，否則白字
+  const c = hex.replace('#','');
+  const r = parseInt(c.substring(0,2),16);
+  const g = parseInt(c.substring(2,4),16);
+  const b = parseInt(c.substring(4,6),16);
+  const yiq = (r*299 + g*587 + b*114)/1000;
+  return yiq >= 150 ? '#0b1220' : '#ffffff';
+}
 
 /* -------------------- 初始化選單 -------------------- */
 function fillA(sel){
@@ -383,8 +416,13 @@ function fmt(ms){
   const s = (t%60).toString().padStart(2,'0');
   return `${h}:${m}:${s}`;
 }
+function fmtClock(ts){
+  const d = new Date(ts);
+  const hh = String(d.getHours()).padStart(2,'0');
+  const mm = String(d.getMinutes()).padStart(2,'0');
+  return `${hh}:${mm}`;
+}
 function render(){
-  // 依剩餘時間排序（已到期放後面）
   const now = Date.now();
   const sorted = [...timers].sort((x,y)=>{
     const rx = x.startAt + x.durationMs - now;
@@ -395,10 +433,7 @@ function render(){
   });
 
   listEl.innerHTML = '';
-  if(sorted.length===0){
-    emptyEl.style.display='block';
-    return;
-  }
+  if(sorted.length===0){ emptyEl.style.display='block'; return; }
   emptyEl.style.display='none';
 
   sorted.forEach(t=>{
@@ -408,16 +443,34 @@ function render(){
 
     const card = document.createElement('div');
     card.className = 'card' + (soon?' soon':'') + (expired?' expired':'');
+    const endAt = t.startAt + t.durationMs;
+
+    // 分流色樣式
+    const color = t.laneColor || '#a78bfa';
+    const badgeBg = color;
+    const badgeText = textColorFor(color);
+    const borderCol = color;
+
     card.innerHTML = `
       <div class="row2">
-        <div class="title">${t.a} - ${t.b}　<span class="badge">分流 ${t.lane}</span></div>
+        <div class="title">
+          ${t.a} - ${t.b}
+          <span class="badge" style="
+            background:${badgeBg};
+            color:${badgeText};
+            border-color:${borderCol};
+          ">分流 ${t.lane}</span>
+        </div>
         <div class="tools">
+          <button class="iconbtn" title="重置（同設定）" data-act="reset" data-id="${t.id}">🔁</button>
+          <button class="iconbtn" title="延後 1 分鐘" data-act="plus1" data-id="${t.id}">+1</button>
+          <button class="iconbtn" title="延後 5 分鐘" data-act="plus5" data-id="${t.id}">+5</button>
           <button class="iconbtn" title="刪除" data-del="${t.id}">🗑️</button>
         </div>
       </div>
       <div class="row2">
         <div class="count">${fmt(remain)}</div>
-        <div class="small">提醒：${t.leadMin} 分</div>
+        <div class="small">提醒：${t.leadMin} 分｜到點：<b>${fmtClock(endAt)}</b></div>
       </div>
     `;
     listEl.appendChild(card);
@@ -448,6 +501,7 @@ function addTimer(data){
     a: data.a,
     b: data.b,
     lane: +data.lane||1,
+    laneColor: data.color || randomColor(),
     durationMs: ((+data.h||0)*3600 + (+data.m||0)*60 + (+data.s||0)) * 1000,
     leadMin: +data.lead||0,
     startAt: Date.now(),
@@ -460,12 +514,32 @@ function deleteTimer(id){
   timers = timers.filter(t=>t.id!==id);
   save(); render();
 }
-listEl.addEventListener('click', e=>{
-  const id = e.target?.dataset?.del;
-  if(id){ deleteTimer(id); }
+listEl.addEventListener('click', (e)=>{
+  const delId = e.target?.dataset?.del;
+  if (delId) { deleteTimer(delId); return; }
+
+  const act = e.target?.dataset?.act;
+  const id  = e.target?.dataset?.id;
+  if (!act || !id) return;
+
+  const t = timers.find(x=>x.id===id);
+  if (!t) return;
+
+  const now = Date.now();
+  if (act === 'reset') {
+    t.startAt = now; t.alert1Fired = false; t.alert2Fired = false;
+  } else if (act === 'plus1') {
+    t.startAt += 60 * 1000; t.alert2Fired = false;
+  } else if (act === 'plus5') {
+    t.startAt += 5 * 60 * 1000; t.alert2Fired = false;
+  }
+  save(); render();
 });
 
 /* -------------------- 快速新增（不彈窗，無確認） -------------------- */
+let currentLaneColor = randomColor();
+const laneSwatch = document.getElementById('laneSwatch');
+function updateLaneSwatch(){ laneSwatch.style.background = currentLaneColor; laneSwatch.title = `此次分流顏色：${currentLaneColor}`; }
 function quickAdd(){
   const data = {
     a: $('#quickA').value,
@@ -474,12 +548,15 @@ function quickAdd(){
     m: +$('#dM').value||0,
     s: +$('#dS').value||0,
     lane: +$('#lane').value||1,
-    lead: +$('#leadMin').value||0
+    lead: +$('#leadMin').value||0,
+    color: currentLaneColor
   };
   if((data.h+data.m+data.s)===0){ alert('重生時間不可為 0'); return; }
   addTimer(data);
-  // 存快速區狀態
   saveFormState();
+  // 下一次新增換一個顏色
+  currentLaneColor = randomColor();
+  updateLaneSwatch();
 }
 
 /* -------------------- 表單（可選） -------------------- */
@@ -487,7 +564,7 @@ const modal = $('#modal');
 const openModal = ()=>{ modal.classList.add('open'); syncFormFromQuick(); };
 const closeModal = ()=>{ modal.classList.remove('open'); };
 
-$('#btnOpenForm').addEventListener('click', ()=>{ openModal(); try{beep.play().catch(()=>{});}catch{} }); // 解鎖音訊
+$('#btnOpenForm').addEventListener('click', ()=>{ openModal(); try{beep.play().catch(()=>{});}catch{} });
 $('#btnCancel').addEventListener('click', closeModal);
 
 function syncFormFromQuick(){
@@ -509,7 +586,8 @@ $('#btnAdd').addEventListener('click', ()=>{
     m: +$('#formM').value||0,
     s: +$('#formS').value||0,
     lane: +$('#formLane').value||1,
-    lead: +$('#formLead').value||0
+    lead: +$('#formLead').value||0,
+    color: randomColor() // 表單新增也給隨機顏色
   };
   if((data.h+data.m+data.s)===0){ alert('重生時間不可為 0'); return; }
   addTimer(data);
@@ -542,9 +620,7 @@ document.getElementById('btnQuickAdd').addEventListener('click', quickAdd);
 
 /* 清空 */
 $('#btnClear').addEventListener('click', ()=>{
-  if(confirm('確定要刪除所有計時？')){
-    timers = []; save(); render();
-  }
+  if(confirm('確定要刪除所有計時？')){ timers = []; save(); render(); }
 });
 
 /* -------------------- 啟動 -------------------- */
@@ -552,12 +628,12 @@ function boot(){
   fillA($('#quickA')); fillB($('#quickB'), A_OPTIONS[0]);
   fillA($('#formA'));  fillB($('#formB'), A_OPTIONS[0]);
 
-  // 行動裝置改善：選取一次後自動收起鍵盤（避免遮擋）
   ['quickA','quickB','formA','formB'].forEach(id=>{
     const el = document.getElementById(id);
     el && el.addEventListener('change', ()=>{ el.blur && el.blur(); });
   });
 
+  updateLaneSwatch(); // 顯示第一次的分流顏色
   loadFormState(); load(); render();
 }
 boot();

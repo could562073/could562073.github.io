@@ -196,26 +196,6 @@ button {
   line-height: 1;
 }
 
-.iconbtn.chip:hover{ filter: brightness(1.05); }
-/* 白樣式下，hover 保持深色字體 */
-body.light .btn:hover { 
-  color:#000;    /* 或 #0f172a，比較柔和的黑 */
-}
-
-body.light .iconbtn:hover {
-  color:#000;    /* 保持可見 */
-  border-color:rgba(0,0,0,.24);
-}
-.iconbtn.chip:active{ transform: translateY(1px); }
-.iconbtn.chip:focus-visible{ box-shadow: 0 0 0 3px rgba(34,211,238,.25); }
-
-/* 白樣式下的對比 */
-body.light .iconbtn.chip{
-  border-color: rgba(2,132,199,.30);
-  background: linear-gradient(180deg, rgba(2,132,199,.18), rgba(2,132,199,.08));
-  color: #0f172a;
-}
-
 body:not(.light) .iconbtn.danger{ border-color: rgba(255,255,255,.14); color: var(--muted); }
 .iconbtn.danger:hover{ filter: brightness(1.1); }
 
@@ -582,9 +562,6 @@ function render(){
           ">分流 ${t.lane}</span>
         </div>
         <div class="tools">
-          <button class="iconbtn" title="重置（同設定）" data-act="reset" data-id="${t.id}">🔁</button>
-          <button class="iconbtn" title="延後 1 分鐘" data-act="plus1" data-id="${t.id}">+1</button>
-          <button class="iconbtn" title="延後 5 分鐘" data-act="plus5" data-id="${t.id}">+5</button>
           <button class="iconbtn" title="刪除" data-del="${t.id}">🗑️</button>
         </div>
       </div>
@@ -646,13 +623,6 @@ listEl.addEventListener('click', (e)=>{
   if (!t) return;
 
   const now = Date.now();
-  if (act === 'reset') {
-    t.startAt = now; t.alert1Fired = false; t.alert2Fired = false;
-  } else if (act === 'plus1') {
-    t.startAt += 60 * 1000; t.alert2Fired = false;
-  } else if (act === 'plus5') {
-    t.startAt += 5 * 60 * 1000; t.alert2Fired = false;
-  }
   save(); render();
 });
 

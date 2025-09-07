@@ -184,6 +184,30 @@ body.light .panel,
 body.light .card{ border-color: rgba(15,23,42,.08); }
 /* 空清單提示的虛線框在淺色時 */
 body.light .empty{ border-color: rgba(15,23,42,.12); color:#64748b; }
+body.light .input,
+body.light select {
+  border-color: rgba(0,0,0,.15);   /* 淡灰邊框 */
+  background: #fff;                /* 保持白底 */
+  color: #000;                     /* 黑字 */
+}
+body.light .iconbtn {
+  border-color: rgba(0,0,0,.15);   /* 淡灰框 */
+  color: #6b7280;                  /* 預設文字灰色 (tailwind gray-500) */
+  background: transparent;
+}
+
+body.light .iconbtn:hover {
+  border-color: rgba(0,0,0,.35);   /* hover 更深的灰框 */
+  color: #000;                     /* hover 時字體變黑 */
+}
+
+
+body.light .input:focus,
+body.light select:focus {
+  border-color: #0284c7;           /* 聚焦時用藍色 (tailwind cyan-600) */
+  box-shadow: 0 0 0 3px rgba(2,132,199,.25);
+}
+
 /* 通用：把瀏覽器預設按鈕外觀關掉 */
 button {
   font: inherit;

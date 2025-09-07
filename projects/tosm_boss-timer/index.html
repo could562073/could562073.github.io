@@ -351,8 +351,7 @@ body:not(.light) .iconbtn.danger{ border-color: rgba(255,255,255,.14); color: va
   <audio id="beep" preload="auto">
     <source src="https://www.pacdv.com/sounds/interface_sound_effects/sound28.mp3" type="audio/mp3">
   </audio>
-
-
+<div id="counter"></div>
 <script>
 /* ===== 主題切換：深/淺色 ===== */
 const THEME_KEY = 'theme';
@@ -763,4 +762,21 @@ function boot(){
 boot();
 </script>
 </body>
+<footer style="margin:40px auto; padding:20px; text-align:center; font-size:13px; color:var(--muted)">
+  <div style="margin-bottom:8px">
+    訪客計數器：
+    <a href="https://cn.web-counter.net" title="網站訪問計數">
+      <img src="https://www.web-counter.net/count_20091204.php?c=1fuYlQ1R9xV" 
+            style="border:0;padding:0;margin:0;" 
+            alt="網站訪問計數" />
+    </a>
+  </div>
+  <div>
+    本工具由 <a href="https://could562073.github.io" target="_blank" rel="noopener">Jun Rong Chen</a> 製作。
+  </div>
+  <div>
+    本計時器為玩家自製之非官方工具，僅供個人娛樂使用，請勿用於商業用途。
+  </div>
+</footer>
+
 </html>

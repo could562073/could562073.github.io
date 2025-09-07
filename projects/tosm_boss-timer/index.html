@@ -64,7 +64,10 @@
     font-size:15px;
   }
   select{ white-space:normal; word-break:break-word; }
-  .input:focus, select:focus{ border-color:var(--brand); box-shadow:0 0 0 4px var(--ring); }
+  .input:focus, select:focus{ border-color:var(--brand); box-shadow:0 0 0 4px var(--ring);
+  font-variant-numeric: tabular-nums; /* 讓數字等寬更整齊 */
+  }
+
 
   .btn{
     display:inline-flex; align-items:center; justify-content:center; gap:8px;
@@ -470,11 +473,26 @@ function textColorFor(hex){
 
 /* -------------------- 初始化選單 -------------------- */
 function fillA(sel){
-  sel.innerHTML = A_OPTIONS.map(v=>`<option value="${v}">${v}</option>`).join('');
+  sel.innerHTML = A_OPTIONS.map(v=>{
+    const n = (v.match(/\d+/)||[''])[0];              // 抓 Episode 裡的數字
+    const label = n ? `Ep ${n} — ${v}` : v;           // 顯示數字在前面
+    return `<option value="${v}">${label}</option>`;  // value 保持原本 v
+  }).join('');
 }
+
 function fillB(sel, aValue){
   const arr = B_DICT[aValue] || [];
-  sel.innerHTML = arr.map(v=>`<option value="${v}">${v}</option>`).join('');
+  sel.innerHTML = arr.map(v=>{
+    // 嘗試抓出 "Lv.xx"
+    const m = v.match(/Lv\.\s*\d+/i);
+    if(m){
+      const lv = m[0];                     // e.g. "Lv. 20"
+      const rest = v.replace(m[0], '').trim(); // 把 Lv.xx 拿掉後的其他部分
+      return `<option value="${v}">${lv} — ${rest}</option>`;
+    }else{
+      return `<option value="${v}">${v}</option>`;
+    }
+  }).join('');
 }
 
 /* -------------------- 儲存 / 載入 -------------------- */

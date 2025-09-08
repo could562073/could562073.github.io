@@ -47,10 +47,17 @@
 
   .row{display:grid; grid-template-columns: 1fr 1fr; gap:10px;}
   /* 快速新增改為單欄直排（桌機也一致） */
-.row.row3{ display:grid; grid-template-columns:1fr; gap:10px; }
+  .row.row3{ display:grid; grid-template-columns:1fr; gap:10px; }
 
   .laneWrap{display:flex; align-items:center; gap:6px;}
-  .laneWrap .input{width:84px; text-align:center}
+  .laneWrap .input{
+    width:84px;
+    height:32px;
+    padding:0 10px;
+    text-align:center;
+    line-height:32px;
+    font-size:16px;
+  }
   .swatch{
     width:28px; height:28px; border-radius:8px; border:1px solid rgba(255,255,255,.2);
     box-shadow: inset 0 0 0 1px rgba(0,0,0,.2);
@@ -63,23 +70,28 @@
     background:var(--card); color:var(--text);
     outline:none; transition: .15s border, .15s box-shadow, .15s transform;
     font-size:15px;
-  
     min-width:0;
   }
-  .laneBtn {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,.2);
-  background: var(--card);
-  color: var(--text);
-  font-size: 18px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: .15s filter, .15s transform;
+  /* 移除數字輸入的上下箭頭，避免擠壓與高度不一致 */
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  input[type=number]{ -moz-appearance: textfield; }
+
+  .laneBtn{
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,.2);
+    background: var(--card);
+    color: var(--text);
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .15s filter, .15s transform;
   }
   .laneBtn:hover { filter: brightness(1.1); }
   .laneBtn:active { transform: translateY(1px); }
+
   select{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .input:focus, select:focus{
     border-color:var(--brand); box-shadow:0 0 0 4px var(--ring);
@@ -98,15 +110,49 @@
   .btn:active{transform:translateY(1px)}
   .btn-outline{background:transparent; color:var(--brand); border-color:rgba(34,211,238,.35)}
   .btn-row{display:flex; gap:10px; flex-wrap:wrap}
+  /* 顯示在右上角的主題切換按鈕 */
+  .tbtn{
+    -webkit-appearance:none; appearance:none; border:none; outline:none;
+    display:inline-flex; align-items:center; gap:8px;
+    padding:10px 16px; border-radius:999px;
+    background: rgba(255,255,255,.06);
+    color: var(--text);
+    border: 1px solid rgba(255,255,255,.24);
+    box-shadow: var(--shadow);
+    cursor:pointer; user-select:none;
+    transition: .15s transform, .15s filter, .15s box-shadow, .15s background-color, .15s border-color;
+    font-weight:600; letter-spacing:.2px;
+    line-height:1;
+  }
+  .tbtn:hover{ filter: brightness(1.08); }
+  .tbtn:active{ transform: translateY(1px); }
+  .tbtn:focus-visible{ box-shadow: 0 0 0 4px var(--ring); }
+
+  /* 淺色主題下的樣式 */
+  body.light .tbtn{
+    background: #ffffff;
+    color: #0f172a;
+    border-color: rgba(0,0,0,.15);
+    box-shadow: 0 8px 18px rgba(15,23,42,.08);
+  }
+  body.light .tbtn:hover{ filter: none; box-shadow: 0 10px 22px rgba(15,23,42,.10); }
+
 
   /* 讓「立即新增」更醒目 */
   #btnQuickAdd{
-    background: radial-gradient(80% 120% at 50% -10%, rgba(167,139,250,.35), transparent 60%),
-                linear-gradient(180deg, rgba(34,211,238,.35), rgba(34,211,238,.16));
-    border-color: rgba(34,211,238,.55);
-    box-shadow: 0 0 0 4px rgba(34,211,238,.18), 0 12px 26px rgba(0,0,0,.35);
-    font-weight:800;
+    background: rgba(34,211,238,.14);
+    color: #e6fbff;
+    border: 1px solid rgba(34,211,238,.45);
+    border-radius: 12px;
+    padding: 12px 18px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .2px;
+    box-shadow: var(--shadow);
+    transition: .15s transform, .15s filter, .15s box-shadow;
   }
+  #btnQuickAdd:hover{ filter: brightness(1.06); }
+  #btnQuickAdd:active{ transform: translateY(1px); }
   #btnQuickAdd:hover{ filter:brightness(1.08) }
   #btnQuickAdd:active{ transform: translateY(1px) }
 
@@ -141,6 +187,26 @@
     background:rgba(167,139,250,.15); color:var(--accent);
     border:1px solid rgba(167,139,250,.35)
   }
+  /* 分流膠囊（與主按鈕一致的膠囊視覺） */
+  .badge-lane{
+    border:none;
+    font-weight:700;
+    letter-spacing:.2px;
+    padding:6px 12px;
+    border-radius:999px;
+    background: var(--card-accent);
+    color:#fff;
+  }
+  body.light .badge-lane{
+    border:none;
+    font-weight:700;
+    letter-spacing:.2px;
+    padding:6px 12px;
+    border-radius:999px;
+    background: var(--card-accent);
+    color:#fff;
+  }
+
 
   /* Episode 標籤顏色（十色） */
   .badge-ep1 { background: rgba(239,68,68,.15);  color:#ef4444; border-color:rgba(239,68,68,.35);}
@@ -156,10 +222,59 @@
 
   /* Lv. xx 標籤（做成和分流一樣的膠囊感，選用柔和藍綠系） */
   .badge-lv{
-    background: rgba(2,132,199,.18);  /* cyan-600 的淡背景 */
-    color:#075985;                    /* 深藍綠字 */
+    background: rgba(2,132,199,.18);
+    color:#075985;
     border:1px solid rgba(2,132,199,.35);
   }
+  /* 分流 badge 統一樣式：使用漸層，更符合整體設計 */
+  .badge-lane{
+    border:none;
+    font-weight:700;
+    letter-spacing:.2px;
+    padding:6px 12px;
+    border-radius:999px;
+    background: var(--card-accent);
+    color:#fff;
+  }
+  body.light .badge-lane{
+    border:none;
+    font-weight:700;
+    letter-spacing:.2px;
+    padding:6px 12px;
+    border-radius:999px;
+    background: var(--card-accent);
+    color:#fff;
+  }
+
+  /* === Dark mode readability upgrades for badges === */
+  body:not(.light) .badge{
+    font-weight:700;
+    letter-spacing:.2px;
+    padding:5px 12px;
+    border-width:1px;
+    
+    box-shadow: inset 0 -1px 0 rgba(255,255,255,.04);
+  }
+  /* Episode colors — stronger background/contrast in dark mode */
+  body:not(.light) .badge-ep1  { background: rgba(239,68,68,.28);  color:#fecaca; border-color:rgba(239,68,68,.55); }
+  body:not(.light) .badge-ep2  { background: rgba(245,158,11,.28); color:#fde68a; border-color:rgba(245,158,11,.55); }
+  body:not(.light) .badge-ep3  { background: rgba(132,204,22,.28); color:#d9f99d; border-color:rgba(132,204,22,.55); }
+  body:not(.light) .badge-ep4  { background: rgba(34,197,94,.28);  color:#bbf7d0; border-color:rgba(34,197,94,.55);  }
+  body:not(.light) .badge-ep5  { background: rgba(16,185,129,.28); color:#a7f3d0; border-color:rgba(16,185,129,.55); }
+  body:not(.light) .badge-ep6  { background: rgba(6,182,212,.28);  color:#a5f3fc; border-color:rgba(6,182,212,.55); }
+  body:not(.light) .badge-ep7  { background: rgba(59,130,246,.28); color:#bfdbfe; border-color:rgba(59,130,246,.55); }
+  body:not(.light) .badge-ep8  { background: rgba(139,92,246,.28); color:#ddd6fe; border-color:rgba(139,92,246,.55); }
+  body:not(.light) .badge-ep9  { background: rgba(236,72,153,.28); color:#fbcfe8; border-color:rgba(236,72,153,.55); }
+  body:not(.light) .badge-ep10 { background: rgba(107,114,128,.32); color:#e5e7eb; border-color:rgba(107,114,128,.6); }
+
+  /* Level badge — clearer teal in dark mode */
+  body:not(.light) .badge-lv{
+    background: rgba(14,165,233,.28);
+    color:#e0f2fe;
+    border-color: rgba(14,165,233,.55);
+    
+  }
+
 
   .tools{display:flex; gap:8px}
   .iconbtn{
@@ -170,45 +285,18 @@
   .iconbtn:hover{color:#fff; border-color:rgba(255,255,255,.24)}
   .empty{text-align:center; color:var(--muted); padding:24px 8px; border:1px dashed rgba(255,255,255,.12); border-radius:14px}
 
-  /* Modal（完整填單仍可用） */
-  .modal{position:fixed; inset:0; display:none; place-items:center; z-index:50; background:rgba(3,7,18,.55); backdrop-filter: blur(2px);}
-  .modal.open{display:grid}
-  .sheet{width:min(680px, 92vw); background:var(--panel); border:1px solid rgba(255,255,255,.09); border-radius:18px; padding:18px; box-shadow:var(--shadow)}
-  .sheet h2{margin:0 0 10px 0}
-  .sheet .grid2{display:grid; gap:12px; grid-template-columns: 1fr 1fr}
-  .sheet .footer{display:flex; justify-content:flex-end; gap:10px; margin-top:6px}
-  .req::after{content:"*"; color:var(--danger); margin-left:2px}
-  .small{font-size:12px; color:var(--muted)}
-
   /* RWD */
   @media (max-width:980px){ .grid{grid-template-columns:1fr} }
   @media (max-width:640px){
-  .wrap{padding:0 14px}
-  .panel{padding:14px; border-radius:16px}
-  .row{grid-template-columns:1fr; gap:8px}
-  .row.row3{ grid-template-columns:1fr; }  /* ← 這行改成 .row.row3 */
-  .triple{grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px}
-  .btn{width:100%}
-  .btn-row{flex-direction:column}
-  .iconbtn{width:40px; height:40px}
-  .count{font-size:20px}
-  .sheet{width:100vw; max-width:100vw; border-radius:16px 16px 0 0; padding:16px; align-self:end}
-  .sheet .grid2{grid-template-columns:1fr}
-  }
-
-  /* 題頭右上的主題切換按鈕 */
-  .tbtn{
-    display:inline-flex; align-items:center; justify-content:center; gap:8px;
-    padding:8px 12px; border-radius:999px; cursor:pointer;
-    border:1px solid rgba(255,255,255,.18);
-    background:linear-gradient(180deg, rgba(34,211,238,.25), rgba(34,211,238,.12));
-    color:#052026; font-weight:700; letter-spacing:.2px;
-    box-shadow:0 6px 18px rgba(0,0,0,.25);
-  }
-  body.light .tbtn{
-    border-color:rgba(0,0,0,.08);
-    background:linear-gradient(180deg, rgba(2,132,199,.18), rgba(2,132,199,.08));
-    color:#0f172a; box-shadow:0 6px 18px rgba(2,132,199,.15);
+    .wrap{padding:0 14px}
+    .panel{padding:14px; border-radius:16px}
+    .row{grid-template-columns:1fr; gap:8px}
+    .row.row3{ grid-template-columns:1fr; }
+    .triple{grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px}
+    .btn{width:100%}
+    .btn-row{flex-direction:column}
+    .iconbtn{width:40px; height:40px}
+    .count{font-size:20px}
   }
 
   /* —— 淺色主題：覆寫變數 —— */
@@ -232,49 +320,56 @@
   body:not(.light) .iconbtn.danger{ border-color: rgba(255,255,255,.14); color: var(--muted); }
   .iconbtn.danger:hover{ filter: brightness(1.1); }
 
-  /* 彩色辨識：用 CSS 變數控制每張卡的色彩 */
-.card {
-  --card-accent: #22d3ee;             /* 預設：會被 JS 覆寫 */
-  --card-tint: rgba(34,211,238,.08);  /* 預設：會被 JS 覆寫 */
-  border-width: 2px;                  /* 外框稍微加粗一點 */
-  border-color: rgba(255,255,255,.06);/* 沒設定時的暗色邊 */
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.03), transparent 50%),
-    var(--card);
-  position: relative;
-}
+  /* 卡片顏色變數（由 JS 注入） */
+  .card {
+    --card-accent: #22d3ee;
+    --card-tint: rgba(34,211,238,.08);
+    border-width: 2px;
+    border-color: rgba(255,255,255,.06);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.03), transparent 50%),
+      var(--card);
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before{
+    content:"";
+    position:absolute; left:0; top:0; bottom:0; width:6px;
+    border-radius:12px 0 0 12px;
+    background: var(--card-accent);
+    opacity:.9;
+  }
+  .card.colored {
+    border-color: var(--card-accent);
+    box-shadow: 0 6px 22px rgba(0,0,0,.28);
+  }
+  .card.colored .title,
+  .card.colored .count,
+  .card.colored .small{ position: relative;
+    overflow: hidden; }
+  .card.colored::after{
+    content:"";
+    position:absolute; inset:0; border-radius:12px;
+    background: var(--card-tint);
+    pointer-events:none;
+  }
+  body.light .card.colored{ box-shadow: 0 6px 18px rgba(2,132,199,.08); }
+  body.light .card::before{
+    content:"";
+    position:absolute; left:0; top:0; bottom:0; width:6px;
+    border-radius:12px 0 0 12px;
+    background: var(--card-accent);
+    opacity:.9;
+  }
 
-/* 左側色條（不吃版面、強提示） */
-.card::before{
-  content:"";
-  position:absolute; left:-2px; top:-2px; bottom:-2px; width:6px;
-  border-radius:12px 0 0 12px;
-  background: var(--card-accent);
-  opacity:.9;
-}
-
-/* 外框顏色 */
-.card.colored {
-  border-color: var(--card-accent);
-  box-shadow: 0 6px 22px rgba(0,0,0,.28), 0 0 0 1px rgba(0,0,0,.02) inset;
-}
-
-/* 極淡背景暈染，提升辨識但不搶對比 */
-.card.colored .title,
-.card.colored .count,
-.card.colored .small{
-  position: relative;
-}
-.card.colored::after{
-  content:"";
-  position:absolute; inset:0; border-radius:12px;
-  background: var(--card-tint);
-  pointer-events:none;
-}
-
-/* 淺色主題微調：讓顏色更柔 */
-body.light .card.colored{ box-shadow: 0 6px 18px rgba(2,132,199,.08); }
-body.light .card::before{ opacity:.85; }
+  /* 淺色主題下的「立即新增」按鈕：提高對比 */
+  body.light #btnQuickAdd{
+    background: rgba(2,132,199,.10);
+    color: #0f172a;
+    border-color: rgba(2,132,199,.35);
+    box-shadow: 0 8px 18px rgba(15,23,42,.08);
+  }
+  body.light #btnQuickAdd:hover{ filter:none; box-shadow: 0 10px 22px rgba(15,23,42,.10); }
 
 </style>
 </head>
@@ -301,7 +396,7 @@ body.light .card::before{ opacity:.85; }
               <div class="laneWrap">
                 <span>分流: </span>
                 <button type="button" class="laneBtn" id="laneDec">−</button>
-                <input id="lane" class="input" type="text" min="1" value="1" title="分流">
+                <input id="lane" class="input" type="number" min="1" value="1" title="分流">
                 <button type="button" class="laneBtn" id="laneInc">+</button>
                 <span id="laneSwatch" class="swatch" title="此次分流顏色"></span>
               </div>
@@ -328,9 +423,8 @@ body.light .card::before{ opacity:.85; }
           <div class="kv">
             <div class="btn-row">
               <button id="btnQuickAdd" class="btn" type="button">➕ 立即新增</button>
-              <button id="btnOpenForm" class="btn btn-outline" type="button">📝 詳細設定</button>
             </div>
-            <div class="hint">直接用上方的快速欄位按「立即新增」；若要微調不同數值，可點「詳細設定」。</div>
+            <div class="hint">使用上方欄位設定並按「立即新增」。</div>
           </div>
 
           <div class="kv">
@@ -346,47 +440,17 @@ body.light .card::before{ opacity:.85; }
         <div id="empty" class="empty" style="display:none">目前沒有計時，點左邊「立即新增」開始吧！</div>
       </section>
     </div>
-  </div>
 
-  <!-- Modal 表單（可選） -->
-  <div class="modal" id="modal">
-    <div class="sheet">
-      <h2>新增計時（詳細設定）</h2>
-      <div class="grid2">
-        <div class="kv">
-          <label class="req">主分類 A</label>
-          <select id="formA" class="input"></select>
-        </div>
-        <div class="kv">
-          <label class="req">次分類 B</label>
-          <select id="formB" class="input"></select>
-        </div>
-
-        <div class="kv">
-          <label class="req">重生時間（時 / 分 / 秒）</label>
-          <div class="triple">
-            <input id="formH" class="input" type="number" min="0" value="0">
-            <input id="formM" class="input" type="number" min="0" value="5">
-            <input id="formS" class="input" type="number" min="0" value="0">
-          </div>
-          <div class="small">建立後即開始倒數。</div>
-        </div>
-
-        <div class="kv">
-          <label>分流</label>
-          <input id="formLane" class="input" type="number" min="1" value="1">
-        </div>
-
-        <div class="kv">
-          <label>提醒時間（分）</label>
-          <input id="formLead" class="input" type="number" min="0" value="0">
-        </div>
+    <footer style="margin:40px auto; padding:20px; text-align:center; font-size:13px; color:var(--muted)">
+      <div>本計時器為玩家自製之非官方工具，僅供個人娛樂使用，請勿用於商業用途。</div>
+      <div>本工具不保證正確性與即時性，使用風險請使用者自行承擔。</div>
+      <div style="margin-top:8px">
+        網站訪問計數：
+        <a href="https://cn.web-counter.net" title="網站訪問計數">
+          <img src="https://www.web-counter.net/count_20091204.php?c=1fuYlQ1R9xV" style="border:0;padding:0;margin:0;" alt="網站訪問計數" />
+        </a>
       </div>
-      <div class="footer">
-        <button id="btnCancel" class="btn btn-outline" type="button">取消</button>
-        <button id="btnAdd" class="btn" type="button">新增計時</button>
-      </div>
-    </div>
+    </footer>
   </div>
 
   <!-- 使用外部 mp3 音效 -->
@@ -395,20 +459,19 @@ body.light .card::before{ opacity:.85; }
   </audio>
 
 <script>
-
-/* 加減號按鈕綁定事件 */
+/* ========== 分流加減按鈕 ========== */
 const laneInput = document.getElementById('lane');
 document.getElementById('laneInc').addEventListener('click', () => {
-  laneInput.value = Number(laneInput.value) + 1;
-  laneInput.dispatchEvent(new Event('change')); // 觸發顏色或其他邏輯
+  laneInput.value = Number(laneInput.value || 1) + 1;
+  laneInput.dispatchEvent(new Event('change'));
 });
 document.getElementById('laneDec').addEventListener('click', () => {
-  let v = Number(laneInput.value) - 1;
-  if (v < Number(laneInput.min)) v = laneInput.min; // 不低於 min
+  const minVal = Number(laneInput.min || 1);
+  let v = Number(laneInput.value || 1) - 1;
+  if (v < minVal) v = minVal;
   laneInput.value = v;
   laneInput.dispatchEvent(new Event('change'));
 });
-
 
 /* hexToRgba */
 function hexToRgba(hex, alpha=0.1){
@@ -551,21 +614,25 @@ function textColorFor(hex){
   const yiq = (r*299 + g*587 + b*114)/1000;
   return yiq >= 150 ? '#0b1220' : '#ffffff';
 }
-
+function darken(hex, factor=0.8){
+  const c = hex.replace('#','');
+  let r = Math.round(parseInt(c.substring(0,2),16)*factor);
+  let g = Math.round(parseInt(c.substring(2,4),16)*factor);
+  let b = Math.round(parseInt(c.substring(4,6),16)*factor);
+  r = Math.max(0, Math.min(255, r));
+  g = Math.max(0, Math.min(255, g));
+  b = Math.max(0, Math.min(255, b));
+  const toHex = v => v.toString(16).padStart(2,'0');
+  return '#' + toHex(r) + toHex(g) + toHex(b);
+}
 /* -------------------- 初始化選單 -------------------- */
 function fillA(sel){
-  sel.innerHTML = A_OPTIONS
-    .map(v => `<option value="${v}">${v}</option>`) // 直接顯示完整 Episode 名稱
-    .join('');
+  sel.innerHTML = A_OPTIONS.map(v => `<option value="${v}">${v}</option>`).join('');
 }
-
 function fillB(sel, aValue){
   const arr = B_DICT[aValue] || [];
-  sel.innerHTML = arr
-    .map(v => `<option value="${v}">${v}</option>`) // 直接顯示原始完整文字
-    .join('');
+  sel.innerHTML = arr.map(v => `<option value="${v}">${v}</option>`).join('');
 }
-
 
 /* -------------------- 儲存 / 載入 -------------------- */
 function save(){ setCookie(COOKIE_KEY, JSON.stringify(timers)); }
@@ -653,11 +720,11 @@ function render(){
       <div class="row2" style="align-items:flex-start;">
         <div class="title">
           <div class="labelGroup">
-            <span class="badge badge-ep${epNum}">${t.a}</span>
-            ${ lvLabel ? `<span class="badge badge-lv">${lvLabel}</span>` : '' }
+            <span class="badge badge-ep${String(epNum)}">${t.a}</span>
+            ${ lvLabel ? '<span class="badge badge-lv">' + lvLabel + '</span>' : '' }
           </div>
           <div class="bossName" title="${bossName}">${bossName}</div>
-          <span class="badge" style="background:${badgeBg}; color:${badgeText}; border-color:${borderCol};">分流 ${t.lane}</span>
+          <span class="badge badge-lane">分流 ${t.lane}</span>
         </div>
         <div class="tools">
           <button class="iconbtn" title="刪除" data-del="${t.id}">🗑️</button>
@@ -668,9 +735,7 @@ function render(){
         <div class="small">提醒：${t.leadMin} 分｜到點：<span style="font-weight:700;letter-spacing:.3px">${fmtClock(endAt)}</span></div>
       </div>
     `;
-
-    // 計算 lane 顏色（已存在：color）
-    card.classList.add('colored');
+card.classList.add('colored');
     card.style.setProperty('--card-accent', color);
     card.style.setProperty('--card-tint', hexToRgba(color, 0.08));
 
@@ -696,7 +761,7 @@ setInterval(()=>{ $('#now').textContent = new Date().toLocaleString(); tick(); }
 
 /* -------------------- 建立 / 刪除 -------------------- */
 function addTimer(data){
-  const id = crypto.randomUUID ? crypto.randomUUID() : String(Date.now()+Math.random());
+  const id = (crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()+Math.random());
   timers.push({
     id,
     a: data.a,
@@ -745,45 +810,6 @@ function quickAdd(){
   updateLaneSwatch();
 }
 
-/* -------------------- 表單（可選） -------------------- */
-const modal = $('#modal');
-const openModal = ()=>{ modal.classList.add('open'); syncFormFromQuick(); };
-const closeModal = ()=>{ modal.classList.remove('open'); };
-
-document.getElementById('btnOpenForm').addEventListener('click', ()=>{ openModal(); try{beepEl.play().catch(()=>{});}catch{} });
-document.getElementById('btnCancel').addEventListener('click', closeModal);
-
-function syncFormFromQuick(){
-  $('#formA').value = $('#quickA').value;
-  fillB($('#formB'), $('#formA').value);
-  $('#formB').value = $('#quickB').value;
-
-  $('#formH').value = +$('#dH').value||0;
-  $('#formM').value = +$('#dM').value||0;
-  $('#formS').value = +$('#dS').value||0;
-  $('#formLane').value = +$('#lane').value||1;
-  $('#formLead').value = +$('#leadMin').value||0;
-}
-document.getElementById('btnAdd').addEventListener('click', ()=>{
-  const data = {
-    a: $('#formA').value,
-    b: $('#formB').value,
-    h: +$('#formH').value||0,
-    m: +$('#formM').value||0,
-    s: +$('#formS').value||0,
-    lane: +$('#formLane').value||1,
-    lead: +$('#formLead').value||0,
-    color: randomColor()
-  };
-  if((data.h+data.m+data.s)===0){ alert('重生時間不可為 0'); return; }
-  addTimer(data);
-  $('#quickA').value = data.a; fillB($('#quickB'), data.a); $('#quickB').value = data.b;
-  $('#dH').value=data.h; $('#dM').value=data.m; $('#dS').value=data.s;
-  $('#lane').value=data.lane; $('#leadMin').value=data.lead;
-  saveFormState();
-  closeModal();
-});
-
 /* A 變動 → B 重建 */
 function hookCascade(aSel, bSel){
   aSel.addEventListener('change', ()=>{
@@ -792,7 +818,6 @@ function hookCascade(aSel, bSel){
   });
 }
 hookCascade($('#quickA'), $('#quickB'));
-hookCascade($('#formA'),  $('#formB'));
 
 /* 快速區按鈕與儲存 */
 document.getElementById('btnQuickAdd').addEventListener('click', quickAdd);
@@ -809,8 +834,7 @@ document.getElementById('btnClear').addEventListener('click', ()=>{
 /* -------------------- 啟動 -------------------- */
 function boot(){
   fillA($('#quickA')); fillB($('#quickB'), A_OPTIONS[0]);
-  fillA($('#formA'));  fillB($('#formB'), A_OPTIONS[0]);
-  ['quickA','quickB','formA','formB'].forEach(id=>{
+  ['quickA','quickB'].forEach(id=>{
     const el = document.getElementById(id);
     el && el.addEventListener('change', ()=>{ el.blur && el.blur(); });
   });
@@ -820,15 +844,4 @@ function boot(){
 boot();
 </script>
 </body>
-
-<footer style="margin:40px auto; padding:20px; text-align:center; font-size:13px; color:var(--muted)">
-  <div>本計時器為玩家自製之非官方工具，僅供個人娛樂使用，請勿用於商業用途。</div>
-  <div>本工具不保證正確性與即時性，使用風險請使用者自行承擔。</div>
-  <div style="margin-top:8px">
-    網站訪問計數：
-    <a href="https://cn.web-counter.net" title="網站訪問計數">
-      <img src="https://www.web-counter.net/count_20091204.php?c=1fuYlQ1R9xV" style="border:0;padding:0;margin:0;" alt="網站訪問計數" />
-    </a>
-  </div>
-</footer>
 </html>

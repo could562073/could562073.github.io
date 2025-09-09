@@ -448,7 +448,7 @@
 
           <div class="kv">
             <button id="btnClear" class="btn btn-outline" type="button">🧹 清空所有計時</button>
-            <div class="hint">所有資料會存入 Cookie（保存 1 年）。</div>
+            <div class="hint">所有資料會存入 localStorage（保存在瀏覽器）。</div>
           </div>
         </div>
       </section>
@@ -530,17 +530,11 @@ function updateThemeToggleUI(){
   });
 })();
 
-/* -------------------- Cookie -------------------- */
-const COOKIE_KEY = "bossTimers_v1";
-const COOKIE_FORM = "bossForm_v1";
-function setCookie(name, value, days=365){
-  const expires = new Date(Date.now()+days*864e5).toUTCString();
-  document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; expires=${expires}; path=/; samesite=lax`;
-}
-function getCookie(name){
-  const m = document.cookie.match(new RegExp('(?:^|; )'+encodeURIComponent(name)+'=([^;]*)'));
-  return m ? decodeURIComponent(m[1]) : "";
-}
+/* -------------------- LocalStorage -------------------- */
+const LS_TIMERS = "bossTimers_v1";
+const LS_FORM   = "bossForm_v1";
+function lsSet(key, value){ localStorage.setItem(key, value); }
+function lsGet(key){ return localStorage.getItem(key) || ""; }
 
 /* -------------------- 資料模型 -------------------- */
 let timers = []; // {id, a, b, lane, laneColor, durationMs, leadMin, startAt, alert1Fired, alert2Fired}
@@ -662,10 +656,11 @@ function fillB(sel, aValue){
 }
 
 /* -------------------- 儲存 / 載入 -------------------- */
-function save(){ setCookie(COOKIE_KEY, JSON.stringify(timers)); }
+function save(){ lsSet(LS_TIMERS, JSON.stringify(timers)); }
 function load(){
-  const raw = getCookie(COOKIE_KEY);
-  timers = raw ? JSON.parse(raw) : [];
+  const raw = lsGet(LS_TIMERS);
+  try{ timers = raw ? JSON.parse(raw) : []; }
+  catch{ timers = []; }
 }
 function saveFormState(){
   const state = {
@@ -677,10 +672,10 @@ function saveFormState(){
     lane: +$('#lane').value||1,
     leadMin: +$('#leadMin').value||0
   };
-  setCookie(COOKIE_FORM, JSON.stringify(state));
+  lsSet(LS_FORM, JSON.stringify(state));
 }
 function loadFormState(){
-  const raw = getCookie(COOKIE_FORM);
+  const raw = lsGet(LS_FORM);
   if(!raw) return;
   try{
     const s = JSON.parse(raw);

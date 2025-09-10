@@ -391,6 +391,46 @@
   }
   body.light .laneWrap .input:hover{ border-color: rgba(0,0,0,.22); }
 
+
+/* === Boss 階段圓形按鈕 === */
+.stage-buttons {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+.stage-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--danger);
+  background: transparent;
+  color: var(--danger);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s;
+  line-height: 1;
+}
+.stage-btn:hover { filter: brightness(1.05); }
+.stage-btn.active {
+  background: var(--danger);
+  color: #fff;
+  border-color: var(--danger);
+}
+
+
+  /* 階段徽章（紅色） */
+  .badge-stage{
+    background: rgba(239,68,68,.15);
+    color:#ef4444;
+    border:1px solid rgba(239,68,68,.35);
+  }
+  body:not(.light) .badge-stage{
+    background: rgba(239,68,68,.28);
+    color:#fecaca;
+    border-color: rgba(239,68,68,.55);
+  }
+
 </style>
 </head>
 <body>
@@ -469,8 +509,11 @@
         <a href="https://cn.web-counter.net" title="網站訪問計數">
           <img src="https://www.web-counter.net/count_20091204.php?c=1fuYlQ1R9xV" style="border:0;padding:0;margin:0;" alt="網站訪問計數" />
         </a>
-           1.0.0 Release
+        <div style="position:fixed; right:10px; bottom:5px; font-size:12px; color:#aaa;">
+        v1.0.0 Release
+        </div>
       </div>
+      
     </footer>
   </div>
 
@@ -744,7 +787,8 @@ function render(){
     const bossName = t.b.replace(/Lv\.?\s*\d+\s*-\s*/i, '').trim();
     const epNum = (t.a.match(/\d+/) || [0])[0];
 
-    card.innerHTML = `
+    const stageBadge = t.stage ? `<span class="badge badge-stage">階段 ${t.stage}</span>` : '';
+      card.innerHTML = `
       <div class="row2" style="align-items:flex-start;">
         <div class="title">
           <div class="labelGroup">
@@ -752,6 +796,7 @@ function render(){
             ${ lvLabel ? '<span class="badge badge-lv">' + lvLabel + '</span>' : '' }
           </div>
           <div class="bossName" title="${bossName}">${bossName}</div>
+          ${stageBadge}
           <span class="badge badge-lane">分流 ${t.lane}</span>
         </div>
         <div class="tools">
@@ -766,6 +811,22 @@ function render(){
 card.classList.add('colored');
     card.style.setProperty('--card-accent', color);
     card.style.setProperty('--card-tint', hexToRgba(color, 0.08));
+    // —— 階段按鈕 ——
+    const stageDiv = document.createElement('div');
+    stageDiv.className = 'stage-buttons';
+    for (let i = 1; i <= 4; i++) {
+      const btn = document.createElement('button');
+      const isActive = t.stage === i;
+      btn.className = 'stage-btn' + (isActive ? ' active' : '');
+      btn.textContent = i; // 永遠顯示數字
+      btn.setAttribute('aria-pressed', String(isActive));
+      btn.title = isActive ? `取消階段 ${i}` : `設定階段 ${i}`;
+      btn.dataset.stageFor = t.id;
+      btn.dataset.stageVal = i;
+      stageDiv.appendChild(btn);
+    }
+    card.appendChild(stageDiv);
+
 
     listEl.appendChild(card);
   });
@@ -800,7 +861,8 @@ function addTimer(data){
     leadMin: +data.lead||0,
     startAt: Date.now(),
     alert1Fired:false,
-    alert2Fired:false
+    alert2Fired:false,
+    stage: 0
   });
   save(); render();
 }
@@ -811,6 +873,20 @@ function deleteTimer(id){
 listEl.addEventListener('click', (e)=>{
   const delId = e.target?.dataset?.del;
   if (delId) { deleteTimer(delId); return; }
+  // 階段按鈕點擊
+  if (e.target?.dataset?.stageFor) {
+    const id = e.target.dataset.stageFor;
+    const val = Number(e.target.dataset.stageVal);
+    const t = timers.find(x => x.id === id);
+    if (t) {
+      // 再次點擊同一顆 → 取消（勾掉）
+      t.stage = (t.stage === val) ? 0 : val;
+      save();
+      render();
+    }
+    return;
+  }
+
 });
 
 /* -------------------- 快速新增（不彈窗） -------------------- */

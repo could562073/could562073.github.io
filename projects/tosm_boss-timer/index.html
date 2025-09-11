@@ -396,8 +396,7 @@
 .stage-buttons {
   display: flex;
   gap: 6px;
-  margin: 0 6px;
-  align-items: center;
+  margin-top: 6px;
 }
 .stage-btn {
   width: 28px;
@@ -787,6 +786,8 @@ function render(){
     const lvLabel = (t.b.match(/Lv\.?\s*\d+/i) || [''])[0];
     const bossName = t.b.replace(/Lv\.?\s*\d+\s*-\s*/i, '').trim();
     const epNum = (t.a.match(/\d+/) || [0])[0];
+
+    const stageBadge = t.stage ? `<span class="badge badge-stage">階段 ${t.stage}</span>` : '';
       card.innerHTML = `
       <div class="row2" style="align-items:flex-start;">
         <div class="title">
@@ -795,7 +796,7 @@ function render(){
             ${ lvLabel ? '<span class="badge badge-lv">' + lvLabel + '</span>' : '' }
           </div>
           <div class="bossName" title="${bossName}">${bossName}</div>
-          <div class="stage-buttons" data-stage-slot></div>
+          ${stageBadge}
           <span class="badge badge-lane">分流 ${t.lane}</span>
         </div>
         <div class="tools">
@@ -824,7 +825,7 @@ card.classList.add('colored');
       btn.dataset.stageVal = i;
       stageDiv.appendChild(btn);
     }
-    card.querySelector('[data-stage-slot]')?.appendChild(stageDiv);
+    card.appendChild(stageDiv);
 
 
     listEl.appendChild(card);

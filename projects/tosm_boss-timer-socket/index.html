@@ -951,7 +951,6 @@ boot();
 <!-- Supabase integration -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-// ======= Supabase config (填入你的專案 URL 與 anon key) =======
 const SUPABASE_URL = window.SUPABASE_URL || 'https://mqfcxoqwaqjofougkorh.supabase.co';
 const SUPABASE_ANON = window.SUPABASE_ANON || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xZmN4b3F3YXFqb2ZvdWdrb3JoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc5NTY3NjksImV4cCI6MjA3MzUzMjc2OX0.d3C7nGN3_uLce0mFzSfKewR5TA_NaW-Lc1MYSd3K5pk';
 const SUPABASE_TABLE = 'cards';
@@ -959,58 +958,42 @@ const SUPABASE_ENABLED = (SUPABASE_URL && SUPABASE_ANON && !/YOUR-/.test(SUPABAS
 
 const sb = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON) : null;
 
-// 將 a|b|lane 做成穩定 id，避免重複
 async function stableId(a,b,lane){
   const key = `${a}|${b}|${lane}`;
   if (window.crypto && window.crypto.subtle) {
     const enc = new TextEncoder().encode(key);
     const buf = await crypto.subtle.digest('SHA-1', enc);
     const hex = [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
-    return hex; // 40字元
+    return hex;
   }
-  // fallback（不安全但可用）
   return 'id_'+key.replace(/[^a-z0-9]+/gi,'_');
 }
 
-// 重新定義 save/load/addTimer/deleteTimer/boot 以走雲端
 if (SUPABASE_ENABLED && sb){
   console.log('[Supabase] enabled');
-  // 覆寫 save/load（不要再寫 localStorage 了）
   window.save = function(){};
   window.load = async function(){
     const { data, error } = await sb.from(SUPABASE_TABLE).select('*');
     if (error){ console.error(error); return; }
     timers = (data||[]).map(row => ({
-      id: row.id,
-      a: row.a,
-      b: row.b,
-      lane: row.lane,
-      laneColor: row.lane_color,
-      durationMs: row.duration_ms,
-      leadMin: row.lead_min,
-      startAt: row.start_at ? (new Date(row.start_at)).getTime() : Date.now(),
-      alert1Fired:false, alert2Fired:false,
-      stage: row.stage ?? 0
+      id: row.id, a: row.a, b: row.b, lane: row.lane,
+      laneColor: row.lane_color, durationMs: row.duration_ms,
+      leadMin: row.lead_min, startAt: row.start_at ? (new Date(row.start_at)).getTime() : Date.now(),
+      alert1Fired:false, alert2Fired:false, stage: row.stage ?? 0
     }));
   };
 
-  // upsert（避免重複）
   window.addTimer = async function(data){
     const id = await stableId(data.a, data.b, +data.lane||1);
     const payload = {
-      id,
-      a: data.a, b: data.b,
-      lane: +data.lane||1,
+      id, a: data.a, b: data.b, lane: +data.lane||1,
       lane_color: data.color || currentLaneColor || '#999',
       duration_ms: ((+data.h||0)*3600 + (+data.m||0)*60 + (+data.s||0))*1000,
-      lead_min: +data.lead||0,
-      start_at: new Date().toISOString(),
-      stage: 0
+      lead_min: +data.lead||0, start_at: new Date().toISOString(), stage: 0
     };
     const { error } = await sb.from(SUPABASE_TABLE).upsert(payload);
     if (error){ alert('雲端寫入失敗'); console.error(error); return; }
-    // 即時通道會回推；為保險也可立即 refresh：
-    // await window.load(); render();
+    await window.load(); render();
   };
 
   window.deleteTimer = async function(id){
@@ -1018,58 +1001,41 @@ if (SUPABASE_ENABLED && sb){
     if (error){ alert('刪除失敗'); console.error(error); return; }
   };
 
-  // 監聽即時變化
   function listenRealtime(){
-    sb.channel('realtime:cards')
+    console.log('[Supabase] setting up realtime...');
+    const ch = sb.channel('realtime:cards')
       .on('postgres_changes', { event: '*', schema: 'public', table: SUPABASE_TABLE }, async (msg) => {
-        // 根據事件更新本地 timers
+        console.log('[Supabase realtime event]', msg.eventType, msg);
         if (msg.eventType === 'DELETE'){
           timers = timers.filter(t => t.id !== msg.old.id);
         }else{
           const row = msg.new;
           const t = {
-            id: row.id,
-            a: row.a, b: row.b, lane: row.lane,
-            laneColor: row.lane_color,
-            durationMs: row.duration_ms,
-            leadMin: row.lead_min,
-            startAt: row.start_at ? (new Date(row.start_at)).getTime() : Date.now(),
-            alert1Fired:false, alert2Fired:false,
-            stage: row.stage ?? 0
+            id: row.id, a: row.a, b: row.b, lane: row.lane,
+            laneColor: row.lane_color, durationMs: row.duration_ms,
+            leadMin: row.lead_min, startAt: row.start_at ? (new Date(row.start_at)).getTime() : Date.now(),
+            alert1Fired:false, alert2Fired:false, stage: row.stage ?? 0
           };
           const i = timers.findIndex(x=>x.id===t.id);
           if (i>=0) timers[i]=t; else timers.push(t);
         }
         render();
       })
-      .subscribe(status => console.log('[Supabase realtime]', status));
+      .subscribe((status) => {
+        console.log('[Supabase realtime status]', status);
+      });
   }
 
-  // 覆寫 boot：先載入雲端，再 render，再訂閱
   const _boot = window.boot;
   window.boot = async function(){
-    // 保留原本 boot 的表單初始化邏輯（quickA/B 等）
-    try{ if (typeof _boot === 'function'){ 
-      // 先暫時阻斷 _boot 的 load/render（我們接手）
-      // 由於 _boot 內會呼叫 loadFormState(); load(); render();
-      // 我們先把 window.load/window.render 存起來以避免遞迴，然後在本函數處理
-    }}catch(e){}
-
-    // 執行你原本 boot 之前的初始化段落：
-    // 這裡簡化，直接模擬：
-    // 重新呼叫表單初始化的部分（簡單做法：直接呼叫原 boot 但用暫時替身 load/render）
     const origLoad = window.load, origRender = window.render;
     window.load = function(){}; window.render = function(){};
     try{ if (typeof _boot === 'function'){ _boot(); } } finally {
       window.load = origLoad; window.render = origRender;
     }
-
-    // 真正雲端載入與渲染
-    await window.load();
-    render();
+    await window.load(); render();
     listenRealtime();
 
-    // 把 [清空所有計時] 改成清空雲端
     const clearBtn = document.getElementById('btnClear');
     if (clearBtn){
       clearBtn.onclick = async ()=>{
@@ -1081,9 +1047,22 @@ if (SUPABASE_ENABLED && sb){
       };
     }
   };
+  // 立刻執行覆寫後的 boot（避免原本 boot 已在我們注入前就跑完）
+  try{ window.boot(); }catch(e){ console.error('[Supabase] boot call failed', e); }
 }else{
   console.warn('[Supabase] not enabled，繼續使用 localStorage 單機模式。');
 }
+
+document.addEventListener('DOMContentLoaded', async () => {
+  try{
+    if (SUPABASE_ENABLED && sb){
+      console.log('[Supabase] fallback init');
+      if (typeof window.load === 'function') { await window.load(); }
+      if (typeof window.render === 'function') { window.render(); }
+      if (typeof listenRealtime === 'function') { listenRealtime(); }
+    }
+  }catch(e){ console.error(e); }
+});
 </script>
 
 </body>

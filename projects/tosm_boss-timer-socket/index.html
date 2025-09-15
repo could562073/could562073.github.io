@@ -872,17 +872,27 @@ function deleteTimer(id){
 }
 listEl.addEventListener('click', (e)=>{
   const delId = e.target?.dataset?.del;
-  if (delId) { deleteTimer(delId); return; }
+  if (delId) { window.deleteTimer(delId); return; }
   // 階段按鈕點擊
   if (e.target?.dataset?.stageFor) {
     const id = e.target.dataset.stageFor;
     const val = Number(e.target.dataset.stageVal);
     const t = timers.find(x => x.id === id);
     if (t) {
-      // 再次點擊同一顆 → 取消（勾掉）
-      t.stage = (t.stage === val) ? 0 : val;
-      save();
-      render();
+      const newStage = (t.stage === val) ? 0 : val;
+      if (typeof SUPABASE_ENABLED !== 'undefined' && SUPABASE_ENABLED && typeof sb !== 'undefined' && sb){
+        (async () => {
+          try{
+            const { error } = await sb.from(SUPABASE_TABLE).update({ stage: newStage }).eq('id', id);
+            if (error){ console.error('雲端更新階段失敗', error); }
+            await window.load(); render();
+          }catch(err){ console.error(err); }
+        })();
+      }else{
+        t.stage = newStage;
+        save();
+        render();
+      }
     }
     return;
   }
@@ -948,14 +958,13 @@ function boot(){
 boot();
 </script>
 
-<!-- Supabase integration -->
+<!-- Supabase integration (single-init) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const SUPABASE_URL = window.SUPABASE_URL || 'https://mqfcxoqwaqjofougkorh.supabase.co';
-const SUPABASE_ANON = window.SUPABASE_ANON || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xZmN4b3F3YXFqb2ZvdWdrb3JoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc5NTY3NjksImV4cCI6MjA3MzUzMjc2OX0.d3C7nGN3_uLce0mFzSfKewR5TA_NaW-Lc1MYSd3K5pk';
+const SUPABASE_URL  = 'https://mqfcxoqwaqjofougkorh.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xZmN4b3F3YXFqb2ZvdWdrb3JoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc5NTY3NjksImV4cCI6MjA3MzUzMjc2OX0.d3C7nGN3_uLce0mFzSfKewR5TA_NaW-Lc1MYSd3K5pk';
 const SUPABASE_TABLE = 'cards';
-const SUPABASE_ENABLED = (SUPABASE_URL && SUPABASE_ANON && !/YOUR-/.test(SUPABASE_URL+SUPABASE_ANON));
-
+const SUPABASE_ENABLED = (SUPABASE_URL && SUPABASE_ANON && !/YOUR-/.test(SUPABASE_URL + SUPABASE_ANON));
 const sb = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON) : null;
 
 async function stableId(a,b,lane){
@@ -971,6 +980,8 @@ async function stableId(a,b,lane){
 
 if (SUPABASE_ENABLED && sb){
   console.log('[Supabase] enabled');
+
+  // 覆寫 save/load
   window.save = function(){};
   window.load = async function(){
     const { data, error } = await sb.from(SUPABASE_TABLE).select('*');
@@ -983,6 +994,7 @@ if (SUPABASE_ENABLED && sb){
     }));
   };
 
+  // 覆寫 add/delete
   window.addTimer = async function(data){
     const id = await stableId(data.a, data.b, +data.lane||1);
     const payload = {
@@ -999,13 +1011,17 @@ if (SUPABASE_ENABLED && sb){
   window.deleteTimer = async function(id){
     const { error } = await sb.from(SUPABASE_TABLE).delete().eq('id', id);
     if (error){ alert('刪除失敗'); console.error(error); return; }
+    await window.load(); render();
   };
 
-  function listenRealtime(){
+  // 單例 channel
+  let cardsChannel = null;
+  function listenRealtimeOnce(){
+    if (cardsChannel) return;
     console.log('[Supabase] setting up realtime...');
-    const ch = sb.channel('realtime:cards')
-      .on('postgres_changes', { event: '*', schema: 'public', table: SUPABASE_TABLE }, async (msg) => {
-        console.log('[Supabase realtime event]', msg.eventType, msg);
+    cardsChannel = sb.channel('cards-ch')
+      .on('postgres_changes', { event: '*', schema: 'public', table: SUPABASE_TABLE }, (msg) => {
+        console.log('[Supabase EVENT]', msg.eventType, msg);
         if (msg.eventType === 'DELETE'){
           timers = timers.filter(t => t.id !== msg.old.id);
         }else{
@@ -1021,11 +1037,10 @@ if (SUPABASE_ENABLED && sb){
         }
         render();
       })
-      .subscribe((status) => {
-        console.log('[Supabase realtime status]', status);
-      });
+      .subscribe((status)=>console.log('[Supabase STATUS]', status));
   }
 
+  // 覆寫 boot：先讓原本 boot 做 UI 初始化，再接管資料載入與 realtime
   const _boot = window.boot;
   window.boot = async function(){
     const origLoad = window.load, origRender = window.render;
@@ -1034,35 +1049,14 @@ if (SUPABASE_ENABLED && sb){
       window.load = origLoad; window.render = origRender;
     }
     await window.load(); render();
-    listenRealtime();
-
-    const clearBtn = document.getElementById('btnClear');
-    if (clearBtn){
-      clearBtn.onclick = async ()=>{
-        if (!confirm('確定要清空所有雲端計時嗎？')) return;
-        const ids = timers.map(t=>t.id);
-        if (ids.length===0) return;
-        const { error } = await sb.from(SUPABASE_TABLE).delete().in('id', ids);
-        if (error){ alert('清空失敗'); console.error(error); }
-      };
-    }
+    listenRealtimeOnce();
   };
-  // 立刻執行覆寫後的 boot（避免原本 boot 已在我們注入前就跑完）
+
+  // 立即啟動（避免原 boot 已先跑完）
   try{ window.boot(); }catch(e){ console.error('[Supabase] boot call failed', e); }
 }else{
   console.warn('[Supabase] not enabled，繼續使用 localStorage 單機模式。');
 }
-
-document.addEventListener('DOMContentLoaded', async () => {
-  try{
-    if (SUPABASE_ENABLED && sb){
-      console.log('[Supabase] fallback init');
-      if (typeof window.load === 'function') { await window.load(); }
-      if (typeof window.render === 'function') { window.render(); }
-      if (typeof listenRealtime === 'function') { listenRealtime(); }
-    }
-  }catch(e){ console.error(e); }
-});
 </script>
 
 </body>

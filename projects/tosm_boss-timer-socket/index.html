@@ -1021,7 +1021,6 @@ if (SUPABASE_ENABLED && sb){
     console.log('[Supabase] setting up realtime...');
     cardsChannel = sb.channel('cards-ch')
       .on('postgres_changes', { event: '*', schema: 'public', table: SUPABASE_TABLE }, (msg) => {
-        console.log('[Supabase EVENT]', msg.eventType, msg);
         if (msg.eventType === 'DELETE'){
           timers = timers.filter(t => t.id !== msg.old.id);
         }else{

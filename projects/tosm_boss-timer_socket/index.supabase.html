@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>救世者之樹 m - 野外Boss計時器</title>
+<link rel="icon" href="https://could562073.github.io/projects/tosm_boss-timer/favicon.ico" type="image/x-icon">
+<style>
+  :root{
+    --bg:#0f172a; --panel:#111827; --muted:#94a3b8; --text:#e5e7eb;
+    --brand:#22d3ee; --accent:#a78bfa; --ok:#34d399; --warn:#f59e0b; --danger:#ef4444;
+    --card:#0b1220; --ring:rgba(34,211,238,.4); --shadow:0 10px 30px rgba(0,0,0,.35);
+    font-synthesis-weight:none;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background: radial-gradient(1200px 600px at 20% -10%, rgba(167,139,250,.14), transparent 60%),
+                radial-gradient(900px 500px at 110% 20%, rgba(34,211,238,.12), transparent 60%),
+                var(--bg);
+    color:var(--text);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Microsoft JhengHei", "Noto Sans TC", Arial, "PingFang TC", sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .wrap{max-width:1200px; margin:28px auto; padding:0 20px;}
+  header{
+    position:sticky; top:0; z-index:10;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    margin-bottom:14px; padding:12px 0;
+    background:linear-gradient(180deg, rgba(15,23,42,.85), rgba(15,23,42,0));
+    backdrop-filter:saturate(120%) blur(2px);
+  }
+  h1{font-size:clamp(18px,2.6vw,28px); margin:0; letter-spacing:.5px}
+  .now{font-variant-numeric:tabular-nums; color:var(--muted); font-size:13px}
+
+  .grid{display:grid; gap:18px; grid-template-columns: 380px 1fr;}
+  .panel{
+    background:linear-gradient(180deg, rgba(255,255,255,.02), transparent 40%), var(--panel);
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:18px; padding:18px; box-shadow:var(--shadow);
+  }
+
+  /* 左側 */
+  .meta{display:grid; gap:14px}
+  .kv{display:grid; gap:8px}
+  .kv label{font-size:13px; color:var(--muted)}
+
+  .row{display:grid; grid-template-columns: 1fr 1fr; gap:10px;}
+  /* 快速新增改為單欄直排（桌機也一致） */
+  .row.row3{ display:grid; grid-template-columns:1fr; gap:10px; }
+
+  .laneWrap{display:flex; align-items:center; gap:6px;}
+  .laneWrap .input{
+    width:84px;
+    height:32px;
+    padding:0 10px;
+    text-align:center;
+    line-height:32px;
+    font-size:16px;
+  }
+  .swatch{
+    width:28px; height:28px; border-radius:8px; border:1px solid rgba(255,255,255,.2);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.2);
+  }
+
+  .triple{display:grid; grid-template-columns: repeat(3,1fr); gap:10px;}
+  .input, select{
+    width:100%; padding:12px 12px; border-radius:12px;
+    border:1px solid rgba(255,255,255,.08);
+    background:var(--card); color:var(--text);
+    outline:none; transition: .15s border, .15s box-shadow, .15s transform;
+    font-size:15px;
+    min-width:0;
+  }
+  /* 移除數字輸入的上下箭頭，避免擠壓與高度不一致 */
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  input[type=number]{ -moz-appearance: textfield; }
+
+  .laneBtn{
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,.2);
+    background: var(--card);
+    color: var(--text);
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .15s filter, .15s transform;
+  }
+  .laneBtn:hover { filter: brightness(1.1); }
+  .laneBtn:active { transform: translateY(1px); }
+
+  select{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .input:focus, select:focus{
+    border-color:var(--brand); box-shadow:0 0 0 4px var(--ring);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:12px 16px; border-radius:12px; border:1px solid rgba(255,255,255,.08);
+    background: linear-gradient(180deg, rgba(34,211,238,.22), rgba(34,211,238,.12));
+    color:#052026; font-weight:600; letter-spacing:.3px; cursor:pointer;
+    transition: .15s transform, .15s filter, .15s box-shadow; box-shadow:var(--shadow);
+    touch-action:manipulation;
+  }
+  .btn:hover{filter:brightness(1.05)}
+  .btn:active{transform:translateY(1px)}
+  .btn-outline{background:transparent; color:var(--brand); border-color:rgba(34,211,238,.35)}
+  .btn-row{display:flex; gap:10px; flex-wrap:wrap}
+  /* 顯示在右上角的主題切換按鈕 */
+  .tbtn{
+    -webkit-appearance:none; appearance:none; border:none; outline:none;
+    display:inline-flex; align-items:center; gap:8px;
+    padding:10px 16px; border-radius:999px;
+    background: rgba(255,255,255,.06);
+    color: var(--text);
+    border: 1px solid rgba(255,255,255,.24);
+    box-shadow: var(--shadow);
+    cursor:pointer; user-select:none;
+    transition: .15s transform, .15s filter, .15s box-shadow, .15s background-color, .15s border-color;
+    font-weight:600; letter-spacing:.2px;
+    line-height:1;
+  }
+  .tbtn:hover{ filter: brightness(1.08); }
+  .tbtn:active{ transform: translateY(1px); }
+  .tbtn:focus-visible{ box-shadow: 0 0 0 4px var(--ring); }
+
+  /* 淺色主題下的樣式 */
+  body.light .tbtn{
+    background: #ffffff;
+    color: #0f172a;
+    border-color: rgba(0,0,0,.15);
+    box-shadow: 0 8px 18px rgba(15,23,42,.08);
+  }
+  body.light .tbtn:hover{ filter: none; box-shadow: 0 10px 22px rgba(15,23,42,.10); }
+
+
+  /* 讓「立即新增」更醒目 */
+  #btnQuickAdd{
+    background: rgba(34,211,238,.14);
+    color: #e6fbff;
+    border: 1px solid rgba(34,211,238,.45);
+    border-radius: 12px;
+    padding: 12px 18px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .2px;
+    box-shadow: var(--shadow);
+    transition: .15s transform, .15s filter, .15s box-shadow;
+  }
+  #btnQuickAdd:hover{ filter: brightness(1.06); }
+  #btnQuickAdd:active{ transform: translateY(1px); }
+  
+
+  .hint{font-size:12px; color:var(--muted); margin-top:4px}
+
+  /* 右側清單 */
+  .list{display:grid; gap:14px;}
+  .card{
+    position:relative; display:grid; gap:6px;
+    padding:14px 16px; border-radius:14px;
+    background:linear-gradient(180deg, rgba(255,255,255,.03), transparent 50%), var(--card);
+    border:1px solid rgba(255,255,255,.06);
+  }
+  .row2{display:flex; align-items:center; justify-content:space-between; gap:10px}
+  .count{font-variant-numeric:tabular-nums; font-size:18px; letter-spacing:.5px}
+  .soon .count{ color:var(--warn)}
+  .expired .count{ color:var(--danger)}
+
+  /* 三段式標題列 */
+  .title{
+    display:flex; align-items:center; gap:10px; min-width:0;
+  }
+  .labelGroup{display:flex; gap:6px; align-items:center; flex:0 0 auto;}
+  .bossName{
+    flex:1 1 auto; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+    font-weight:700; letter-spacing:.2px;
+  }
+
+  .badge{
+    display:inline-flex; align-items:center;
+    font-size:12px; padding:4px 10px; border-radius:999px;
+    background:rgba(167,139,250,.15); color:var(--accent);
+    border:1px solid rgba(167,139,250,.35)
+  }
+  /* 分流膠囊（與主按鈕一致的膠囊視覺） */
+  .badge-lane{
+    border:none;
+    font-weight:700;
+    letter-spacing:.2px;
+    padding:6px 12px;
+    border-radius:999px;
+    background: var(--card-accent);
+    color:#fff;
+  }
+  body.light .badge-lane{
+    border:none;
+    font-weight:700;
+    letter-spacing:.2px;
+    padding:6px 12px;
+    border-radius:999px;
+    background: var(--card-accent);
+    color:#fff;
+  }
+
+
+  /* Episode 標籤顏色（十色） */
+  .badge-ep1 { background: rgba(239,68,68,.15);  color:#ef4444; border-color:rgba(239,68,68,.35);}
+  .badge-ep2 { background: rgba(245,158,11,.15); color:#f59e0b; border-color:rgba(245,158,11,.35);}
+  .badge-ep3 { background: rgba(132,204,22,.15); color:#84cc16; border-color:rgba(132,204,22,.35);}
+  .badge-ep4 { background: rgba(34,197,94,.15);  color:#22c55e; border-color:rgba(34,197,94,.35);}
+  .badge-ep5 { background: rgba(16,185,129,.15); color:#10b981; border-color:rgba(16,185,129,.35);}
+  .badge-ep6 { background: rgba(6,182,212,.15);  color:#06b6d4; border-color:rgba(6,182,212,.35);}
+  .badge-ep7 { background: rgba(59,130,246,.15); color:#3b82f6; border-color:rgba(59,130,246,.35);}
+  .badge-ep8 { background: rgba(139,92,246,.15); color:#8b5cf6; border-color:rgba(139,92,246,.35);}
+  .badge-ep9 { background: rgba(236,72,153,.15); color:#ec4899; border-color:rgba(236,72,153,.35);}
+  .badge-ep10{ background: rgba(107,114,128,.15); color:#6b7280; border-color:rgba(107,114,128,.35);}
+
+  /* Lv. xx 標籤（做成和分流一樣的膠囊感，選用柔和藍綠系） */
+  .badge-lv{
+    background: rgba(2,132,199,.18);
+    color:#075985;
+    border:1px solid rgba(2,132,199,.35);
+  }
+  /* 分流 badge 統一樣式：使用漸層，更符合整體設計 */
+  .badge-lane{
+    border:none;
+    font-weight:700;
+    letter-spacing:.2px;
+    padding:6px 12px;
+    border-radius:999px;
+    background: var(--card-accent);
+    color:#fff;
+  }
+  body.light .badge-lane{
+    border:none;
+    font-weight:700;
+    letter-spacing:.2px;
+    padding:6px 12px;
+    border-radius:999px;
+    background: var(--card-accent);
+    color:#fff;
+  }
+
+  /* === Dark mode readability upgrades for badges === */
+  body:not(.light) .badge{
+    font-weight:700;
+    letter-spacing:.2px;
+    padding:5px 12px;
+    border-width:1px;
+    
+    box-shadow: inset 0 -1px 0 rgba(255,255,255,.04);
+  }
+  /* Episode colors — stronger background/contrast in dark mode */
+  body:not(.light) .badge-ep1  { background: rgba(239,68,68,.28);  color:#fecaca; border-color:rgba(239,68,68,.55); }
+  body:not(.light) .badge-ep2  { background: rgba(245,158,11,.28); color:#fde68a; border-color:rgba(245,158,11,.55); }
+  body:not(.light) .badge-ep3  { background: rgba(132,204,22,.28); color:#d9f99d; border-color:rgba(132,204,22,.55); }
+  body:not(.light) .badge-ep4  { background: rgba(34,197,94,.28);  color:#bbf7d0; border-color:rgba(34,197,94,.55);  }
+  body:not(.light) .badge-ep5  { background: rgba(16,185,129,.28); color:#a7f3d0; border-color:rgba(16,185,129,.55); }
+  body:not(.light) .badge-ep6  { background: rgba(6,182,212,.28);  color:#a5f3fc; border-color:rgba(6,182,212,.55); }
+  body:not(.light) .badge-ep7  { background: rgba(59,130,246,.28); color:#bfdbfe; border-color:rgba(59,130,246,.55); }
+  body:not(.light) .badge-ep8  { background: rgba(139,92,246,.28); color:#ddd6fe; border-color:rgba(139,92,246,.55); }
+  body:not(.light) .badge-ep9  { background: rgba(236,72,153,.28); color:#fbcfe8; border-color:rgba(236,72,153,.55); }
+  body:not(.light) .badge-ep10 { background: rgba(107,114,128,.32); color:#e5e7eb; border-color:rgba(107,114,128,.6); }
+
+  /* Level badge — clearer teal in dark mode */
+  body:not(.light) .badge-lv{
+    background: rgba(14,165,233,.28);
+    color:#e0f2fe;
+    border-color: rgba(14,165,233,.55);
+    
+  }
+
+
+  .tools{display:flex; gap:8px}
+  .iconbtn{
+    width:36px; height:36px; display:inline-grid; place-items:center; border-radius:10px;
+    border:1px solid rgba(255,255,255,.08); background:transparent; color:var(--muted);
+    cursor:pointer; touch-action:manipulation;
+  }
+  .iconbtn:hover{color:#fff; border-color:rgba(255,255,255,.24)}
+  .empty{text-align:center; color:var(--muted); padding:24px 8px; border:1px dashed rgba(255,255,255,.12); border-radius:14px}
+
+  /* RWD */
+  @media (max-width:980px){ .grid{grid-template-columns:1fr} }
+  @media (max-width:640px){
+    .wrap{padding:0 14px}
+    .panel{padding:14px; border-radius:16px}
+    .row{grid-template-columns:1fr; gap:8px}
+    .row.row3{ grid-template-columns:1fr; }
+    .triple{grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px}
+    .btn{width:100%}
+    .btn-row{flex-direction:column}
+    .iconbtn{width:40px; height:40px}
+    .count{font-size:20px}
+  }
+
+  /* —— 淺色主題：覆寫變數 —— */
+  body.light{
+    --bg:#f5f7fb; --panel:#ffffff; --card:#ffffff; --text:#0f172a; --muted:#475569;
+    --ring:rgba(2,132,199,.25); --shadow:0 10px 30px rgba(15,23,42,.08);
+  }
+  body.light header{
+    background:linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,255,255,0));
+    backdrop-filter:saturate(120%) blur(4px);
+  }
+  body.light .panel, body.light .card{ border-color: rgba(15,23,42,.08); }
+  body.light .empty{ border-color: rgba(15,23,42,.12); color:#64748b; }
+  body.light .input, body.light select { border-color: rgba(0,0,0,.15); background:#fff; color:#000; }
+  body.light .iconbtn { border-color: rgba(0,0,0,.15); color:#6b7280; background:transparent; }
+  body.light .iconbtn:hover { border-color: rgba(0,0,0,.35); color:#000; }
+  body.light .input:focus, body.light select:focus { border-color:#0284c7; box-shadow:0 0 0 3px rgba(2,132,199,.25); }
+
+  button{font:inherit;}
+  .iconbtn{-webkit-appearance:none; appearance:none; background:transparent; outline:none; line-height:1;}
+  body:not(.light) .iconbtn.danger{ border-color: rgba(255,255,255,.14); color: var(--muted); }
+  .iconbtn.danger:hover{ filter: brightness(1.1); }
+
+  /* 卡片顏色變數（由 JS 注入） */
+  .card {
+    --card-accent: #22d3ee;
+    --card-tint: rgba(34,211,238,.08);
+    border-width: 2px;
+    border-color: rgba(255,255,255,.06);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.03), transparent 50%),
+      var(--card);
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before{
+    content:"";
+    position:absolute; left:0; top:0; bottom:0; width:6px;
+    border-radius:12px 0 0 12px;
+    background: var(--card-accent);
+    opacity:.9;
+  }
+  .card.colored {
+    border-color: var(--card-accent);
+    box-shadow: 0 6px 22px rgba(0,0,0,.28);
+  }
+  .card.colored .title,
+  .card.colored .count,
+  .card.colored .small{ position: relative;
+    overflow: hidden; }
+  .card.colored::after{
+    content:"";
+    position:absolute; inset:0; border-radius:12px;
+    background: var(--card-tint);
+    pointer-events:none;
+  }
+  body.light .card.colored{ box-shadow: 0 6px 18px rgba(2,132,199,.08); }
+  body.light .card::before{
+    content:"";
+    position:absolute; left:0; top:0; bottom:0; width:6px;
+    border-radius:12px 0 0 12px;
+    background: var(--card-accent);
+    opacity:.9;
+  }
+
+  /* 淺色主題下的「立即新增」按鈕：提高對比 */
+  body.light #btnQuickAdd{
+    background: rgba(2,132,199,.10);
+    color: #0f172a;
+    border-color: rgba(2,132,199,.35);
+    box-shadow: 0 8px 18px rgba(15,23,42,.08);
+  }
+  body.light #btnQuickAdd:hover{ filter:none; box-shadow: 0 10px 22px rgba(15,23,42,.10); }
+
+
+  /* 淺色主題下的分流 +/- 按鈕邊框與底色（可見度提升） */
+  body.light .laneBtn{
+    border-color: rgba(0,0,0,.18);
+    background: #ffffff;
+    color: #0f172a;
+    box-shadow: 0 1px 0 rgba(0,0,0,.02);
+  }
+  body.light .laneBtn:hover{ filter:none; background:#f8fafc; border-color: rgba(0,0,0,.28); }
+  body.light .laneBtn:active{ transform: translateY(1px); }
+
+
+  /* 淺色主題下的分流輸入框邊框加強，與 +/- 視覺一致 */
+  body.light .laneWrap .input{
+    border-color: rgba(0,0,0,.18);
+    background: #ffffff;
+    color: #0f172a;
+  }
+  body.light .laneWrap .input:hover{ border-color: rgba(0,0,0,.22); }
+
+
+/* === Boss 階段圓形按鈕 === */
+.stage-buttons {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+.stage-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--danger);
+  background: transparent;
+  color: var(--danger);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s;
+  line-height: 1;
+}
+.stage-btn:hover { filter: brightness(1.05); }
+.stage-btn.active {
+  background: var(--danger);
+  color: #fff;
+  border-color: var(--danger);
+}
+
+
+  /* 階段徽章（紅色） */
+  .badge-stage{
+    background: rgba(239,68,68,.15);
+    color:#ef4444;
+    border:1px solid rgba(239,68,68,.35);
+  }
+  body:not(.light) .badge-stage{
+    background: rgba(239,68,68,.28);
+    color:#fecaca;
+    border-color: rgba(239,68,68,.55);
+  }
+
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>救世者之樹 m - 野外Boss計時器</h1>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <button id="themeToggle" class="tbtn" type="button" aria-pressed="false" title="切換主題">☀️ 日間</button>
+        <div class="now" id="now">—</div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- 左邊：操作/說明 -->
+      <section class="panel">
+        <div class="meta">
+
+          <div class="kv">
+            <label>快速新增</label>
+            <div class="row row3">
+              <select id="quickA" class="input" title="主分類 (A)"></select>
+              <select id="quickB" class="input" title="次分類 (B)"></select>
+              <div class="laneWrap">
+                <span>分流: </span>
+                <button type="button" class="laneBtn" id="laneDec">−</button>
+                <input id="lane" class="input" type="number" min="1" value="1" title="分流">
+                <button type="button" class="laneBtn" id="laneInc">+</button>
+                <span id="laneSwatch" class="swatch" title="此次分流顏色"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="kv">
+            <label>預設重生時間 (小時/分/秒)</label>
+            <div class="triple">
+              <input id="dH" class="input" type="number" min="0" value="0" />
+              <input id="dM" class="input" type="number" min="0" value="5" />
+              <input id="dS" class="input" type="number" min="0" value="0" />
+            </div>
+            <div class="hint">此區只影響「快速新增」，真正的倒數以每個項目建立時的設定為準。</div>
+          </div>
+
+          <div class="row">
+            <div class="kv" style="grid-column:1/-1">
+              <label>提醒時間 (分)</label>
+              <input id="leadMin" class="input" type="number" min="0" value="0" />
+            </div>
+          </div>
+
+          <div class="kv">
+            <div class="btn-row">
+              <button id="btnQuickAdd" class="btn" type="button">➕ 立即新增</button>
+            </div>
+            <div class="hint">使用上方欄位設定並按「立即新增」。</div>
+          </div>
+
+          <div class="kv">
+            <button id="btnClear" class="btn btn-outline" type="button">🧹 清空所有計時</button>
+            <div class="hint">所有資料雲端同步（多人共用、即時更新）。</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 右邊：清單 -->
+      <section class="panel">
+        <div id="list" class="list"></div>
+        <div id="empty" class="empty" style="display:none">目前沒有計時，點左邊「立即新增」開始吧！</div>
+      </section>
+    </div>
+
+    <footer style="margin:40px auto; padding:20px; text-align:center; font-size:13px; color:var(--muted)">
+      <div>本計時器為玩家自製之非官方工具，僅供個人娛樂使用，請勿用於商業用途。</div>
+      <div>本工具不保證正確性與即時性，使用風險請使用者自行承擔。</div>
+      <div style="margin-top:8px">
+        網站訪問計數：
+        <a href="https://cn.web-counter.net" title="網站訪問計數">
+          <img src="https://www.web-counter.net/count_20091204.php?c=1fuYlQ1R9xV" style="border:0;padding:0;margin:0;" alt="網站訪問計數" />
+        </a>
+        <div style="position:fixed; right:10px; bottom:5px; font-size:12px; color:#aaa;">
+        v1.0.0 Release
+        </div>
+      </div>
+      
+    </footer>
+  </div>
+
+  <!-- 使用外部 mp3 音效 -->
+  <audio id="beep" preload="auto">
+    <source src="https://could562073.github.io/projects/tosm_boss-timer/sound28.mp3" type="audio/mp3">
+  </audio>
+
+<script>
+/* ========== 分流加減按鈕 ========== */
+const laneInput = document.getElementById('lane');
+document.getElementById('laneInc').addEventListener('click', () => {
+  laneInput.value = Number(laneInput.value || 1) + 1;
+  laneInput.dispatchEvent(new Event('change'));
+});
+document.getElementById('laneDec').addEventListener('click', () => {
+  const minVal = Number(laneInput.min || 1);
+  let v = Number(laneInput.value || 1) - 1;
+  if (v < minVal) v = minVal;
+  laneInput.value = v;
+  laneInput.dispatchEvent(new Event('change'));
+});
+
+/* hexToRgba */
+function hexToRgba(hex, alpha=0.1){
+  const c = hex.replace('#','');
+  const r = parseInt(c.slice(0,2),16);
+  const g = parseInt(c.slice(2,4),16);
+  const b = parseInt(c.slice(4,6),16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+/* ===== 主題切換：深/淺色 ===== */
+const THEME_KEY = 'theme';
+function applyTheme(theme){
+  if(theme === 'light'){ document.body.classList.add('light'); }
+  else{ document.body.classList.remove('light'); theme = 'dark'; }
+  localStorage.setItem(THEME_KEY, theme);
+  updateThemeToggleUI();
+}
+function updateThemeToggleUI(){
+  const btn = document.getElementById('themeToggle');
+  if(!btn) return;
+  const isLight = document.body.classList.contains('light');
+  btn.textContent = isLight ? '🌙 夜間' : '☀️ 日間';
+  btn.setAttribute('aria-pressed', String(isLight));
+  btn.title = isLight ? '切換到深色模式' : '切換到淺色模式';
+}
+(function initTheme(){
+  const saved = localStorage.getItem(THEME_KEY);
+  const sysLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+  applyTheme(saved || (sysLight ? 'light' : 'dark'));
+  document.addEventListener('click', (e)=>{
+    if(e.target && e.target.id === 'themeToggle'){
+      const isLight = document.body.classList.contains('light');
+      applyTheme(isLight ? 'dark' : 'light');
+    }
+  });
+})();
+
+/* -------------------- LocalStorage -------------------- */
+const LS_TIMERS = "bossTimers_v1";
+const LS_FORM   = "bossForm_v1";
+function lsSet(key, value){ localStorage.setItem(key, value); }
+function lsGet(key){ return localStorage.getItem(key) || ""; }
+
+/* -------------------- 資料模型 -------------------- */
+let timers = []; // {id, a, b, lane, laneColor, durationMs, leadMin, startAt, alert1Fired, alert2Fired}
+const $ = s => document.querySelector(s);
+const listEl = $('#list');
+const emptyEl = $('#empty');
+const beepEl = $('#beep');
+
+/* -------------------- 主/次選單資料 -------------------- */
+const B_DICT = {
+  "Episode 1": [
+    "夏奧雷伊東邊森林 Lv.3 - 瓦卡麗涅女神像",
+    "蓮帕拉沙池塘 Lv.5 - 不祥的 次元裂縫",
+    "夏奧雷礦山村莊 Lv.7 - 卑劣的 赤紅布貝門士",
+    "水晶礦山 Lv.9 - 強韌的 惡靈君主",
+  ],
+  "Episode 2": [
+    "斯拉屋塔斯峽谷 Lv.10 -瓦卡麗涅女神像",
+    "凱利高原 Lv.11 - 不祥的 次元裂縫",
+    "奈普里塔斯懸崖 Lv.12 - 強韌的 王座大蜘蛛",
+    "泰內花園 Lv.13 - 強韌的 豬籠草",
+    "泰內聖堂地下1層 Lv.15 - 卑劣的 獨眼巨人",
+    "泰內聖堂地上1層 Lv.17 - 強韌的 瑪爾雷飛龍",
+    "泰內聖堂地上2層 Lv.19 - 強韌的 地獄亡靈"
+  ],
+  "Episode 3": [
+    "庫魯森林 Lv.20 - 瓦卡麗涅女神像",
+    "克尼多斯森林 Lv.21 - 不祥的 次元裂縫",
+    "達旦森林 Lv.22 - 強韌的 伊堤斯大嘴獸",
+    "諾巴哈公會所 Lv.24 - 卑劣的 木乃伊賽西特",
+    "諾巴哈別館 Lv.26 - 強韌的 維尼亞猴子",
+    "諾巴哈本院 Lv.28 - 憤怒的 死亡魔女"
+  ],
+  "Episode 4": [
+    "貝雅山谷 Lv.30 - 瓦卡麗涅女神像",
+    "比爾塔溪谷 Lv.31 - 不祥的 次元裂縫",
+    "科博爾特森林 Lv.32 - 卑劣的 女妖克萊默",
+    "賽提尼山溝 Lv.34 - 強韌的 魔斯怪",
+    "培爾克神殿 Lv.36 - 強韌的 毒魔蛙圖圖",
+    "安森塔冰源地 Lv.38 - 憤怒的 水蛭"
+  ],
+  "Episode 5": [
+    "卡蘿利斯泉水 Lv.40 - 瓦卡麗涅女神像",
+    "萊塔斯小溪 Lv.42 - 不祥的 次元裂縫",
+    "德慕爾佃農村 Lv.44 - 卑劣的 地心蟲王",
+    "德慕爾莊園 Lv.46 - 強韌的 克萊獰怪",
+    "德慕爾外城 Lv.48 - 憤怒的 赤紅雷班扎特"
+  ],
+  "Episode 6": [
+    "達伊納養蜂地 Lv.50 - 瓦卡麗涅女神像",
+    "比爾那森林 Lv.51 - 不祥的 次元裂縫",
+    "烏奇斯耕耘作地 Lv.52 - 強韌的 奧瑪塔斯",
+    "春光樹林 Lv.53 - 卑劣的 孟提肯",
+    "關口路 Lv.55 - 強韌的 切波勒",
+    "史爾特凱拉森林 Lv.57 - 強韌的 亞崑",
+    "克巴伊拉斯森林 Lv.59 - 憤怒的 佛蘭普",
+  ],
+  "Episode 7": [
+    "魯卡斯高原 Lv.60 - 瓦卡麗涅女神像",
+    "王之高原 Lv.61 - 不祥的 次元裂縫",
+    "札卡里耶耶爾交叉路 Lv.62 - 卑劣的 貝亞卡拉斯",
+    "王陵1層 Lv.64 - 強韌的 墓主洛德",
+    "王陵2層 Lv.66 - 強韌的 庫勒卡斯",
+    "王陵3層 Lv.68 - 憤怒的 雷克西波"
+  ],
+  "Episode 8": [
+    "阿雷魯諾男爵領 Lv.70 - 卑劣的 巨魔蠍",
+    "水路橋地區 Lv.70 - 強韌的 克洛提德",
+    "魔族收監所第1區 Lv.71 - 強韌的 布爾魯",
+    "魔族收監所第3區 Lv.72 - 卑劣的 努亞耶雷",
+    "魔族收監所第4區 Lv.73 - 強韌的 迪歐尼斯",
+    "魔族收監所第5區 Lv.74 - 憤怒的 哈勃克"
+  ],
+  "Episode 9": [
+    "女神的古院 Lv.75 - 強韌的 死靈查普利",
+    "佩迪米安外城 Lv.76 - 卑劣的 惡魔葛洛夫",
+    "魔法師之塔1層 Lv.77 - 強韌的 火焰蜥蜴王",
+    "魔法師之塔2層 Lv.78 - 強韌的 瑪因洛德",
+    "魔法師之塔3層 Lv.79 - 憤怒的 赫嘉塞露女妖"
+  ],
+  "Episode 10": [
+    "大教堂懺悔路 Lv.80 - 卑劣的 喀拉庫曼",
+    "大教堂正殿 Lv.81 - 強韌的 火焰權杖",
+    "大教堂大迴廊 Lv.82 - 強韌的 利泰力斯",
+    "大教堂至聖所 Lv.83 - 憤怒的 那柯提斯"
+  ]
+};
+const A_OPTIONS = Object.keys(B_DICT);
+
+/* -------------------- 隨機色與對比色 -------------------- */
+const COLOR_POOL = ['#22d3ee','#a78bfa','#34d399','#f59e0b','#ef4444','#60a5fa','#f472b6','#84cc16','#eab308','#fb7185'];
+function randomColor(){ return COLOR_POOL[Math.floor(Math.random()*COLOR_POOL.length)]; }
+function textColorFor(hex){
+  const c = hex.replace('#','');
+  const r = parseInt(c.substring(0,2),16);
+  const g = parseInt(c.substring(2,4),16);
+  const b = parseInt(c.substring(4,6),16);
+  const yiq = (r*299 + g*587 + b*114)/1000;
+  return yiq >= 150 ? '#0b1220' : '#ffffff';
+}
+function darken(hex, factor=0.8){
+  const c = hex.replace('#','');
+  let r = Math.round(parseInt(c.substring(0,2),16)*factor);
+  let g = Math.round(parseInt(c.substring(2,4),16)*factor);
+  let b = Math.round(parseInt(c.substring(4,6),16)*factor);
+  r = Math.max(0, Math.min(255, r));
+  g = Math.max(0, Math.min(255, g));
+  b = Math.max(0, Math.min(255, b));
+  const toHex = v => v.toString(16).padStart(2,'0');
+  return '#' + toHex(r) + toHex(g) + toHex(b);
+}
+/* -------------------- 初始化選單 -------------------- */
+function fillA(sel){
+  sel.innerHTML = A_OPTIONS.map(v => `<option value="${v}">${v}</option>`).join('');
+}
+function fillB(sel, aValue){
+  const arr = B_DICT[aValue] || [];
+  sel.innerHTML = arr.map(v => `<option value="${v}">${v}</option>`).join('');
+}
+
+/* -------------------- 儲存 / 載入 -------------------- */
+function save(){ lsSet(LS_TIMERS, JSON.stringify(timers)); }
+function load(){
+  const raw = lsGet(LS_TIMERS);
+  try{ timers = raw ? JSON.parse(raw) : []; }
+  catch{ timers = []; }
+}
+function saveFormState(){
+  const state = {
+    quickA: $('#quickA').value,
+    quickB: $('#quickB').value,
+    dH: +$('#dH').value||0,
+    dM: +$('#dM').value||0,
+    dS: +$('#dS').value||0,
+    lane: +$('#lane').value||1,
+    leadMin: +$('#leadMin').value||0
+  };
+  lsSet(LS_FORM, JSON.stringify(state));
+}
+function loadFormState(){
+  const raw = lsGet(LS_FORM);
+  if(!raw) return;
+  try{
+    const s = JSON.parse(raw);
+    if(s.quickA){ $('#quickA').value = s.quickA; fillB($('#quickB'), s.quickA); }
+    if(s.quickB){ $('#quickB').value = s.quickB; }
+    ['dH','dM','dS','lane','leadMin'].forEach(k=>{
+      if(s[k]!==undefined) $('#'+k).value = s[k];
+    });
+  }catch{}
+}
+
+/* -------------------- 時間格式 -------------------- */
+function fmt(ms){
+  if(ms<0) ms=0;
+  const t = Math.floor(ms/1000);
+  const h = Math.floor(t/3600).toString().padStart(2,'0');
+  const m = Math.floor((t%3600)/60).toString().padStart(2,'0');
+  const s = (t%60).toString().padStart(2,'0');
+  return `${h}:${m}:${s}`;
+}
+function fmtClock(ts){
+  const d = new Date(ts);
+  const hh = String(d.getHours()).padStart(2,'0');
+  const mm = String(d.getMinutes()).padStart(2,'0');
+  const ss = String(d.getSeconds()).padStart(2,'0');
+  return `${hh}:${mm}:${ss}`;
+}
+
+/* -------------------- 渲染 -------------------- */
+function render(){
+  const now = Date.now();
+  const sorted = [...timers].sort((x,y)=>{
+    const rx = x.startAt + x.durationMs - now;
+    const ry = y.startAt + y.durationMs - now;
+    const ax = Math.max(rx, -1);
+    const ay = Math.max(ry, -1);
+    if (ax !== ay) return ax - ay; // 先依剩餘時間
+    const ex = x.startAt + x.durationMs; // 到點時間（毫秒）
+    const ey = y.startAt + y.durationMs;
+    if (ex !== ey) return ex - ey; // 次要：到點時間
+    return (x.startAt ?? 0) - (y.startAt ?? 0); // 最後保險：建立時間，確保穩定
+  });
+
+  listEl.innerHTML = '';
+  if(sorted.length===0){ emptyEl.style.display='block'; return; }
+  emptyEl.style.display='none';
+
+  sorted.forEach(t=>{
+    const remain = t.startAt + t.durationMs - now;
+    const soon = remain <= t.leadMin*60*1000 && remain>0;
+    const expired = remain<=0;
+
+    const card = document.createElement('div');
+    card.className = 'card' + (soon?' soon':'') + (expired?' expired':'');
+    const endAt = t.startAt + t.durationMs;
+
+    // 分流色樣式
+    const color = t.laneColor || '#a78bfa';
+    const badgeBg = color;
+    const badgeText = textColorFor(color);
+    const borderCol = color;
+
+    // 解析 Lv 與 Boss 名稱、Episode
+    const lvLabel = (t.b.match(/Lv\.?\s*\d+/i) || [''])[0];
+    const bossName = t.b.replace(/Lv\.?\s*\d+\s*-\s*/i, '').trim();
+    const epNum = (t.a.match(/\d+/) || [0])[0];
+
+    const stageBadge = t.stage ? `<span class="badge badge-stage">階段 ${t.stage}</span>` : '';
+      card.innerHTML = `
+      <div class="row2" style="align-items:flex-start;">
+        <div class="title">
+          <div class="labelGroup">
+            <span class="badge badge-ep${String(epNum)}">${t.a}</span>
+            ${ lvLabel ? '<span class="badge badge-lv">' + lvLabel + '</span>' : '' }
+          </div>
+          <div class="bossName" title="${bossName}">${bossName}</div>
+          ${stageBadge}
+          <span class="badge badge-lane">分流 ${t.lane}</span>
+        </div>
+        <div class="tools">
+          <button class="iconbtn" title="刪除" data-del="${t.id}">🗑️</button>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="count">${fmt(remain)}</div>
+        <div class="small">提醒：${t.leadMin} 分｜到點：<span style="font-weight:700;letter-spacing:.3px">${fmtClock(endAt)}</span></div>
+      </div>
+    `;
+card.classList.add('colored');
+    card.style.setProperty('--card-accent', color);
+    card.style.setProperty('--card-tint', hexToRgba(color, 0.08));
+    // —— 階段按鈕 ——
+    const stageDiv = document.createElement('div');
+    stageDiv.className = 'stage-buttons';
+    for (let i = 1; i <= 4; i++) {
+      const btn = document.createElement('button');
+      const isActive = t.stage === i;
+      btn.className = 'stage-btn' + (isActive ? ' active' : '');
+      btn.textContent = i; // 永遠顯示數字
+      btn.setAttribute('aria-pressed', String(isActive));
+      btn.title = isActive ? `取消階段 ${i}` : `設定階段 ${i}`;
+      btn.dataset.stageFor = t.id;
+      btn.dataset.stageVal = i;
+      stageDiv.appendChild(btn);
+    }
+    card.appendChild(stageDiv);
+
+
+    listEl.appendChild(card);
+  });
+}
+
+/* -------------------- 計時循環 / 提醒 -------------------- */
+function tick(){
+  const now = Date.now();
+  timers.forEach(t=>{
+    const alertAt = t.startAt + t.durationMs - t.leadMin*60*1000;
+    if(!t.alert1Fired && t.leadMin>0 && now >= alertAt && now < t.startAt + t.durationMs){
+      t.alert1Fired = true; try{ beepEl.currentTime=0; beepEl.play(); }catch{}
+    }
+    if(!t.alert2Fired && now >= t.startAt + t.durationMs){
+      t.alert2Fired = true; try{ beepEl.currentTime=0; beepEl.play(); }catch{}
+    }
+  });
+  render();
+}
+setInterval(()=>{ $('#now').textContent = new Date().toLocaleString(); tick(); }, 1000);
+
+/* -------------------- 建立 / 刪除 -------------------- */
+function addTimer(data){
+  const id = (crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()+Math.random());
+  timers.push({
+    id,
+    a: data.a,
+    b: data.b,
+    lane: +data.lane||1,
+    laneColor: data.color || randomColor(),
+    durationMs: ((+data.h||0)*3600 + (+data.m||0)*60 + (+data.s||0)) * 1000,
+    leadMin: +data.lead||0,
+    startAt: Date.now(),
+    alert1Fired:false,
+    alert2Fired:false,
+    stage: 0
+  });
+  save(); render();
+}
+function deleteTimer(id){
+  timers = timers.filter(t=>t.id!==id);
+  save(); render();
+}
+listEl.addEventListener('click', (e)=>{
+  const delId = e.target?.dataset?.del;
+  if (delId) { deleteTimer(delId); return; }
+  // 階段按鈕點擊
+  if (e.target?.dataset?.stageFor) {
+    const id = e.target.dataset.stageFor;
+    const val = Number(e.target.dataset.stageVal);
+    const t = timers.find(x => x.id === id);
+    if (t) {
+      // 再次點擊同一顆 → 取消（勾掉）
+      t.stage = (t.stage === val) ? 0 : val;
+      save();
+      render();
+    }
+    return;
+  }
+
+});
+
+/* -------------------- 快速新增（不彈窗） -------------------- */
+let currentLaneColor = randomColor();
+const laneSwatch = document.getElementById('laneSwatch');
+function updateLaneSwatch(){
+  laneSwatch.style.background = currentLaneColor;
+  laneSwatch.title = `此次分流顏色：${currentLaneColor}`;
+}
+function quickAdd(){
+  const data = {
+    a: $('#quickA').value,
+    b: $('#quickB').value,
+    h: +$('#dH').value||0,
+    m: +$('#dM').value||0,
+    s: +$('#dS').value||0,
+    lane: +$('#lane').value||1,
+    lead: +$('#leadMin').value||0,
+    color: currentLaneColor
+  };
+  if((data.h+data.m+data.s)===0){ alert('重生時間不可為 0'); return; }
+  addTimer(data);
+  saveFormState();
+  currentLaneColor = randomColor();
+  updateLaneSwatch();
+}
+
+/* A 變動 → B 重建 */
+function hookCascade(aSel, bSel){
+  aSel.addEventListener('change', ()=>{
+    fillB(bSel, aSel.value);
+    saveFormState();
+  });
+}
+hookCascade($('#quickA'), $('#quickB'));
+
+/* 快速區按鈕與儲存 */
+document.getElementById('btnQuickAdd').addEventListener('click', quickAdd);
+['#quickA','#quickB','#dH','#dM','#dS','#lane','#leadMin'].forEach(s=>{
+  $(s).addEventListener('change', saveFormState);
+  $(s).addEventListener('input', saveFormState);
+});
+
+/* 清空 */
+document.getElementById('btnClear').addEventListener('click', ()=>{
+  if(confirm('確定要刪除所有計時？')){ timers = []; save(); render(); }
+});
+
+/* -------------------- 啟動 -------------------- */
+function boot(){
+  fillA($('#quickA')); fillB($('#quickB'), A_OPTIONS[0]);
+  ['quickA','quickB'].forEach(id=>{
+    const el = document.getElementById(id);
+    el && el.addEventListener('change', ()=>{ el.blur && el.blur(); });
+  });
+  updateLaneSwatch();
+  loadFormState(); load(); render();
+}
+boot();
+</script>
+
+<!-- Supabase integration -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ======= Supabase config (填入你的專案 URL 與 anon key) =======
+const SUPABASE_URL = window.SUPABASE_URL || 'https://mqfcxoqwaqjofougkorh.supabase.co';
+const SUPABASE_ANON = window.SUPABASE_ANON || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xZmN4b3F3YXFqb2ZvdWdrb3JoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc5NTY3NjksImV4cCI6MjA3MzUzMjc2OX0.d3C7nGN3_uLce0mFzSfKewR5TA_NaW-Lc1MYSd3K5pk';
+const SUPABASE_TABLE = 'cards';
+const SUPABASE_ENABLED = (SUPABASE_URL && SUPABASE_ANON && !/YOUR-/.test(SUPABASE_URL+SUPABASE_ANON));
+
+const sb = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON) : null;
+
+// 將 a|b|lane 做成穩定 id，避免重複
+async function stableId(a,b,lane){
+  const key = `${a}|${b}|${lane}`;
+  if (window.crypto && window.crypto.subtle) {
+    const enc = new TextEncoder().encode(key);
+    const buf = await crypto.subtle.digest('SHA-1', enc);
+    const hex = [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
+    return hex; // 40字元
+  }
+  // fallback（不安全但可用）
+  return 'id_'+key.replace(/[^a-z0-9]+/gi,'_');
+}
+
+// 重新定義 save/load/addTimer/deleteTimer/boot 以走雲端
+if (SUPABASE_ENABLED && sb){
+  console.log('[Supabase] enabled');
+  // 覆寫 save/load（不要再寫 localStorage 了）
+  window.save = function(){};
+  window.load = async function(){
+    const { data, error } = await sb.from(SUPABASE_TABLE).select('*');
+    if (error){ console.error(error); return; }
+    timers = (data||[]).map(row => ({
+      id: row.id,
+      a: row.a,
+      b: row.b,
+      lane: row.lane,
+      laneColor: row.lane_color,
+      durationMs: row.duration_ms,
+      leadMin: row.lead_min,
+      startAt: row.start_at ? (new Date(row.start_at)).getTime() : Date.now(),
+      alert1Fired:false, alert2Fired:false,
+      stage: row.stage ?? 0
+    }));
+  };
+
+  // upsert（避免重複）
+  window.addTimer = async function(data){
+    const id = await stableId(data.a, data.b, +data.lane||1);
+    const payload = {
+      id,
+      a: data.a, b: data.b,
+      lane: +data.lane||1,
+      lane_color: data.color || currentLaneColor || '#999',
+      duration_ms: ((+data.h||0)*3600 + (+data.m||0)*60 + (+data.s||0))*1000,
+      lead_min: +data.lead||0,
+      start_at: new Date().toISOString(),
+      stage: 0
+    };
+    const { error } = await sb.from(SUPABASE_TABLE).upsert(payload);
+    if (error){ alert('雲端寫入失敗'); console.error(error); return; }
+    // 即時通道會回推；為保險也可立即 refresh：
+    // await window.load(); render();
+  };
+
+  window.deleteTimer = async function(id){
+    const { error } = await sb.from(SUPABASE_TABLE).delete().eq('id', id);
+    if (error){ alert('刪除失敗'); console.error(error); return; }
+  };
+
+  // 監聽即時變化
+  function listenRealtime(){
+    sb.channel('realtime:cards')
+      .on('postgres_changes', { event: '*', schema: 'public', table: SUPABASE_TABLE }, async (msg) => {
+        // 根據事件更新本地 timers
+        if (msg.eventType === 'DELETE'){
+          timers = timers.filter(t => t.id !== msg.old.id);
+        }else{
+          const row = msg.new;
+          const t = {
+            id: row.id,
+            a: row.a, b: row.b, lane: row.lane,
+            laneColor: row.lane_color,
+            durationMs: row.duration_ms,
+            leadMin: row.lead_min,
+            startAt: row.start_at ? (new Date(row.start_at)).getTime() : Date.now(),
+            alert1Fired:false, alert2Fired:false,
+            stage: row.stage ?? 0
+          };
+          const i = timers.findIndex(x=>x.id===t.id);
+          if (i>=0) timers[i]=t; else timers.push(t);
+        }
+        render();
+      })
+      .subscribe(status => console.log('[Supabase realtime]', status));
+  }
+
+  // 覆寫 boot：先載入雲端，再 render，再訂閱
+  const _boot = window.boot;
+  window.boot = async function(){
+    // 保留原本 boot 的表單初始化邏輯（quickA/B 等）
+    try{ if (typeof _boot === 'function'){ 
+      // 先暫時阻斷 _boot 的 load/render（我們接手）
+      // 由於 _boot 內會呼叫 loadFormState(); load(); render();
+      // 我們先把 window.load/window.render 存起來以避免遞迴，然後在本函數處理
+    }}catch(e){}
+
+    // 執行你原本 boot 之前的初始化段落：
+    // 這裡簡化，直接模擬：
+    // 重新呼叫表單初始化的部分（簡單做法：直接呼叫原 boot 但用暫時替身 load/render）
+    const origLoad = window.load, origRender = window.render;
+    window.load = function(){}; window.render = function(){};
+    try{ if (typeof _boot === 'function'){ _boot(); } } finally {
+      window.load = origLoad; window.render = origRender;
+    }
+
+    // 真正雲端載入與渲染
+    await window.load();
+    render();
+    listenRealtime();
+
+    // 把 [清空所有計時] 改成清空雲端
+    const clearBtn = document.getElementById('btnClear');
+    if (clearBtn){
+      clearBtn.onclick = async ()=>{
+        if (!confirm('確定要清空所有雲端計時嗎？')) return;
+        const ids = timers.map(t=>t.id);
+        if (ids.length===0) return;
+        const { error } = await sb.from(SUPABASE_TABLE).delete().in('id', ids);
+        if (error){ alert('清空失敗'); console.error(error); }
+      };
+    }
+  };
+}else{
+  console.warn('[Supabase] not enabled，繼續使用 localStorage 單機模式。');
+}
+</script>
+
+</body>
+</html>

@@ -836,13 +836,44 @@ card.classList.add('colored');
 function tick(){
   const now = Date.now();
   timers.forEach(t=>{
-    const alertAt = t.startAt + t.durationMs - t.leadMin*60*1000;
+    
+      // 用於判斷「自然到點」：上次仍 >0，這次 <=0
+      const __remain = (t.startAt + t.durationMs) - now;
+      const __wasPositive = (typeof t._lastRemain === 'number') ? (t._lastRemain > 0) : false;
+      const __naturalExpiry = __wasPositive && __remain <= 0;
+      t._lastRemain = __remain;
+const alertAt = t.startAt + t.durationMs - t.leadMin*60*1000;
     if(!t.alert1Fired && t.leadMin>0 && now >= alertAt && now < t.startAt + t.durationMs){
       t.alert1Fired = true; try{ beepEl.currentTime=0; beepEl.play(); }catch{}
     }
     if(!t.alert2Fired && now >= t.startAt + t.durationMs){
       t.alert2Fired = true; try{ beepEl.currentTime=0; beepEl.play(); }catch{}
-    }
+    
+      // 僅對「自然倒數到點」的卡片自動切到階段 1；
+      // 對於一開始載入就已到點的卡片，不自動覆蓋既有階段。
+      if (__naturalExpiry) {
+        try{
+          if (t.stage !== 1) {
+            if (typeof SUPABASE_ENABLED !== 'undefined' && SUPABASE_ENABLED && typeof sb !== 'undefined' && sb){
+              (async () => {
+                try {
+                  const { error } = await sb.from(SUPABASE_TABLE).update({ stage: 1 }).eq('id', t.id);
+                  if (error) { console.error('自動階段更新失敗', error); }
+                  // 立即更新本地資料與 UI
+                  t.stage = 1;
+                  if (typeof render === 'function') { render(); }
+                } catch (err) {
+                  console.error('自動階段更新例外', err);
+                }
+              })();
+            } else {
+              t.stage = 1;
+              if (typeof save === 'function') { save(); }
+            }
+          }
+        }catch(e){ console.error('自動階段更新錯誤', e); }
+      }
+}
   });
   render();
 }

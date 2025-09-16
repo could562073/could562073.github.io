@@ -748,6 +748,17 @@ function fmtClock(ts){
   return `${hh}:${mm}:${ss}`;
 }
 
+function fmtDateTime(ts){
+  const d = new Date(ts);
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  const hh = String(d.getHours()).padStart(2,'0');
+  const mm = String(d.getMinutes()).padStart(2,'0');
+  const ss = String(d.getSeconds()).padStart(2,'0');
+  return `${y}/${m}/${day} ${hh}:${mm}:${ss}`;
+}
+
 /* -------------------- 渲染 -------------------- */
 function render(){
   const now = Date.now();
@@ -805,7 +816,7 @@ function render(){
       </div>
       <div class="row2">
         <div class="count">${fmt(remain)}</div>
-        <div class="small">提醒：${t.leadMin} 分｜到點：<span style="font-weight:700;letter-spacing:.3px">${fmtClock(endAt)}</span></div>
+        <div class="small">提醒：${t.leadMin} 分｜到點：<span style="font-weight:700;letter-spacing:.2px">${fmtDateTime(endAt)}</span></div>
       </div>
     `;
 card.classList.add('colored');

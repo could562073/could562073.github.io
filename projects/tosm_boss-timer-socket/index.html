@@ -123,7 +123,6 @@
   }
   .btn:hover{filter:brightness(1.05)}
   .btn:active{transform:translateY(1px)}
-  .btn-outline{background:transparent; color:var(--brand); border-color:rgba(34,211,238,.35)}
   .btn-row{display:flex; gap:10px; flex-wrap:wrap}
   /* 顯示在右上角的主題切換按鈕 */
   .tbtn{
@@ -514,7 +513,6 @@
           </div>
 
           <div class="kv">
-            <button id="btnClear" class="btn btn-outline" type="button">🧹 清空所有計時</button>
             <div class="hint">所有資料雲端同步（多人共用、即時更新）。</div>
           </div>
         </div>
@@ -992,11 +990,6 @@ document.getElementById('btnQuickAdd').addEventListener('click', quickAdd);
 ['#quickA','#quickB','#dH','#dM','#dS','#lane','#leadMin'].forEach(s=>{
   $(s).addEventListener('change', saveFormState);
   $(s).addEventListener('input', saveFormState);
-});
-
-/* 清空 */
-document.getElementById('btnClear').addEventListener('click', ()=>{
-  if(confirm('確定要刪除所有計時？')){ timers = []; save(); render(); }
 });
 
 /* -------------------- 啟動 -------------------- */

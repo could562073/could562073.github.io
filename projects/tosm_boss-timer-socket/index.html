@@ -688,12 +688,19 @@ const B_DICT = {
     "大教堂正殿 Lv.81 - 強韌的 火焰權杖",
     "大教堂大迴廊 Lv.82 - 強韌的 利泰力斯",
     "大教堂至聖所 Lv.83 - 憤怒的 那柯提斯"
+  ],
+  "Episode 11": [
+    "拉烏基美濕地 Lv.85 - 卑劣的 魔龍凱拉斯",
+    "堤拉修道院 Lv.86 - 強韌的 泰特拉歐克斯",
+    "貝拉伊森林 Lv.87 - 強韌的 雪豹掠奪者",
+    "潔拉哈 Lv.88 - 強韌的 奇魯毛蟲獸",
+    "世伊魯森林 Lv.89 - 憤怒的 扎烏拉"
   ]
 };
 const A_OPTIONS = Object.keys(B_DICT);
 
 /* -------------------- 隨機色與對比色 -------------------- */
-const COLOR_POOL = ['#22d3ee','#a78bfa','#34d399','#f59e0b','#ef4444','#60a5fa','#f472b6','#84cc16','#eab308','#fb7185'];
+const COLOR_POOL = ['#22d3ee','#a78bfa','#34d399','#f59e0b','#ef4444','#60a5fa','#f472b6','#84cc16','#eab308','#fb7185','#6366f1'];
 function randomColor(){ return COLOR_POOL[Math.floor(Math.random()*COLOR_POOL.length)]; }
 function textColorFor(hex){
   const c = hex.replace('#','');

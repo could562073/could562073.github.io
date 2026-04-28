@@ -22,5 +22,8 @@
   </url><url>
     <loc>http://localhost:1313/categories/%E7%AD%86%E8%A8%98/</loc>
     <lastmod>2026-04-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/about/</loc>
+    <lastmod>2026-04-28T00:00:00+00:00</lastmod>
   </url>
 </urlset>

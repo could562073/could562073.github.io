@@ -1,3 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>RexC315 Productions</title><link>https://could562073.github.io/</link><description>Recent content on RexC315 Productions</description><generator>Hugo</generator><language>zh-tw</language><lastBuildDate>Tue, 28 Apr 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://could562073.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>第一篇文章</title><link>https://could562073.github.io/posts/my-first-post/</link><pubDate>Tue, 28 Apr 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/posts/my-first-post/</guid><description>&lt;p&gt;這是我的第一篇文章！&lt;/p&gt;
 &lt;h2 id="開始學習-hugo"&gt;開始學習 Hugo&lt;/h2&gt;
-&lt;p&gt;今天開始用 Hugo 建立個人網站&amp;hellip;&lt;/p&gt;</description></item></channel></rss>
+&lt;p&gt;今天開始用 Hugo 建立個人網站&amp;hellip;&lt;/p&gt;</description></item><item><title>關於我</title><link>https://could562073.github.io/about/</link><pubDate>Tue, 28 Apr 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/about/</guid><description>&lt;h2 id="你好我是-rex-"&gt;你好！我是 Rex 👋&lt;/h2&gt;
+&lt;p&gt;這裡是我的個人網站，用來記錄我的學習與生活。&lt;/p&gt;
+&lt;h2 id="關於這個網站"&gt;關於這個網站&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;📝 學習筆記&lt;/li&gt;
+&lt;li&gt;📚 讀書心得&lt;/li&gt;
+&lt;li&gt;💡 想法記錄&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="聯絡我"&gt;聯絡我&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;GitHub：&lt;a href="https://github.com/could562073"&gt;could562073&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>

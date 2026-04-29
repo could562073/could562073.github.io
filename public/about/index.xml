@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Abouts on RexChen Blog</title>
+    <link>http://localhost:1313/about/</link>
+    <description>Recent content in Abouts on RexChen Blog</description>
+    <generator>Hugo</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Tue, 28 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/about/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>關於我</title>
+      <link>http://localhost:1313/about/about/</link>
+      <pubDate>Tue, 28 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/about/about/</guid>
+      <description>&lt;h2 id=&#34;你好我是-rex&#34;&gt;你好，我是 Rex&lt;/h2&gt;&#xA;&lt;p&gt;我是後端工程師 Rex，具備 5–8 人團隊管理與微服務系統開發經驗，參與過高流量系統的開發與維運。專注於高可用性與可擴展性設計，透過系統優化與程式重構，提升服務穩定性並降低維護成本。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

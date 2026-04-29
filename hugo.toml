@@ -1,33 +1,138 @@
 baseURL = "https://could562073.github.io/"
+title = "RexChen Blog"
+theme = "hugo-theme-cleanwhite"
 languageCode = "zh-tw"
-title = "RexC315 Productions"
-theme = "PaperMod"
-paginate = 10
+hasCJKLanguage = true
+
+[author]
+  name = "Rex (Chen Jun Rong)"
+
+[services]
+  # 留空 = 停用。要開 Disqus 或 GA 再填
+  [services.disqus]
+    shortname = ""
+  [services.googleAnalytics]
+    id = ""
+
+[pagination]
+  pagerSize = 10 # 首頁每頁文章數
+
+[outputs]
+home = ["HTML", "RSS"]   # 暫不開 Algolia，要的話加 "Algolia"
 
 [params]
-  env = "production"
-  description = "this is about rex. record about my everything. Coding, invest, life blablabla. Imagine One day can do anything I want if I want"
-  author = "Rex (Chen Jun Rong)"
-  defaultTheme = "auto"
-  ShowReadingTime = true
-  ShowShareButtons = false
-  ShowPostNavLinks = true
+  header_image = "images/home_bg.jpg"
+  SEOTitle = "RexChen Blog"
+  description = "Coding, investing, living — all of it, unfiltered. This is Rex's corner of the internet, written in pursuit of a life with no limits."
+  keyword = "Rex, RexChen, blog, coding, investing, life"
+  slogan = "Think. Do. Write it down."
+  upstreamAttribution = true
 
-[taxonomies]
-  category = "categories"
-  tag = "tags"
+  image_404 = "images/404-bg.jpg"
+  title_404 = "你來到了沒有知識的荒原 :("
+  omit_categories = false
 
-[[menu.main]]
-  name = "文章"
-  url = "/posts/"
-  weight = 1
+  # ── 流量計數（leancloud） ─────────────────────
+  page_view_counter = false
+  leancloud_app_id = ""
+  leancloud_app_key = ""
 
-[[menu.main]]
-  name = "標籤"
-  url = "/tags/"
-  weight = 2
+  # ── Algolia 站內搜尋（要用再去 algolia.com 申請） ─
+  algolia_search = false
+  algolia_appId = ""
+  algolia_indexName = ""
+  algolia_apiKey = ""
 
-[[menu.main]]
-  name = "關於"
-  url = "/about/"
-  weight = 3
+  # ── 側邊欄 ─────────────────────────────────
+  sidebar_about_description = "Coding, investing, living — written in pursuit of a life with no limits."
+  sidebar_avatar = "images/avatar.jpg"   # 用絕對路徑，首頁與 /about/ 都會吃這張
+
+  featured_tags = true
+  featured_condition_size = 1
+
+  # ── 百度統計 ────────────────────────────────
+  ba_track_id = ""
+
+  # ── 留言系統（三選一或全關）─────────────────
+  disqus_proxy = ""
+  disqus_site = ""
+  twikoo_env_id = ""
+  artalk_enable = false
+  artalk_server = ""
+  artalk_site = ""
+
+  # ── 打賞（微信支付/支付寶）─ 台灣用不到，先關
+  reward = false
+  # reward_guide = "如果這篇文章對你有用,請隨意打賞"
+
+  # ── 側邊欄區塊開關 ──────────────────────────
+  friends = false
+  bookmarks = false
+  about_me = true
+
+  # ── 最新文章 ───────────────────────────────
+  last_posts = true
+  #last_posts_title = "LAST POSTS"
+  #last_posts_count = 5
+
+  # ── 自訂 CSS / JS ──────────────────────────
+  #custom_css = ["css/main.css"]
+  #custom_js  = ["js/main.js"]
+
+  [params.social]
+  rss            = true 
+  email          = "youremail@gmail.com"
+  #facebook      = "full profile url in facebook"
+  #googleplus    = "full profile url in googleplus"
+  #twitter       = "full profile url in twitter"
+  linkedin       = "https://www.linkedin.com/in/rexchen315"
+  #stackoverflow  = "https://stackoverflow.com/users/yourstackoverflowid"
+  #instagram     = "https://instagram.com/could562073"
+  github         = "https://github.com/could562073"
+  #wechat         = "your wechat qr code image"
+  #medium        = "full profile url in medium"
+  #slack         = "full workspace url in slack"
+  #pinterest     = "full profile url in pinterest"
+  #reddit        = "full profile url in reddit"
+  #gitlab        = "full profile url in gitlab"
+  #mastodon      = "full profile url in mastodon"
+  #keybase       = "full profile url in keybase"
+  #xing          = "https://www.xing.com/profile/yourxingid"
+  #git           = "full profile url for git user"
+
+  # 朋友連結（friends = true 時才會顯示）
+  # [[params.friend_link]]
+  #   title = "朋友的部落格"
+  #   href  = "https://example.com"
+
+  # 書籤連結（bookmarks = true 時才會顯示）
+  # [[params.bookmark_link]]
+  #   title = "Martin Fowler"
+  #   href  = "https://martinfowler.com"
+
+  # 導覽列額外選單（會出現在右上方）
+  [[params.additional_menus]]
+    title = "ABOUT"
+    href  = "/about/"
+
+[markup]
+  [markup.tableOfContents]
+    endLevel = 2
+    startLevel = 1
+  [markup.highlight]
+    style = "dracula"
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+    [markup.goldmark.extensions]
+      [markup.goldmark.extensions.passthrough]
+        enable = true
+        [markup.goldmark.extensions.passthrough.delimiters]
+          block = [['\[', '\]'], ['$$', '$$']]
+          inline = [['\(', '\)']]
+
+[mediaTypes]
+  [mediaTypes.'font/woff']
+    suffixes = ['woff']
+  [mediaTypes.'font/woff2']
+    suffixes = ['woff2']

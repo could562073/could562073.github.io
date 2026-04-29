@@ -2,7 +2,7 @@
 title = "建置 Hugo Hello World"
 date = 2026-04-28
 draft = false
-tags = ["Hugo", "建置筆記"]
+tags = ["Hugo"]
 categories = ["筆記"]
 +++
 

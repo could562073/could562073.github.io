@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <script>
+    (function() {
+        
+        
+        const autoTheme = false;
+        if (autoTheme) {
+            document.documentElement.setAttribute('data-auto-theme', 'true');
+        }
+
+        const theme = localStorage.getItem('cleanwhite-theme') ||
+                      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+    })();
+    </script>
+
+    
+    <meta property="og:site_name" content="RexChen Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="http://localhost:1313//images/home_bg.jpg">
+    <meta property="twitter:image" content="http://localhost:1313//images/home_bg.jpg" />
+    
+
+    
+    <meta name="title" content="關於我" />
+    <meta property="og:title" content="關於我" />
+    <meta property="twitter:title" content="關於我" />
+    
+
+    
+    <meta name="description" content="Coding, investing, living — all of it, unfiltered. This is Rex&#39;s corner of the internet, written in pursuit of a life with no limits.">
+    <meta property="og:description" content="Coding, investing, living — all of it, unfiltered. This is Rex&#39;s corner of the internet, written in pursuit of a life with no limits." />
+    <meta property="twitter:description" content="Coding, investing, living — all of it, unfiltered. This is Rex&#39;s corner of the internet, written in pursuit of a life with no limits." />
+    
+
+    <meta property="og:url" content="http://localhost:1313/about/about/" />
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="Rex, RexChen, blog, coding, investing, life">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>關於我 | RexChen Blog</title>
+
+    <link rel="canonical" href="/about/about/">
+
+    
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.css">
+
+    
+    <link rel="stylesheet" href="/css/theme-variables.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.min.css">
+
+    
+    <link rel="stylesheet" href="/css/font-awesome.all.min.css">
+
+    
+    
+    
+    
+
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    <script src="/js/lazysizes.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">RexChen Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">All Posts</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/%E7%AD%86%E8%A8%98/">筆記</a>
+                        </li>
+                        
+                    
+
+		    
+                        <li><a href="/about//">關於</a></li>
+                    
+		            <li>
+                        <a href="/search"><i class="fa fa-search"></i></a>
+		           </li>
+                    
+		            <li>
+                        <a href="#" id="theme-toggle" title="Toggle dark mode" style="opacity: 0;">
+                            <i class="fa fa-moon"></i>
+                            <i class="fa fa-sun" style="display: none;"></i>
+                        </a>
+		           </li>
+                    <script>
+                    (function() {
+                        
+                        var theme = localStorage.getItem('cleanwhite-theme') ||
+                                      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                        var toggleBtn = document.getElementById('theme-toggle');
+                        if (toggleBtn) {
+                            var moonIcon = toggleBtn.querySelector('.fa-moon');
+                            var sunIcon = toggleBtn.querySelector('.fa-sun');
+
+                            if (theme === 'dark') {
+                                if (moonIcon) moonIcon.style.display = 'none';
+                                if (sunIcon) sunIcon.style.display = 'inline';
+                                toggleBtn.setAttribute('title', 'Switch to light mode');
+                            } else {
+                                if (moonIcon) moonIcon.style.display = 'inline';
+                                if (sunIcon) sunIcon.style.display = 'none';
+                                toggleBtn.setAttribute('title', 'Switch to dark mode');
+                            }
+
+                            
+                            requestAnimationFrame(function() {
+                                toggleBtn.style.transition = 'opacity 0.2s ease';
+                                toggleBtn.style.opacity = '1';
+                            });
+                        }
+                    })();
+                    </script>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        var navLinks = document.querySelectorAll('.navbar-collapse a');
+        navLinks.forEach(function(link) {
+            link.addEventListener('click', function() {
+                if ($navbar.className.indexOf('in') > 0) {
+                    
+                    $navbar.className = " ";
+                    setTimeout(function(){
+                        if($navbar.className.indexOf('in') < 0) {
+                            $collapse.style.height = "0px"
+                        }
+                    },400)
+                }
+            });
+        });
+    });
+</script>
+
+
+
+<header class="intro-header" style="background-image: url('/images/home_bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+                    <h1>RexChen Blog </h1>
+                    
+		    <span class="subheading">Think. Do. Write it down.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+            
+            <div class="
+            col-lg-8 col-lg-offset-1
+            col-md-8 col-md-offset-1
+            col-sm-12
+            col-xs-12
+            post-container">
+            
+                <h2 id="你好我是-rex">你好，我是 Rex</h2>
+<p>我是後端工程師 Rex，具備 5–8 人團隊管理與微服務系統開發經驗，參與過高流量系統的開發與維運。專注於高可用性與可擴展性設計，透過系統優化與程式重構，提升服務穩定性並降低維護成本。</p>
+<p>工作聯繫：<a href="mailto:could562073@gmail.com">could562073@gmail.com</a></p>
+<hr>
+<h2 id="工作經驗">工作經驗</h2>
+<p>目前累積約 5–6 年工作經驗。</p>
+<h3 id="後端工程師--組長凌發科技有限公司">後端工程師 ／ 組長　·　凌發科技有限公司</h3>
+<p><strong>2020 / 5 — 2025 / 6（5 年 2 個月）</strong>　·　台中市西屯區</p>
+<p><strong>核心職責</strong></p>
+<ul>
+<li>設計與開發平台級微服務架構（Spring Boot），負責 API 設計、效能優化與系統穩定性提升</li>
+<li>帶領 3–5 人後端團隊，負責任務分配、技術決策與開發流程優化</li>
+<li>跨部門協作（PM / QA / Frontend / Ops），確保專案如期交付</li>
+<li>建立技術文件與開發規範，提升團隊開發效率與知識共享</li>
+<li>協助其他部門開發需求或處理技術問題</li>
+</ul>
+<p><strong>主要成就</strong></p>
+<p><em>系統穩定性與日常問題改善</em></p>
+<ul>
+<li>接手日常問題頻繁的平台級系統（初期每週超過 50 起需人工介入的問題）</li>
+<li>建立以 ELK 為基礎的 log-based troubleshooting 流程，透過 request tracing 快速定位根因</li>
+<li>將 production issue 系統化分類（效能瓶頸、資料錯誤、流程設計缺陷等），針對高頻問題持續優化</li>
+<li>在持續支援新功能開發的情況下，<strong>兩年內將日常問題發生頻率降低超過 70%</strong>，顯著減少 on-call 壓力並提升系統穩定性</li>
+<li>重構既有微服務架構，修復關鍵效能瓶頸與錯誤流程，提升系統可維護性</li>
+</ul>
+<p><em>微服務開發</em></p>
+<ul>
+<li>主導用戶服務模組（註冊 / 登入 / 權限 / 後台管理）設計與開發</li>
+<li>規劃服務間 API 設計與資料流</li>
+</ul>
+<p><em>團隊與流程優化</em></p>
+<ul>
+<li>建立團隊開發流程與技術文件（40+ 篇）</li>
+<li>加速新人成長週期，提升團隊交付效率</li>
+</ul>
+<p><em>0 → 1 專案</em></p>
+<ul>
+<li><strong>QR Code 掃描點餐系統</strong>：負責 API 與資料庫設計及後端開發；建立 Docker + Nginx 前後端部署環境，提升部署效率</li>
+<li><strong>連鎖排班與營運系統</strong>：參與中大型營運系統重構，負責會員、出勤與即時排班輪調機制開發；設計自動派工邏輯並與 PM 協作落地複雜業務流程</li>
+</ul>
+<p><code>Java</code>　<code>Linux</code>　<code>系統架構規劃</code>　<code>資料庫設計</code></p>
+<hr>
+<h3 id="java-工程師台灣宸運雲端有限公司">Java 工程師　·　台灣宸運雲端有限公司</h3>
+<p><strong>2019 / 11 — 2020 / 5（7 個月）</strong>　·　台中市西屯區</p>
+<p><strong>主要工作</strong></p>
+<ul>
+<li>協助維護公司現有專案，並投入新技術／工具的研究與開發</li>
+<li>撰寫內部開發工具與技術文件，支援跨部門技術需求</li>
+</ul>
+<p><strong>主要成就</strong></p>
+<p><em>點餐系統 2.0</em></p>
+<ul>
+<li>參與後端新功能開發、重構、效能優化、測試與 API 文件撰寫</li>
+<li>重構功能列表邏輯、改善列表效能，響應時間從 <strong>10 s 優化至 0.2 ms</strong></li>
+<li>重寫 JPA 為 Native SQL，整體查詢速度提升 <strong>50% 以上</strong></li>
+</ul>
+<p><em>會議室預約管理系統</em></p>
+<ul>
+<li>依產品設計原型進行系統後端功能設計、開發、測試與技術文件撰寫</li>
+<li>負責主畫面列表、詳細、新刪修查會議之後端 API、DB 設計與 API 文件</li>
+<li>搭建 Docker 容器部署環境，實現快速部署與測試流程自動化</li>
+<li>設計 Email 會議通知模板（Thymeleaf）</li>
+</ul>
+<p><code>Java</code>　<code>Spring Framework</code>　<code>Linux</code>　<code>Git</code>　<code>MySQL</code></p>
+<hr>
+<h3 id="java-雲端服務開發技術養成班財團法人資訊工業策進會">Java 雲端服務開發技術養成班　·　財團法人資訊工業策進會</h3>
+<p><strong>2019 / 4 — 2019 / 9（6 個月）</strong>　·　桃園市中壢區</p>
+<ul>
+<li>學習 Java 核心、框架應用（Spring Boot）、前後端整合、資料庫管理（SQL／NoSQL）及雲端技術基礎（AWS／Docker）和 Android App 開發</li>
+<li>涵蓋系統開發、專案管理、軟體工程、敏捷開發等實務課程</li>
+<li>超過 <strong>800 小時</strong> 密集訓練（約 6 個月）含理論與實務專題</li>
+<li>最終專題：負責網頁端部分功能與 Android App 開發，包含 Web Form 表單、Google Map API 串接、Android 購物車、商品選單、結帳等；技術涵蓋 Spring MVC、JSP、AJAX、jQuery、Android SDK</li>
+</ul>
+<hr>
+<h2 id="技能">技能</h2>
+<p><strong>Backend</strong>　Java、Spring Framework、MyBatis、Maven、Git、RocketMQ、Redis、SQL Function</p>
+<p><strong>資料庫</strong>　PostgreSQL、MySQL（MariaDB）</p>
+<p><strong>作業系統</strong>　Windows、Linux</p>
+<p><strong>DevOps</strong>　Docker、Jenkins、Shell Script、Nginx</p>
+<p><strong>Frontend</strong>　HTML 5、JavaScript、CSS、Vue.js、jQuery</p>
+<hr>
+<h2 id="語言能力">語言能力</h2>
+<ul>
+<li><strong>中文</strong>　聽 / 說 / 讀 / 寫　精通</li>
+<li><strong>英文</strong>　聽 / 說 / 讀 / 寫　中等（IELTS 5）</li>
+<li><strong>台語</strong>　中等</li>
+</ul>
+
+            
+             
+            
+
+
+
+
+            
+            </div>
+            
+            
+
+<div class="
+    col-lg-3 col-lg-offset-0
+    col-md-3 col-md-offset-0
+    col-sm-12
+    col-xs-12
+    sidebar-container
+">
+    
+	
+    <section class="visible-md visible-lg">
+	
+        <div class="short-about">
+            
+            <a href="/about">
+               <img src="/images/avatar.jpg" alt="avatar" style="cursor: pointer" />
+            </a>
+            
+            
+                <p>Coding, investing, living — written in pursuit of a life with no limits.</p>
+            
+           
+           <ul class="list-inline">
+               
+               
+               
+               
+               
+               
+               
+               <li>
+                   <a target="_blank" href="https://github.com/could562073">
+                       <span class="fa-stack fa-lg">
+                           <i class="fas fa-circle fa-stack-2x"></i>
+                           <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                       </span>
+                   </a>
+               </li>
+               
+               
+               
+               
+               <li>
+                   <a target="_blank" href="https://www.linkedin.com/in/rexchen315">
+                       <span class="fa-stack fa-lg">
+                           <i class="fas fa-circle fa-stack-2x"></i>
+                           <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                       </span>
+                   </a>
+               </li>
+               
+               
+               
+            
+            
+               
+               
+               
+               <li>
+                   <a target="_blank" href="https://instagram.com/could562073">
+                       <span class="fa-stack fa-lg">
+                           <i class="fas fa-circle fa-stack-2x"></i>
+                           <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                       </span>
+                   </a>
+               </li>
+               
+               
+                </ul>
+            </div>
+    </section>
+	
+    
+    
+    
+    
+    <section>
+        <hr class="hidden-sm hidden-xs">
+        <h5>FEATURED TAGS</h5>
+        <div class="tags">
+            
+            
+               
+            
+               
+            
+        </div>
+    </section>
+    
+
+    
+    
+    
+    
+    <section>
+        <hr class="hidden-sm hidden-xs">
+        <h5>LAST POSTS</h5>
+        <ul>
+        
+            <li><a href="/post/2026-04-28-hugo-hello-world/">建置 Hugo Hello World</a></li>
+        
+        </ul>
+    </section>
+    
+</div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+                    
+                    
+                    
+
+		            
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/could562073">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/rexchen315">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            <li>
+                <a target="_blank" href="https://instagram.com/could562073">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+            
+            
+           
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="RexChen Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fas fa-circle fa-stack-2x"></i>
+                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+            
+             </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; RexChen Blog 2026
+                    
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    (function() {
+        function updateTagcloudColors() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const startColor = isDark ? '#808080' : '#bbbbee';
+            if($('#tag_cloud').length !== 0 && $.fn.tagcloud) {
+                $.fn.tagcloud.defaults = {
+                    color: {start: startColor, end: '#0085a1'},
+                };
+                $('#tag_cloud a').tagcloud();
+            }
+        }
+
+        
+        $(document).ready(function() {
+            updateTagcloudColors();
+        });
+
+        
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.attributeName === 'data-theme') {
+                    updateTagcloudColors();
+                }
+            });
+        });
+
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['data-theme']
+        });
+    })();
+</script>
+
+
+<script>
+    loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<script src="/js/theme-toggle.js"></script>
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow" title="' + t + '">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+
+
+</body>
+</html>

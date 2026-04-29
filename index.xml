@@ -1,14 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>RexC315 Productions</title><link>https://could562073.github.io/</link><description>Recent content on RexC315 Productions</description><generator>Hugo</generator><language>zh-tw</language><lastBuildDate>Tue, 28 Apr 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://could562073.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>第一篇文章</title><link>https://could562073.github.io/posts/my-first-post/</link><pubDate>Tue, 28 Apr 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/posts/my-first-post/</guid><description>&lt;p&gt;這是我的第一篇文章！&lt;/p&gt;
-&lt;h2 id="開始學習-hugo"&gt;開始學習 Hugo&lt;/h2&gt;
-&lt;p&gt;今天開始用 Hugo 建立個人網站&amp;hellip;&lt;/p&gt;</description></item><item><title>關於我</title><link>https://could562073.github.io/about/</link><pubDate>Tue, 28 Apr 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/about/</guid><description>&lt;h2 id="你好我是-rex-"&gt;你好！我是 Rex 👋&lt;/h2&gt;
-&lt;p&gt;這裡是我的個人網站，用來記錄我的學習與生活。&lt;/p&gt;
-&lt;h2 id="關於這個網站"&gt;關於這個網站&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;📝 學習筆記&lt;/li&gt;
-&lt;li&gt;📚 讀書心得&lt;/li&gt;
-&lt;li&gt;💡 想法記錄&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="聯絡我"&gt;聯絡我&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;GitHub：&lt;a href="https://github.com/could562073"&gt;could562073&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>RexChen Blog</title><link>https://could562073.github.io/</link><description>Recent content on RexChen Blog</description><generator>Hugo</generator><language>zh-tw</language><lastBuildDate>Tue, 28 Apr 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://could562073.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>建置 Hugo Hello World</title><link>https://could562073.github.io/post/2026-04-28-hugo-hello-world/</link><pubDate>Tue, 28 Apr 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-04-28-hugo-hello-world/</guid><description>&lt;p&gt;這是我用 Hugo 建立個人部落格的第一篇文章。&lt;/p&gt;
+&lt;h2 id="動機"&gt;動機&lt;/h2&gt;
+&lt;p&gt;一直想找個地方把學習筆記、工作心得跟想法寫下來。試過幾個平台之後，最後選了 Hugo —— 純靜態、版控好管、寫 Markdown 就能發文，正好符合我的習慣。&lt;/p&gt;</description></item><item><title>關於我</title><link>https://could562073.github.io/about/</link><pubDate>Tue, 28 Apr 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/about/</guid><description>&lt;h2 id="你好我是-rex"&gt;你好，我是 Rex&lt;/h2&gt;
+&lt;p&gt;我是後端工程師 Rex，具備 5–8 人團隊管理與微服務系統開發經驗，參與過高流量系統的開發與維運。專注於高可用性與可擴展性設計，透過系統優化與程式重構，提升服務穩定性並降低維護成本。&lt;/p&gt;</description></item></channel></rss>

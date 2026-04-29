@@ -1,0 +1,26 @@
+# Hugo 產生的檔案
+/public/
+/resources/_gen/
+/assets/jsconfig.json
+hugo_stats.json
+
+# OS 系統檔案
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node (如果之後用 npm)
+node_modules/
+package-lock.json
+
+# Log files
+*.log
+
+# 暫存檔
+.hugo_build.lock

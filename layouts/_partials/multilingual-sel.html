@@ -1,0 +1,35 @@
+<style>
+.sel-lang {
+  background: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  outline: none;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: inherit;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.sel-lang:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: white;
+}
+
+.sel-lang option {
+  background: #333;
+  color: white;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+</style>
+
+<!-- Language Selector -->
+<select class="sel-lang" onchange="onLanChange(this.options[this.options.selectedIndex].value)">
+  <option value="0" selected> 中文 | Chinese </option>
+  <option value="1"> 英文 | English </option>
+</select>

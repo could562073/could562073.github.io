@@ -1,11 +1,9 @@
 baseURL = "https://could562073.github.io/"
 title = "RexChen Blog"
 theme = "hugo-theme-cleanwhite"
-languageCode = "zh-tw"
+languageCode = "en-us"
+preserveTaxonomyNames = true
 hasCJKLanguage = true
-
-[author]
-  name = "Rex (Chen Jun Rong)"
 
 [services]
   # 留空 = 停用。要開 Disqus 或 GA 再填
@@ -37,8 +35,8 @@ home = ["HTML", "RSS"]   # 暫不開 Algolia，要的話加 "Algolia"
   leancloud_app_id = ""
   leancloud_app_key = ""
 
-  # ── Algolia 站內搜尋（要用再去 algolia.com 申請） ─
-  algolia_search = false
+  # algolia site search
+  algolia_search = true
   algolia_appId = ""
   algolia_indexName = ""
   algolia_apiKey = ""

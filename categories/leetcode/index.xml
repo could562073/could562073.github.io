@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>LeetCode on RexChen Blog</title><link>https://could562073.github.io/categories/leetcode/</link><description>Recent content in LeetCode on RexChen Blog</description><generator>Hugo</generator><language>zh-tw</language><lastBuildDate>Wed, 29 Apr 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://could562073.github.io/categories/leetcode/index.xml" rel="self" type="application/rss+xml"/><item><title>1768. Merge Strings Alternately</title><link>https://could562073.github.io/post/2026-04-29-1768.-merge-strings-alternately/</link><pubDate>Wed, 29 Apr 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-04-29-1768.-merge-strings-alternately/</guid><description>&lt;h3 id="主要用了什麼方法"&gt;主要用了什麼方法：&lt;/h3&gt;
+&lt;p&gt;For迴圈&lt;/p&gt;
+&lt;h3 id="用了多久"&gt;用了多久:&lt;/h3&gt;
+&lt;p&gt;將近兩個小時&lt;/p&gt;
+&lt;h3 id="卡在哪裡"&gt;卡在哪裡：&lt;/h3&gt;
+&lt;p&gt;因為用了for迴圈需要先定義長度，所以卡很久，剩餘元素一直處理不好，卡在兩個長度不一致時會有的情況，一直在想怎麼處理剩餘元素撈取的問題&lt;/p&gt;</description></item></channel></rss>

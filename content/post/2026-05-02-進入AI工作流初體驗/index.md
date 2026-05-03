@@ -6,7 +6,7 @@ tags = ["AI","NOTE"]
 categories = ["NOTE"]
 +++
 
-一個工程師進入AI agent工作流初體驗(一)
+AI Agent 時代來臨，軟體工程師面臨的挑戰越來越多
 ===
 
 

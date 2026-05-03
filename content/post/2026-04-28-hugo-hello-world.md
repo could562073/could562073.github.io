@@ -3,7 +3,7 @@ title = "建置 Hugo Hello World"
 date = 2026-04-28
 draft = false
 tags = ["Hugo"]
-categories = ["筆記"]
+categories = ["NOTE"]
 +++
 
 這是我用 Hugo 建立個人部落格的第一篇文章。

@@ -1,0 +1,592 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><script>(function(){const e=!1;e&&document.documentElement.setAttribute("data-auto-theme","true");const t=localStorage.getItem("cleanwhite-theme")||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.setAttribute("data-theme",t)})()</script><meta property="og:site_name" content="RexChen Blog"><meta property="og:type" content="article"><meta property="og:image" content="https://could562073.github.io//images/home_bg.jpg"><meta property="twitter:image" content="https://could562073.github.io//images/home_bg.jpg"><meta name=title content="Json Web Token(jwt)"><meta property="og:title" content="Json Web Token(jwt)"><meta property="twitter:title" content="Json Web Token(jwt)"><meta name=description content="Coding, investing, living — all of it, unfiltered. This is Rex's corner of the internet, written in pursuit of a life with no limits."><meta property="og:description" content="Coding, investing, living — all of it, unfiltered. This is Rex's corner of the internet, written in pursuit of a life with no limits."><meta property="twitter:description" content="Coding, investing, living — all of it, unfiltered. This is Rex's corner of the internet, written in pursuit of a life with no limits."><meta property="og:url" content="https://could562073.github.io/post/2020-04-01-json-web-tokenjwt/"><meta property="twitter:card" content="summary"><meta name=keyword content="Rex, RexChen, blog, coding, investing, life"><link rel="shortcut icon" href=/img/favicon.ico><title>Json Web Token(jwt) | RexChen Blog</title><link rel=canonical href=/post/2020-04-01-json-web-tokenjwt/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.css><link rel=stylesheet href=/css/theme-variables.css><link rel=stylesheet href=/css/zanshang.min.css><link rel=stylesheet href=/css/font-awesome.all.min.css><script src=/js/jquery.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/hux-blog.min.js></script><script src=/js/lazysizes.min.js></script></head><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+</button>
+<a class=navbar-brand href=/>RexChen Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/develop/>develop</a></li><li><a href=/categories/leetcode/>leetcode</a></li><li><a href=/categories/note/>note</a></li><li><a href=/categories/software/>software</a></li><li><a href=/about//>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li><li><a href=# id=theme-toggle title="Toggle dark mode" style=opacity:0><i class="fa fa-moon"></i>
+<i class="fa fa-sun" style=display:none></i></a></li><script>(function(){var t,n,s=localStorage.getItem("cleanwhite-theme")||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"),e=document.getElementById("theme-toggle");e&&(t=e.querySelector(".fa-moon"),n=e.querySelector(".fa-sun"),s==="dark"?(t&&(t.style.display="none"),n&&(n.style.display="inline"),e.setAttribute("title","Switch to light mode")):(t&&(t.style.display="inline"),n&&(n.style.display="none"),e.setAttribute("title","Switch to dark mode")),requestAnimationFrame(function(){e.style.transition="opacity 0.2s ease",e.style.opacity="1"}))})()</script></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}document.addEventListener("DOMContentLoaded",function(){var e=document.querySelectorAll(".navbar-collapse a");e.forEach(function(e){e.addEventListener("click",function(){$navbar.className.indexOf("in")>0&&($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400))})})})</script><header class=intro-header style=background-image:url(/images/home_bg.jpg)><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=site-heading><h1>RexChen Blog</h1><span class=subheading>Think. Do. Write it down.</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-1
+col-md-8 col-md-offset-1
+col-sm-12
+col-xs-12
+post-container"><h1 id=json-web-tokenjwt>Json Web Token(jwt)</h1><p>[TOC]</p><h6 id=tags-jwtjson-web-token>tags: <code>JWT</code>,<code>Json Web Token</code></h6><h2 id=what-is-jwt>What is Jwt?</h2><p>JWT 是基於 JSON 的開放標準 (RFC 7519)</p><p>一般被用來在 身份提供者 和 服務提供者 間傳遞被 認證 的用戶身份信息，以便於從資源伺服器獲取資源，同時也可以增加一些額外的聲明信息，該 token 也可直接被用於認證，也可被加密。</p><h3 id=1jwt的組成>1.Jwt的組成</h3><p>JWT 的組成內容有三個部分，由 <strong><font color=red>. (dots)</font></strong> 做區隔</p><ul><li><strong>Header</strong>
+用來指定加密方法，通常系統是預設<font color=red> HS256 </font>雜湊演算法來加密，官方也提供許多演算法加密也可以手動更改加密的演算法。</li><li><strong>payload</strong>
+它和 Session 一樣，可以把一些自定義的數據存儲在 Payload裡例如像是用戶資料。</li><li><strong>Signature</strong>
+做為檢查碼是為了預防前兩部分被中間人偽照修改或利用的機制。</li></ul><p>最後表示法就像這樣</p><blockquote><p><font color=blue>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</font><strong>.</strong><font color=green>eyJ1c2VyX25hbWUiOiJBbmR5MTAiLCJ1c2VyX21haWwiOiJhbmR5QGdtYWlsLmNvbSIsInVzZXJfcGFzc3dvcmQiOiJwYXNzd29yZDEwIiwiaWF0IjoxNTE1MTQwNDg0fQ</font><strong>.</strong><font color=red>P41UlFdYNIho2EA8T5k9iNK0EMC-Wn06RKk_0FFNjLo</font></p></blockquote><h3 id=2why-jwt>2.Why JWT?</h3><p>JSON 比 XML 普及，相較之下結構也簡單，支援多種程式語言
+可以儲存簡單但 非敏感 的商業邏輯訊息
+構成內容簡單，佔用 Size 小方便傳輸
+Stateless
+可以降低 Server 保存 Session 的 loading
+容易做到跨平台的應用擴展，如 SSO 應用</p><blockquote><p>延伸閱讀:
+<a href=https://studyhost.blogspot.com/2017/01/oauthsso.html>一次搞懂OAuth與SSO在幹什麼?</a></p></blockquote><h3 id=3優點>3.優點</h3><ul><li>跨語言，因為 json 格式大部分語言都可使用</li><li>可儲存一些簡單但非敏感的商業邏輯 - role ..</li><li>構成內容簡單，佔用 Size 小方便傳輸</li><li>不需在 server 保存 session，所以它易於應用的擴展</li></ul><h3 id=4安全相關-security>4.安全相關 Security</h3><ul><li>Base64 只是一種編碼方式，所以 JWT 不適合儲存敏感訊息。也就是說 JWT 的 Token 內容是可以被解析的。</li><li>用來加密的 Secret 要保存在 Server 不應外流。</li><li>請使用<font color=red> Https</font> 確保在授權的時候不會被竊聽。</li><li>建議開啟 Http only 防止 Token 被擷取，這也是常見的來 XSS 防護方法之一。</li></ul><h3 id=5常見問題>5.常見問題</h3><ul><li><p>JWT 安全嗎?
+Base64 編碼方式是可逆的，也就是透過編碼後發放的 Token 內容是可以被解析的。
+一般而言，我們都不建議在 Payload 內放敏感訊息，比如使用者的密碼。</p></li><li><p>JWT Payload 內容可以被偽造嗎？
+JWT 其中的一個組成內容為 Signature，可以防止藉由 Base64 可逆方法回推 payload 內容並將其修改。
+因為 Signature 是經由 Header 跟 Payload 一起 Base64 組成的。當然如果你的加密的金鑰 (secret) 流失， 便可經由第三方自行重置合法的 Token 導致失去驗證授權與否的效益。</p></li><li><p>如果我的 Cookie 被竊取了，那不就表示第三方可以做 CSRF 攻擊?
+是的，Cookie 掉了，就表示身份就可以被偽造。故官方建議的使用方式是存放在 LocalStorage 中，並使用 Header 送出。</p></li></ul><h3 id=6jwt的工作流程>6.JWT的工作流程</h3><p>下面是一個JWT的工作流程圖。
+<img src=https://i.imgur.com/TdxKylr.jpg alt></p><h4 id=模擬一下實際的流程是這樣的假設受保護的api在protected中>模擬一下實際的流程是這樣的&mldr;（假設受保護的API在/protected中）</h4><ol><li>使用者導引到登錄頁面，輸入使用者名稱、密碼，進行登錄</li><li>伺服器驗證登錄資訊，如果通過，根據使用者資訊和伺服器的規則產生一組JWT Token</li><li>伺服器將該token以json形式回傳（不一定要json形式，這裡說的是一種常見的做法）</li><li>使用者得到token，存在localStorage、cookie或其它資料儲存形式之中。</li><li>以後用戶請求/protected中的API時，在請求的header中加入Authorization: Bearer xxxx(token)。<font color=red>(此處注意token之前有一個"7"字符長度的 &ldquo;Bearer &ldquo;)</font></li><li>服務器端對此token進行檢驗，如果合法就解析其中內容，根據其擁有的權限和自己的業務邏輯給出對應的響應結果。</li><li>用戶取得回傳結果。</li></ol><h2 id=使用spring-boot--security--jpa--jwt--mysql-hello-world實作範例>使用Spring Boot + Security + JPA + JWT + MySQL Hello World實作範例</h2><blockquote><p>Project structure
+IDE: IntelliJ
+Java version: 8
+Framework: SpringBoot 2.5.5 Release
+DB: MySql
+Build Tools: Maven</p></blockquote><h3 id=專案結構>專案結構</h3><p><img src=https://i.imgur.com/w13cmpc.jpg alt></p><h3 id=step-1-建立hello-world-maven專案>Step 1: 建立Hello world Maven專案</h3><h4 id=pomxml>Pom.xml</h4><p>引入必要的dependencies</p><ul><li>SpringBootStarterWeb</li><li>Security</li><li>JPA</li><li>Jwt</li><li>MySqlconnector</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#ff79c6>&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>&lt;project</span> <span style=color:#50fa7b>xmlns=</span><span style=color:#f1fa8c>&#34;http://maven.apache.org/POM/4.0.0&#34;</span>
+</span></span><span style=display:flex><span>         <span style=color:#50fa7b>xmlns:xsi=</span><span style=color:#f1fa8c>&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+</span></span><span style=display:flex><span>         <span style=color:#50fa7b>xsi:schemaLocation=</span><span style=color:#f1fa8c>&#34;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&#34;</span><span style=color:#ff79c6>&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&lt;modelVersion&gt;</span>4.0.0<span style=color:#ff79c6>&lt;/modelVersion&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&lt;groupId&gt;</span>org.example<span style=color:#ff79c6>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&lt;artifactId&gt;</span>jwt<span style=color:#ff79c6>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&lt;version&gt;</span>1.0-SNAPSHOT<span style=color:#ff79c6>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&lt;parent&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;groupId&gt;</span>org.springframework.boot<span style=color:#ff79c6>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;artifactId&gt;</span>spring-boot-starter-parent<span style=color:#ff79c6>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;version&gt;</span>2.2.5.RELEASE<span style=color:#ff79c6>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;relativePath/&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&lt;/parent&gt;</span> <span style=color:#6272a4>&lt;!-- lookup parent from repository --&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&lt;properties&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;project.build.sourceEncoding&gt;</span>UTF-8<span style=color:#ff79c6>&lt;/project.build.sourceEncoding&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;project.reporting.outputEncoding&gt;</span>UTF-8<span style=color:#ff79c6>&lt;/project.reporting.outputEncoding&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;java.version&gt;</span>1.8<span style=color:#ff79c6>&lt;/java.version&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&lt;/properties&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&lt;dependencies&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;dependency&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>&lt;groupId&gt;</span>org.springframework.boot<span style=color:#ff79c6>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>&lt;artifactId&gt;</span>spring-boot-starter-web<span style=color:#ff79c6>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;/dependency&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;dependency&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>&lt;groupId&gt;</span>org.springframework.boot<span style=color:#ff79c6>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>&lt;artifactId&gt;</span>spring-boot-starter-security<span style=color:#ff79c6>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;/dependency&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;dependency&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>&lt;groupId&gt;</span>org.springframework.boot<span style=color:#ff79c6>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>&lt;artifactId&gt;</span>spring-boot-starter-data-jpa<span style=color:#ff79c6>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;/dependency&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;dependency&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>&lt;groupId&gt;</span>io.jsonwebtoken<span style=color:#ff79c6>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>&lt;artifactId&gt;</span>jjwt<span style=color:#ff79c6>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>&lt;version&gt;</span>0.9.1<span style=color:#ff79c6>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;/dependency&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;dependency&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>&lt;groupId&gt;</span>mysql<span style=color:#ff79c6>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>&lt;artifactId&gt;</span>mysql-connector-java<span style=color:#ff79c6>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;/dependency&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&lt;/dependencies&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&lt;build&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;plugins&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>&lt;plugin&gt;</span>
+</span></span><span style=display:flex><span>                <span style=color:#ff79c6>&lt;groupId&gt;</span>org.springframework.boot<span style=color:#ff79c6>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>                <span style=color:#ff79c6>&lt;artifactId&gt;</span>spring-boot-maven-plugin<span style=color:#ff79c6>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>&lt;/plugin&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;/plugins&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&lt;/build&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>&lt;/project&gt;</span>
+</span></span></code></pre></div><h4 id=applicationpropreties>application.propreties</h4><ul><li>DB資訊</li><li>jpa自動生成Schema</li><li>jwt Secret Key</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-yml data-lang=yml><span style=display:flex><span><span style=color:#6272a4># URL-encode %2B = + </span>
+</span></span><span style=display:flex><span>spring.datasource.url=jdbc:mysql://localhost:3306/DBName?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=GMT%2B8
+</span></span><span style=display:flex><span>spring.datasource.username=root
+</span></span><span style=display:flex><span>spring.datasource.password=
+</span></span><span style=display:flex><span>spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
+</span></span><span style=display:flex><span>spring.jpa.hibernate.ddl-auto=update
+</span></span><span style=display:flex><span>spring.jpa.show-sql=true
+</span></span><span style=display:flex><span>spring.jpa.properties.hibernate.jdbc.time_zone=GMT+08:00
+</span></span><span style=display:flex><span>spring.jpa.hibernate.use-new-id-generator-mappings=true
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>spring.security.user.name=admin
+</span></span><span style=display:flex><span>spring.security.user.password=123456
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>jwt.secret=javainuse
+</span></span></code></pre></div><h3 id=step1-建立一個簡單的hello-world專案>Step1: 建立一個簡單的Hello World專案</h3><h4 id=testcontroller>TestController</h4><p>建一隻Controller以便後續測試取得合法Jwt Token後呼叫Rest GET API是否可成功收到Hello World!(此範例就不再示範Service層實作)</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#ff79c6>package</span> com.rex.demo.controller;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> com.rex.demo.service.ITestService;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.beans.factory.annotation.Autowired;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.web.bind.annotation.GetMapping;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.web.bind.annotation.RequestMapping;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.web.bind.annotation.RestController;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>@RestController
+</span></span><span style=display:flex><span>@RequestMapping(<span style=color:#f1fa8c>&#34;api/test&#34;</span>)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>TestController</span> {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @Autowired
+</span></span><span style=display:flex><span>    ITestService iTestService;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @GetMapping(value <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;get&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> String <span style=color:#50fa7b>get</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> iTestService.<span style=color:#50fa7b>call</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h4 id=userentity>UserEntity</h4><p>建置Entity與DB映射</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#ff79c6>package</span> com.rex.demo.entity;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> com.fasterxml.jackson.annotation.JsonIgnore;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> javax.persistence.*;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>@Entity
+</span></span><span style=display:flex><span>@Table(name <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;user&#34;</span>)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>UserEntity</span> {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @Id
+</span></span><span style=display:flex><span>    @GeneratedValue(strategy <span style=color:#ff79c6>=</span> GenerationType.<span style=color:#50fa7b>IDENTITY</span>)
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>private</span> <span style=color:#8be9fd>int</span> id;
+</span></span><span style=display:flex><span>    @Column
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>private</span> String username;
+</span></span><span style=display:flex><span>    @Column
+</span></span><span style=display:flex><span>    @JsonIgnore
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>private</span> String password;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd>int</span> <span style=color:#50fa7b>getId</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> id;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd>void</span> <span style=color:#50fa7b>setId</span>(<span style=color:#8be9fd>int</span> id) {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>this</span>.<span style=color:#50fa7b>id</span> <span style=color:#ff79c6>=</span> id;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> String <span style=color:#50fa7b>getUsername</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> username;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd>void</span> <span style=color:#50fa7b>setUsername</span>(String username) {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>this</span>.<span style=color:#50fa7b>username</span> <span style=color:#ff79c6>=</span> username;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> String <span style=color:#50fa7b>getPassword</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> password;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd>void</span> <span style=color:#50fa7b>setPassword</span>(String password) {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>this</span>.<span style=color:#50fa7b>password</span> <span style=color:#ff79c6>=</span> password;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h4 id=userrequest>UserRequest</h4><p>傳入使用Model</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#ff79c6>package</span> com.rex.demo.model.request;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>UserRequest</span> {
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>private</span> String username;
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>private</span> String password;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> String <span style=color:#50fa7b>getUsername</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> username;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd>void</span> <span style=color:#50fa7b>setUsername</span>(String username) {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>this</span>.<span style=color:#50fa7b>username</span> <span style=color:#ff79c6>=</span> username;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> String <span style=color:#50fa7b>getPassword</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> password;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd>void</span> <span style=color:#50fa7b>setPassword</span>(String password) {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>this</span>.<span style=color:#50fa7b>password</span> <span style=color:#ff79c6>=</span> password;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=step2-配置-springsecurity-和-jwt>Step2: 配置 SpringSecurity 和 JWT</h3><p>這裡設定繁多，所以使用程式碼內註解來說明簡短篇幅</p><h4 id=jwttokenutil>JwtTokenUtil</h4><p>為Jwt建置一個工具類別,這個工具類別則是用來進行Jwt事務像是創建或是驗證Token
+詳細解說在Code裡面說明</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#ff79c6>package</span> com.rex.demo.utils;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> io.jsonwebtoken.Claims;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> io.jsonwebtoken.Jwts;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> io.jsonwebtoken.SignatureAlgorithm;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.beans.factory.annotation.Value;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.security.core.userdetails.UserDetails;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.stereotype.Component;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> java.io.Serializable;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> java.util.Date;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> java.util.HashMap;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> java.util.Map;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> java.util.function.Function;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>@Component
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>JwtTokenUtil</span> <span style=color:#8be9fd;font-style:italic>implements</span> Serializable {
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>private</span> <span style=color:#8be9fd;font-style:italic>static</span> <span style=color:#8be9fd;font-style:italic>final</span> <span style=color:#8be9fd>long</span> serialVersionUID <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>-</span>2550185165626007488L;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>static</span> <span style=color:#8be9fd;font-style:italic>final</span> <span style=color:#8be9fd>long</span> JWT_TOKEN_VALIDITY <span style=color:#ff79c6>=</span> 5 <span style=color:#ff79c6>*</span> 60 <span style=color:#ff79c6>*</span> 60;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @Value(<span style=color:#f1fa8c>&#34;${jwt.secret}&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>private</span> String secret;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>//從Token取得使用者</span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> String <span style=color:#50fa7b>getUsernameFromToken</span>(String token) {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> getClaimFromToken(token, Claims::getSubject);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>//從Token取得截止日期</span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> Date <span style=color:#50fa7b>getExpirationDateFromToken</span>(String token) {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> getClaimFromToken(token, Claims::getExpiration);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>//取得Token聲明</span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#ff79c6>&lt;</span>T<span style=color:#ff79c6>&gt;</span> T <span style=color:#50fa7b>getClaimFromToken</span>(String token, Function<span style=color:#ff79c6>&lt;</span>Claims, T<span style=color:#ff79c6>&gt;</span> claimsResolver) {
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>final</span> Claims claims <span style=color:#ff79c6>=</span> getAllClaimsFromToken(token);
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> claimsResolver.<span style=color:#50fa7b>apply</span>(claims);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>//使用Secret Key取得Token裡的所有資訊</span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>private</span> Claims <span style=color:#50fa7b>getAllClaimsFromToken</span>(String token) {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> Jwts.<span style=color:#50fa7b>parser</span>().<span style=color:#50fa7b>setSigningKey</span>(secret).<span style=color:#50fa7b>parseClaimsJws</span>(token).<span style=color:#50fa7b>getBody</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>//使用者 Token</span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> String <span style=color:#50fa7b>generateToken</span>(UserDetails userDetails) {
+</span></span><span style=display:flex><span>        Map<span style=color:#ff79c6>&lt;</span>String, Object<span style=color:#ff79c6>&gt;</span> claims <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> HashMap<span style=color:#ff79c6>&lt;&gt;</span>();
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> doGenerateToken(claims, userDetails.<span style=color:#50fa7b>getUsername</span>());
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>//創建Token三部曲:</span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>//1. 定義Token聲明(發行者, 截止日期, 用途 和 Id)</span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>//2. 使用 HS512 算法和Secret Key對Jwt簽署.</span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>//3. 根據JWS Compat序列化將JWT與URL-safe結合成一個字串</span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>private</span> String <span style=color:#50fa7b>doGenerateToken</span>(Map<span style=color:#ff79c6>&lt;</span>String, Object<span style=color:#ff79c6>&gt;</span> claims, String subject) {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> Jwts.<span style=color:#50fa7b>builder</span>().<span style=color:#50fa7b>setClaims</span>(claims).<span style=color:#50fa7b>setSubject</span>(subject).<span style=color:#50fa7b>setIssuedAt</span>(<span style=color:#ff79c6>new</span> Date(System.<span style=color:#50fa7b>currentTimeMillis</span>()))
+</span></span><span style=display:flex><span>                .<span style=color:#50fa7b>setExpiration</span>(<span style=color:#ff79c6>new</span> Date(System.<span style=color:#50fa7b>currentTimeMillis</span>() <span style=color:#ff79c6>+</span> JWT_TOKEN_VALIDITY <span style=color:#ff79c6>*</span> 1000))
+</span></span><span style=display:flex><span>                .<span style=color:#50fa7b>signWith</span>(SignatureAlgorithm.<span style=color:#50fa7b>HS512</span>, secret).<span style=color:#50fa7b>compact</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>//驗證Token是否過期</span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>private</span> Boolean <span style=color:#50fa7b>isTokenExpired</span>(String token) {
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>final</span> Date expiration <span style=color:#ff79c6>=</span> getExpirationDateFromToken(token);
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> expiration.<span style=color:#50fa7b>before</span>(<span style=color:#ff79c6>new</span> Date());
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>//Token 驗證使用者名稱與密碼是否正確和Token是否過期</span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> Boolean <span style=color:#50fa7b>validateToken</span>(String token, UserDetails userDetails) {
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>final</span> String username <span style=color:#ff79c6>=</span> getUsernameFromToken(token);
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> (username.<span style=color:#50fa7b>equals</span>(userDetails.<span style=color:#50fa7b>getUsername</span>()) <span style=color:#ff79c6>&amp;&amp;</span> <span style=color:#ff79c6>!</span>isTokenExpired(token));
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h4 id=jwtuserdetailsservice>JWTUserDetailsService</h4><p>此類別將實作Spring Security UserDetailService Interface</p><ul><li>覆寫loadUserByUsername ,Spring Security Authentication Manager 呼叫這支方法來取得DB內的使用者資訊</li><li>新增一隻方法save做新增使用者資訊,密碼則用bcrypt作加密</li></ul><pre tabindex=0><code class="language-java=" data-lang="java=">package com.rex.demo.config;
+
+import com.rex.demo.entity.UserEntity;
+import com.rex.demo.model.request.UserRequest;
+import com.rex.demo.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+
+
+@Service
+public class JwtUserDetailsService implements UserDetailsService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder bcryptEncoder;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserEntity userEntity = userRepository.findByUsername(username);
+        if (userEntity == null){
+            throw new UsernameNotFoundException(&#34;User not found with username: &#34; + username);
+        }
+        //注意!! 這裡使用的建構子是Security的userdetails.User 並非自己建置的User
+        //參數 使用者名稱 , 密碼 , 權限(這裡不指定權限所以塞空List)
+        //org.springframework.security.core.userdetails.User(String username, String password, Collection&lt;? extends GrantedAuthority&gt; authorities)
+        return new User(userEntity.getUsername(),userEntity.getPassword(),new ArrayList&lt;&gt;());
+    }
+
+    public UserEntity save(UserRequest userRequest){
+        UserEntity newUser = new UserEntity();
+        newUser.setUsername(userRequest.getUsername());
+        newUser.setPassword(bcryptEncoder.encode(userRequest.getPassword()));
+        return userRepository.save(newUser);
+    }
+}
+</code></pre><h4 id=jwtauthenticationcontroller>JwtAuthenticationController</h4><p>新增一隻POST API /authentication 來取得request 的username 和 password,Spring Authentication Manager會對其進行驗證,如果驗證成功,就會使用JwtTokenUtil來創造一組JwtToken並回傳</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#ff79c6>package</span> com.rex.demo.controller;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> com.rex.demo.utils.JwtTokenUtil;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> com.rex.demo.config.JwtUserDetailsService;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> com.rex.demo.model.request.JwtRequest;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> com.rex.demo.model.request.UserRequest;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> com.rex.demo.model.response.JwtResponse;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.beans.factory.annotation.Autowired;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.http.ResponseEntity;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.security.authentication.AuthenticationManager;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.security.authentication.BadCredentialsException;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.security.authentication.DisabledException;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.security.core.userdetails.UserDetails;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.web.bind.annotation.*;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>@RestController
+</span></span><span style=display:flex><span>@CrossOrigin
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>JwtAuthenticationController</span> {
+</span></span><span style=display:flex><span>    @Autowired
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>private</span> AuthenticationManager authenticationManager;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @Autowired
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>private</span> JwtTokenUtil jwtTokenUtil;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @Autowired
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>private</span> JwtUserDetailsService jwtUserDetailsService;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @PostMapping(value <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;/authenticate&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> ResponseEntity<span style=color:#ff79c6>&lt;?&gt;</span> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) <span style=color:#8be9fd;font-style:italic>throws</span> Exception {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        authenticate(authenticationRequest.<span style=color:#50fa7b>getUsername</span>(), authenticationRequest.<span style=color:#50fa7b>getPassword</span>());
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>final</span> UserDetails userDetails <span style=color:#ff79c6>=</span> jwtUserDetailsService.<span style=color:#50fa7b>loadUserByUsername</span>(authenticationRequest.<span style=color:#50fa7b>getUsername</span>());
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>final</span> String token <span style=color:#ff79c6>=</span> jwtTokenUtil.<span style=color:#50fa7b>generateToken</span>(userDetails);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> ResponseEntity.<span style=color:#50fa7b>ok</span>(<span style=color:#ff79c6>new</span> JwtResponse(token));
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @RequestMapping(value <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;/register&#34;</span>,method <span style=color:#ff79c6>=</span> RequestMethod.<span style=color:#50fa7b>POST</span>)
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> ResponseEntity<span style=color:#ff79c6>&lt;?&gt;</span> saveUser(@RequestBody UserRequest userRequest) <span style=color:#8be9fd;font-style:italic>throws</span> Exception{
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> ResponseEntity.<span style=color:#50fa7b>ok</span>(jwtUserDetailsService.<span style=color:#50fa7b>save</span>(userRequest));
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>private</span> <span style=color:#8be9fd>void</span> <span style=color:#50fa7b>authenticate</span>(String username, String password) <span style=color:#8be9fd;font-style:italic>throws</span> Exception {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>try</span> {
+</span></span><span style=display:flex><span>            authenticationManager.<span style=color:#50fa7b>authenticate</span>(<span style=color:#ff79c6>new</span> UsernamePasswordAuthenticationToken(username, password));
+</span></span><span style=display:flex><span>        } <span style=color:#ff79c6>catch</span> (DisabledException e) {
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>throw</span> <span style=color:#ff79c6>new</span> Exception(<span style=color:#f1fa8c>&#34;USER_DISABLED&#34;</span>, e);
+</span></span><span style=display:flex><span>        } <span style=color:#ff79c6>catch</span> (BadCredentialsException e) {
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>throw</span> <span style=color:#ff79c6>new</span> Exception(<span style=color:#f1fa8c>&#34;INVALID_CREDENTIALS&#34;</span>, e);
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h4 id=jwtrequest>JwtRequest</h4><p>Request Model</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#ff79c6>package</span> com.rex.demo.model.request;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> java.io.Serializable;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>JwtRequest</span> <span style=color:#8be9fd;font-style:italic>implements</span> Serializable {
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>private</span> <span style=color:#8be9fd;font-style:italic>static</span> <span style=color:#8be9fd;font-style:italic>final</span> <span style=color:#8be9fd>long</span> serialVersionUID <span style=color:#ff79c6>=</span> 5926468583005150707L;
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>private</span> String username;
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>private</span> String password;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>//need default constructor for JSON Parsing</span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#50fa7b>JwtRequest</span>() {
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#50fa7b>JwtRequest</span>(String username, String password) {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>this</span>.<span style=color:#50fa7b>setUsername</span>(username);
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>this</span>.<span style=color:#50fa7b>setPassword</span>(password);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> String <span style=color:#50fa7b>getUsername</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>this</span>.<span style=color:#50fa7b>username</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd>void</span> <span style=color:#50fa7b>setUsername</span>(String username) {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>this</span>.<span style=color:#50fa7b>username</span> <span style=color:#ff79c6>=</span> username;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> String <span style=color:#50fa7b>getPassword</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>this</span>.<span style=color:#50fa7b>password</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd>void</span> <span style=color:#50fa7b>setPassword</span>(String password) {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>this</span>.<span style=color:#50fa7b>password</span> <span style=color:#ff79c6>=</span> password;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h4 id=jwtresponse>JwtResponse</h4><p>Response Model</p><pre tabindex=0><code class="language-java=" data-lang="java=">package com.rex.demo.model.response;
+
+import java.io.Serializable;
+
+public class JwtResponse implements Serializable {
+    private static final long serialVersionUID = -8091879091924046844L;
+    private final String jwttoken;
+
+    public JwtResponse(String jwttoken) {
+        this.jwttoken = jwttoken;
+    }
+
+    public String getToken() {
+        return this.jwttoken;
+    }
+}
+</code></pre><h4 id=jwtrequestfilter>JwtRequestFilter</h4><p>建立一支Filter提供Jwt進行身分驗證,此類別繼承OncePerRequestFilter,確認Request是否擁有合法Token,如果有的話則設定Authentication 到Context裡面,這樣才會通過Spring Security的驗證程序</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#ff79c6>package</span> com.rex.demo.config;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> com.rex.demo.utils.JwtTokenUtil;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> io.jsonwebtoken.ExpiredJwtException;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.beans.factory.annotation.Autowired;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.security.core.context.SecurityContextHolder;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.security.core.userdetails.UserDetails;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.stereotype.Component;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.web.filter.OncePerRequestFilter;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> javax.servlet.FilterChain;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> javax.servlet.ServletException;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> javax.servlet.http.HttpServletRequest;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> javax.servlet.http.HttpServletResponse;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> java.io.IOException;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>@Component
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>JwtRequestFilter</span> <span style=color:#8be9fd;font-style:italic>extends</span> OncePerRequestFilter {
+</span></span><span style=display:flex><span>    @Autowired
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>private</span> JwtUserDetailsService jwtUserDetailsService;
+</span></span><span style=display:flex><span>    @Autowired
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>private</span> JwtTokenUtil jwtTokenUtil;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @Override
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>protected</span> <span style=color:#8be9fd>void</span> <span style=color:#50fa7b>doFilterInternal</span>(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+</span></span><span style=display:flex><span>            <span style=color:#8be9fd;font-style:italic>throws</span> ServletException, IOException {
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>final</span> String requestTokenHeader <span style=color:#ff79c6>=</span> request.<span style=color:#50fa7b>getHeader</span>(<span style=color:#f1fa8c>&#34;Authorization&#34;</span>);
+</span></span><span style=display:flex><span>        String username <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span>        String jwtToken <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span>        <span style=color:#6272a4>// 把&#34;Bearer &#34;去除只拿Token部分</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span> (requestTokenHeader <span style=color:#ff79c6>!=</span> <span style=color:#ff79c6>null</span> <span style=color:#ff79c6>&amp;&amp;</span> requestTokenHeader.<span style=color:#50fa7b>startsWith</span>(<span style=color:#f1fa8c>&#34;Bearer &#34;</span>)) {
+</span></span><span style=display:flex><span>            jwtToken <span style=color:#ff79c6>=</span> requestTokenHeader.<span style=color:#50fa7b>substring</span>(7);
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>try</span> {
+</span></span><span style=display:flex><span>                username <span style=color:#ff79c6>=</span> jwtTokenUtil.<span style=color:#50fa7b>getUsernameFromToken</span>(jwtToken);
+</span></span><span style=display:flex><span>            } <span style=color:#ff79c6>catch</span> (IllegalArgumentException e) {
+</span></span><span style=display:flex><span>                System.<span style=color:#50fa7b>out</span>.<span style=color:#50fa7b>println</span>(<span style=color:#f1fa8c>&#34;Unable to get JWT Token&#34;</span>);
+</span></span><span style=display:flex><span>            } <span style=color:#ff79c6>catch</span> (ExpiredJwtException e) {
+</span></span><span style=display:flex><span>                System.<span style=color:#50fa7b>out</span>.<span style=color:#50fa7b>println</span>(<span style=color:#f1fa8c>&#34;JWT Token has expired&#34;</span>);
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>        } <span style=color:#ff79c6>else</span> {
+</span></span><span style=display:flex><span>            logger.<span style=color:#50fa7b>warn</span>(<span style=color:#f1fa8c>&#34;JWT Token does not begin with Bearer String&#34;</span>);
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        <span style=color:#6272a4>// 拿到Token即對其進行驗證</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span> (username <span style=color:#ff79c6>!=</span> <span style=color:#ff79c6>null</span> <span style=color:#ff79c6>&amp;&amp;</span> SecurityContextHolder.<span style=color:#50fa7b>getContext</span>().<span style=color:#50fa7b>getAuthentication</span>() <span style=color:#ff79c6>==</span> <span style=color:#ff79c6>null</span>) {
+</span></span><span style=display:flex><span>            UserDetails userDetails <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>this</span>.<span style=color:#50fa7b>jwtUserDetailsService</span>.<span style=color:#50fa7b>loadUserByUsername</span>(username);
+</span></span><span style=display:flex><span>            <span style=color:#6272a4>// 如果當前Token是一個有效Token,則進行手動設置一個Spring Security authentication </span>
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>if</span> (jwtTokenUtil.<span style=color:#50fa7b>validateToken</span>(jwtToken, userDetails)) {
+</span></span><span style=display:flex><span>                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> UsernamePasswordAuthenticationToken(
+</span></span><span style=display:flex><span>                        userDetails, <span style=color:#ff79c6>null</span>, userDetails.<span style=color:#50fa7b>getAuthorities</span>());
+</span></span><span style=display:flex><span>                usernamePasswordAuthenticationToken
+</span></span><span style=display:flex><span>                        .<span style=color:#50fa7b>setDetails</span>(<span style=color:#ff79c6>new</span> WebAuthenticationDetailsSource().<span style=color:#50fa7b>buildDetails</span>(request));
+</span></span><span style=display:flex><span>                <span style=color:#6272a4>// 在我們設定一個Authentication到Context確保當前使用者是已驗證狀態,這樣才會通過Spring Security的驗證程序</span>
+</span></span><span style=display:flex><span>                SecurityContextHolder.<span style=color:#50fa7b>getContext</span>().<span style=color:#50fa7b>setAuthentication</span>(usernamePasswordAuthenticationToken);
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        chain.<span style=color:#50fa7b>doFilter</span>(request, response);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>JwtAuthenticationEntryPoint
+此類別繼承 AuthenticationEntryPoint，覆寫commence。任何未授權的Request都會回傳erroe code 401</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#ff79c6>package</span> com.rex.demo.config;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.security.core.AuthenticationException;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.security.web.AuthenticationEntryPoint;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.stereotype.Component;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> javax.servlet.ServletException;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> javax.servlet.http.HttpServletRequest;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> javax.servlet.http.HttpServletResponse;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> java.io.IOException;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> java.io.Serializable;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>@Component
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>JwtAuthenticationEntryPoint</span> <span style=color:#8be9fd;font-style:italic>implements</span> AuthenticationEntryPoint, Serializable {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>private</span> <span style=color:#8be9fd;font-style:italic>static</span> <span style=color:#8be9fd;font-style:italic>final</span> <span style=color:#8be9fd>long</span> serialVersionUID <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>-</span>7858869558953243875L;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @Override
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd>void</span> <span style=color:#50fa7b>commence</span>(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) <span style=color:#8be9fd;font-style:italic>throws</span> IOException, ServletException {
+</span></span><span style=display:flex><span>        httpServletResponse.<span style=color:#50fa7b>sendError</span>(HttpServletResponse.<span style=color:#50fa7b>SC_UNAUTHORIZED</span>,<span style=color:#f1fa8c>&#34;Unauthorized&#34;</span>);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>WebSecurityConfig</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#ff79c6>package</span> com.rex.demo.config;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.beans.factory.annotation.Autowired;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.context.annotation.Bean;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.context.annotation.Configuration;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.core.annotation.Order;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.security.authentication.AuthenticationManager;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.security.config.annotation.web.builders.HttpSecurity;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.security.config.http.SessionCreationPolicy;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.security.crypto.password.PasswordEncoder;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>@Configuration
+</span></span><span style=display:flex><span>@EnableWebSecurity
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>WebSecurityConfig</span> {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @Order(1)
+</span></span><span style=display:flex><span>    @Configuration
+</span></span><span style=display:flex><span>    @EnableGlobalMethodSecurity(prePostEnabled <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>, securedEnabled <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>, jsr250Enabled <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>)
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>static</span> <span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>ApiConfig</span> <span style=color:#8be9fd;font-style:italic>extends</span> WebSecurityConfigurerAdapter {
+</span></span><span style=display:flex><span>        @Autowired
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>private</span> JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        @Autowired
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>private</span> JwtUserDetailsService jwtUserDetailsService;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        @Autowired
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>private</span> JwtRequestFilter jwtRequestFilter;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        @Autowired
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd>void</span> <span style=color:#50fa7b>configureGlobal</span>(AuthenticationManagerBuilder auth) <span style=color:#8be9fd;font-style:italic>throws</span> Exception {
+</span></span><span style=display:flex><span>            <span style=color:#6272a4>// 配置 AuthenticationManager so that it knows from where to load</span>
+</span></span><span style=display:flex><span>            <span style=color:#6272a4>// user for matching credentials</span>
+</span></span><span style=display:flex><span>            <span style=color:#6272a4>// Use BCryptPasswordEncoder</span>
+</span></span><span style=display:flex><span>            auth.<span style=color:#50fa7b>userDetailsService</span>(jwtUserDetailsService).<span style=color:#50fa7b>passwordEncoder</span>(passwordEncoder());
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        @Bean
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>public</span> PasswordEncoder <span style=color:#50fa7b>passwordEncoder</span>() {
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>new</span> BCryptPasswordEncoder();
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        @Bean
+</span></span><span style=display:flex><span>        @Override
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>public</span> AuthenticationManager <span style=color:#50fa7b>authenticationManagerBean</span>() <span style=color:#8be9fd;font-style:italic>throws</span> Exception {
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>return</span> <span style=color:#8be9fd;font-style:italic>super</span>.<span style=color:#50fa7b>authenticationManagerBean</span>();
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        @Override
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>protected</span> <span style=color:#8be9fd>void</span> <span style=color:#50fa7b>configure</span>(HttpSecurity httpSecurity) <span style=color:#8be9fd;font-style:italic>throws</span> Exception {
+</span></span><span style=display:flex><span>            <span style=color:#6272a4>// 關閉csrf防護</span>
+</span></span><span style=display:flex><span>            httpSecurity.<span style=color:#50fa7b>csrf</span>().<span style=color:#50fa7b>disable</span>()
+</span></span><span style=display:flex><span>                    <span style=color:#6272a4>// 不驗證</span>
+</span></span><span style=display:flex><span>                    .<span style=color:#50fa7b>authorizeRequests</span>().<span style=color:#50fa7b>antMatchers</span>(<span style=color:#f1fa8c>&#34;/authenticate&#34;</span>,<span style=color:#f1fa8c>&#34;/register&#34;</span>).<span style=color:#50fa7b>permitAll</span>().
+</span></span><span style=display:flex><span>                    <span style=color:#6272a4>// all other requests need to be authenticated</span>
+</span></span><span style=display:flex><span>                            anyRequest().<span style=color:#50fa7b>authenticated</span>().<span style=color:#50fa7b>and</span>().
+</span></span><span style=display:flex><span>                    <span style=color:#6272a4>// make sure we use stateless session; session won&#39;t be used to</span>
+</span></span><span style=display:flex><span>                    <span style=color:#6272a4>// store user&#39;s state.</span>
+</span></span><span style=display:flex><span>                            exceptionHandling().<span style=color:#50fa7b>authenticationEntryPoint</span>(jwtAuthenticationEntryPoint).<span style=color:#50fa7b>and</span>().<span style=color:#50fa7b>sessionManagement</span>()
+</span></span><span style=display:flex><span>                    .<span style=color:#50fa7b>sessionCreationPolicy</span>(SessionCreationPolicy.<span style=color:#50fa7b>STATELESS</span>);
+</span></span><span style=display:flex><span>            <span style=color:#6272a4>// Add a filter to validate the tokens with every request</span>
+</span></span><span style=display:flex><span>            httpSecurity.<span style=color:#50fa7b>addFilterBefore</span>(jwtRequestFilter, UsernamePasswordAuthenticationFilter.<span style=color:#50fa7b>class</span>);
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @Order(2)
+</span></span><span style=display:flex><span>    @Configuration
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>static</span> <span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>WebSocket</span> <span style=color:#8be9fd;font-style:italic>extends</span> WebSecurityConfigurerAdapter {
+</span></span><span style=display:flex><span>        @Override
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd>void</span> <span style=color:#50fa7b>configure</span>(HttpSecurity http) <span style=color:#8be9fd;font-style:italic>throws</span> Exception {
+</span></span><span style=display:flex><span>            http.<span style=color:#50fa7b>cors</span>().<span style=color:#50fa7b>and</span>().<span style=color:#50fa7b>csrf</span>().<span style=color:#50fa7b>disable</span>().<span style=color:#50fa7b>antMatcher</span>(<span style=color:#f1fa8c>&#34;/websocket*&#34;</span>).<span style=color:#50fa7b>authorizeRequests</span>().<span style=color:#50fa7b>anyRequest</span>().<span style=color:#50fa7b>permitAll</span>();
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div></div><div class="col-lg-3 col-lg-offset-0
+col-md-3 col-md-offset-0
+col-sm-12
+col-xs-12
+sidebar-container"><section class="visible-md visible-lg"><div class=short-about><a href=/about><img src=/images/avatar.jpg alt=avatar style=cursor:pointer></a><p>Coding, investing, living — written in pursuit of a life with no limits.</p><ul class=list-inline><li><a href=mailto:youremail@gmail.com><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i>
+<i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/could562073><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://www.linkedin.com/in/rexchen315><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li></ul></div></section><section><hr class="hidden-sm hidden-xs"><h5>FEATURED TAGS</h5><div class=tags><a href=/tags/ai title=ai>ai
+</a><a href=/tags/develop title=develop>develop
+</a><a href=/tags/hugo title=hugo>hugo
+</a><a href=/tags/jwt title=jwt>jwt
+</a><a href=/tags/leetcode title=leetcode>leetcode</a></div></section><section><hr class="hidden-sm hidden-xs"><h5>LAST POSTS</h5><ul><li><a href=/post/2026-04-29-1071.-greatest-common-divisor-of-strings/>1071. Greatest Common Divisor of Strings</a></li><li><a href=/post/2026-05-02-%E9%80%B2%E5%85%A5ai%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%88%9D%E9%AB%94%E9%A9%97-copy/>AI Agent 時代來臨，軟體工程師面臨的挑戰越來越多</a></li><li><a href=/post/2026-04-28-1768.-merge-strings-alternately/>1768. Merge Strings Alternately</a></li><li><a href=/post/2026-04-28-hugo-hello-world/>建置 Hugo Hello World</a></li><li><a href=/post/2020-04-01-json-web-tokenjwt/>Json Web Token(jwt)</a></li></ul></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:youremail@gmail.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/could562073><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://www.linkedin.com/in/rexchen315><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="RexChen Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; RexChen Blog 2026<br><a href=https://themes.gohugo.io/hugo-theme-cleanwhite>CleanWhite Hugo Theme</a> by <a href=https://zhaohuabing.com>Huabing</a> |
+<iframe style=margin-left:2px;margin-bottom:-5px frameborder=0 scrolling=0 width=100px height=20px src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true"></iframe></p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>(function(){function e(){const e=document.documentElement.getAttribute("data-theme")==="dark",t=e?"#808080":"#bbbbee";$("#tag_cloud").length!==0&&$.fn.tagcloud&&($.fn.tagcloud.defaults={color:{start:t,end:"#0085a1"}},$("#tag_cloud a").tagcloud())}$(document).ready(function(){e()});const t=new MutationObserver(function(t){t.forEach(function(t){t.attributeName==="data-theme"&&e()})});t.observe(document.documentElement,{attributes:!0,attributeFilter:["data-theme"]})})()</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script src=/js/theme-toggle.js></script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){n=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),t=$(this).text(),i=$('<a href="'+o+'" rel="nofollow" title="'+t+'">'+t+"</a>"),s=$('<li class="'+n+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script></body></html>

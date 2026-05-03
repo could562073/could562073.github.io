@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>JWT on RexChen Blog</title><link>https://could562073.github.io/tags/jwt/</link><description>Recent content in JWT on RexChen Blog</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Wed, 01 Apr 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://could562073.github.io/tags/jwt/index.xml" rel="self" type="application/rss+xml"/><item><title>Json Web Token(jwt)</title><link>https://could562073.github.io/post/2020-04-01-json-web-tokenjwt/</link><pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2020-04-01-json-web-tokenjwt/</guid><description>&lt;h1 id="json-web-tokenjwt"&gt;Json Web Token(jwt)&lt;/h1&gt;
+&lt;p&gt;[TOC]&lt;/p&gt;
+&lt;h6 id="tags-jwtjson-web-token"&gt;tags: &lt;code&gt;JWT&lt;/code&gt;,&lt;code&gt;Json Web Token&lt;/code&gt;&lt;/h6&gt;
+&lt;h2 id="what-is-jwt"&gt;What is Jwt?&lt;/h2&gt;
+&lt;p&gt;JWT 是基於 JSON 的開放標準 (RFC 7519)&lt;/p&gt;
+&lt;p&gt;一般被用來在 身份提供者 和 服務提供者 間傳遞被 認證 的用戶身份信息，以便於從資源伺服器獲取資源，同時也可以增加一些額外的聲明信息，該 token 也可直接被用於認證，也可被加密。&lt;/p&gt;</description></item></channel></rss>

@@ -2,8 +2,8 @@
 title = "AI Agent 時代來臨，軟體工程師面臨的挑戰越來越多"
 date = 2026-05-02
 draft = false
-tags = ["AI","Develop"]
-categories = ["Develop"]
+tags = ["AI","NOTE"]
+categories = ["NOTE"]
 +++
 
 一個工程師進入AI agent工作流初體驗(一)

@@ -9,7 +9,7 @@ categories = ["LeetCode"]
 ### 主要用了什麼方法：
 這題思路比較複雜一點，主要參考了Editorial來寫
 
-![alt text](/images/posts/image.png)
+![alt text](image.png)
 (這個圖清楚說明了該怎麼去抓到gcp字段並且不斷loop出最後的字串)
 
 ### 用了多久: 

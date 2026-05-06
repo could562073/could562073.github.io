@@ -1,12 +1,12 @@
 +++
-title = "AI Agent 時代來臨，軟體工程師面臨的挑戰越來越多"
+title = "Claude Code 實作筆記(一)"
 date = 2026-05-02
 draft = false
-tags = ["AI","NOTE"]
-categories = ["NOTE"]
+tags = ["AI"]
+categories = ["AI","Claude"]
 +++
 
-AI Agent 時代來臨，軟體工程師面臨的挑戰越來越多
+Claude Code 實作筆記(一)
 ===
 
 

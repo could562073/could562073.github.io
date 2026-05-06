@@ -1,6 +1,6 @@
 +++
 title = "1071. Greatest Common Divisor of Strings"
-date = 2026-05-02
+date = 2026-04-29
 draft = false
 tags = ["LeetCode"]
 categories = ["LeetCode"]

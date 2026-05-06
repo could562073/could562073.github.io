@@ -3,7 +3,7 @@ title = "Claude Code 實作筆記(三)"
 date = 2026-05-05
 draft = false
 tags = ["AI"]
-categories = ["AI","Claude"]
+categories = ["AI"]
 +++
 
 Claude Code 實作筆記(三)

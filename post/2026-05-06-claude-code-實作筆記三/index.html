@@ -9,9 +9,8 @@
 col-md-8 col-md-offset-1
 col-sm-12
 col-xs-12
-post-container"><h1 id=claude-code-實作筆記三>Claude Code 實作筆記(三)</h1><p>第三版，就是瘋狂的DEBUG跟移除不必要的功能，優化使用者體驗，和一些小功能移除跟整理</p><p>基本算最終定案版本，之後就會拿去給女朋友媽媽實際使用看看，如果還有新的feature再來動，不然基本就到這xd</p><h2 id=耗時>耗時:</h2><p>實際工時應該是一天大概2~3個小時(Claude code Usage限制了開發的速度阿)，所以粗略估計實際</p><p>Day: 4
-Actual Hour: 2<del>3 * 4 = 8</del>12 HR
-Design: 30 min (?</p><h2 id=首頁>首頁</h2><p><img src=image.png alt="alt text"></p><h2 id=記帳頁面>記帳頁面</h2><p><img src=image-1.png alt="alt text"></p><h2 id=月結>月結</h2><p><img src=image-2.png alt="alt text"></p><h2 id=月結每日明細>月結每日明細</h2><p><img src=image-3.png alt="alt text"></p><h2 id=配置頁面>配置頁面</h2><p><img src=image-4.png alt="alt text"></p></div><div class="col-lg-3 col-lg-offset-0
+post-container"><h1 id=claude-code-實作筆記三>Claude Code 實作筆記(三)</h1><p>主要在開發資料類別管理，這個牽扯到動態增減類別還要考慮月結跟首頁的顯示，算是一個大工程，但只要在規劃期間有說明清楚和考慮的點，如googles sheets怎麼設計，類別儲存怎麼對應，這算是最大的功能改動</p><p>最後設計完成就是瘋狂的DEBUG跟移除不必要的功能，優化使用者體驗，和一些小功能移除跟整理</p><p>目前即最終版定案</p><h2 id=工時>工時:</h2><h4 id=天數-四天>天數: 四天</h4><h4 id=實際開發工時-815-hr>實際開發工時: 8~15 HR</h4><h4 id=設計-05-hr>設計: 0.5 HR</h4><h2 id=claude-code-代理開發心得>Claude code 代理開發心得</h2><p>AI開發時間真的是飛快且沒有什麼大問題 (相較於半年前大概是容易出錯的等級，好可怕)</p><p>大部分時間都是在review AI產出的功能，只要功能方向很明確，基本上實現都沒問題，但如果實現的邏輯不夠清晰，就會導致AI產出與你要的不同而來回修改(可能我用sonnet4.6開發的關係?)</p><h2 id=claude-design-使用心得>Claude Design 使用心得</h2><p>很誇張，非常強的等級，具體產出不到10分鐘已經做出一個完整，美化，可互動的UI，且可以直接send給claude code做讀取，不需要再額外去做任何提示字，而且在你提出你的需求之後，他還會先做一次細節討論跟風格設計方向，真的有點強</p><p>下面是我當初提供的資料</p><p>提示字部分</p><p><img src=image-5.png alt="alt text"></p><p>初版UI</p><p><img src=image-7.png alt="alt text">
+<img src=image-8.png alt="alt text"></p><h2 id=成果展示>成果展示</h2><p>完成的專案我已經佈署上gitHubPage供參考試用，如果需要的人可以直接拿去配</p><p><a href=https://could562073.github.io/Ready-mPOS/>https://could562073.github.io/Ready-mPOS/</a></p></div><div class="col-lg-3 col-lg-offset-0
 col-md-3 col-md-offset-0
 col-sm-12
 col-xs-12

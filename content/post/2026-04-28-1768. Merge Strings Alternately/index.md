@@ -6,6 +6,8 @@ tags = ["LeetCode"]
 categories = ["LeetCode"]
 +++
 
+# 1768. Merge Strings Alternately
+
 ### 主要用了什麼方法：
 For迴圈
 

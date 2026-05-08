@@ -46,62 +46,25 @@ run time時 語法錯誤紀錄:
 
 ```java
 class Solution {
-    public String gcdOfStrings(String str1, String str2) {
-        String base;
-        if (str1.length() > str2.length()) {
-            base = str2;
-        } else {
-            base = str1;
-        }
-        int minLength = base.length();
-        while (minLength > 0) {
-            if (gcdStringVerify(base, str1, str2, minLength)) {
-                return base;
+    public List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
+        List<Boolean> result = new ArrayList<>();
+        int greatestNum=0;
+        for(int k=0; k<candies.length; k++){
+            if(candies[k]>greatestNum){
+                greatestNum = candies[k];
             }
-            minLength--;
-            base = base.substring(0, minLength);
         }
-        return "";
-    }
 
-    public boolean gcdStringVerify(String base, String str1, String str2, int minLength) {
-        if (str1.length() % minLength > 0 || str2.length() % minLength > 0) {
-            return false;
-        } else {
-            return str1.replace(base, "").isEmpty() && str2.replace(base, "").isEmpty();
+        for(int i=0; i<candies.length; i++){
+           result.add(candies[i] + extraCandies >= greatestNum? true : false);
         }
+        return result;
     }
 }
 
-```
-
-## Solution By Editorial 
-
-```java
-class Solution {
-    public boolean valid(String str1, String str2, int k) {
-        int len1 = str1.length(), len2 = str2.length();
-        if (len1 % k > 0 || len2 % k > 0) {
-            return false;
-        } else {
-            String base = str1.substring(0, k);
-            return str1.replace(base, "").isEmpty() && str2.replace(base, "").isEmpty();
-        }
-    }
-    
-    
-    public String gcdOfStrings(String str1, String str2) {
-        int len1 = str1.length(), len2 = str2.length();
-        for (int i = Math.min(len1, len2); i >= 1; --i) {
-            if (valid(str1, str2, i)) {
-                return str1.substring(0, i);
-            }
-        }
-        return "";
-    }
-}
 ```
 
 ### 學到什麼：
+題目本身不難，但理解題目再要求什麼其實才是最難的
 
-字串處理不夠熟悉，過程中run的時候好幾次提交是因為語法問題，但我想 that's not a problem, because we have AI to coding~
+![alt text](image.png)

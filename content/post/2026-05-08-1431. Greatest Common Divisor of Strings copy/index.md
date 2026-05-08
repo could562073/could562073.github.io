@@ -67,4 +67,7 @@ class Solution {
 ### 學到什麼：
 題目本身不難，但理解題目再要求什麼其實才是最難的
 
+
+## accepted
+
 ![alt text](image.png)

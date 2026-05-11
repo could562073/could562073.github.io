@@ -1,4 +1,13 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>LeetCode on RexChen Blog</title><link>https://could562073.github.io/tags/leetcode/</link><description>Recent content in LeetCode on RexChen Blog</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 08 May 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://could562073.github.io/tags/leetcode/index.xml" rel="self" type="application/rss+xml"/><item><title>1431.Kids With the Greatest Number of Candies</title><link>https://could562073.github.io/post/2026-05-08-1431.-greatest-common-divisor-of-strings-copy/</link><pubDate>Fri, 08 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-05-08-1431.-greatest-common-divisor-of-strings-copy/</guid><description>&lt;h1 id="1431kids-with-the-greatest-number-of-candies"&gt;1431.Kids With the Greatest Number of Candies&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>LeetCode on RexChen Blog</title><link>https://could562073.github.io/tags/leetcode/</link><description>Recent content in LeetCode on RexChen Blog</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Mon, 11 May 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://could562073.github.io/tags/leetcode/index.xml" rel="self" type="application/rss+xml"/><item><title>605. Can Place Flowers</title><link>https://could562073.github.io/post/2026-05-11-605.-can-place-flowers/</link><pubDate>Mon, 11 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-05-11-605.-can-place-flowers/</guid><description>&lt;h1 id="605-can-place-flowers"&gt;605. Can Place Flowers&lt;/h1&gt;
+&lt;h2 id="主要用了什麼方法"&gt;主要用了什麼方法：&lt;/h2&gt;
+&lt;p&gt;for loop&lt;/p&gt;
+&lt;h2 id="用了多久"&gt;用了多久:&lt;/h2&gt;
+&lt;p&gt;over 30min&lt;/p&gt;
+&lt;h2 id="卡在哪裡"&gt;卡在哪裡：&lt;/h2&gt;
+&lt;p&gt;看了editorial的解答才理解怎麼合理處理邊界問題
+處理array邊界的時候不太熟悉，導致再處理index思考過久&lt;/p&gt;
+&lt;h2 id="time-complexity"&gt;Time Complexity:&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;O(n)&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>1431.Kids With the Greatest Number of Candies</title><link>https://could562073.github.io/post/2026-05-08-1431.kids-with-the-greatest-number-of-candies/</link><pubDate>Fri, 08 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-05-08-1431.kids-with-the-greatest-number-of-candies/</guid><description>&lt;h1 id="1431kids-with-the-greatest-number-of-candies"&gt;1431.Kids With the Greatest Number of Candies&lt;/h1&gt;
 &lt;h2 id="主要用了什麼方法"&gt;主要用了什麼方法：&lt;/h2&gt;
 &lt;p&gt;兩個for loop&lt;/p&gt;
 &lt;h2 id="用了多久"&gt;用了多久:&lt;/h2&gt;

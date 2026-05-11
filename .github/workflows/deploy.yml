@@ -24,7 +24,7 @@ jobs:
         run: hugo --minify
 
       - name: Index with Pagefind
-        run: npx pagefind --site public --language zh
+        run: npx pagefind --site public
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4

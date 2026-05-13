@@ -1,8 +1,8 @@
 +++
 title = "345. Reverse Vowels of a String"
-date = 2026-05-13
+date = 2026-05-12
 draft = false
-tags = ["LeetCode"]
+tags = ["LeetCode"、"easy"]
 categories = ["LeetCode"]
 +++
 
@@ -15,7 +15,7 @@ two pointers
 
 
 ## 卡在哪裡：
-昨天嘗試超過兩個小時一直想使用for攻略這種題目，今天再嘗試一遍還是失敗
+嘗試超過兩個小時一直想使用for攻略這種題目，再嘗試一遍還是失敗
 用了錯誤的方式處理此問題，知道是雙向跑Index移動，但是因為對於這類型沒有概念
 
 ## Time Complexity:  

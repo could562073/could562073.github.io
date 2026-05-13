@@ -2,7 +2,7 @@
 title = "1431.Kids With the Greatest Number of Candies"
 date = 2026-05-08
 draft = false
-tags = ["LeetCode"]
+tags = ["LeetCode"、"easy"]
 categories = ["LeetCode"]
 +++
 

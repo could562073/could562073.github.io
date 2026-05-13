@@ -2,7 +2,7 @@
 title = "1071. Greatest Common Divisor of Strings"
 date = 2026-04-29
 draft = false
-tags = ["LeetCode"]
+tags = ["LeetCode"、"easy"]
 categories = ["LeetCode"]
 +++
 

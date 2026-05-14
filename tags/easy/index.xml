@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Easy on RexChen Blog</title><link>https://could562073.github.io/tags/easy/</link><description>Recent content in Easy on RexChen Blog</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Tue, 12 May 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://could562073.github.io/tags/easy/index.xml" rel="self" type="application/rss+xml"/><item><title>345. Reverse Vowels of a String</title><link>https://could562073.github.io/post/2026-05-12-345.-reverse-vowels-of-a-string/</link><pubDate>Tue, 12 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-05-12-345.-reverse-vowels-of-a-string/</guid><description>&lt;h1 id="345-reverse-vowels-of-a-string"&gt;345. Reverse Vowels of a String&lt;/h1&gt;
+&lt;h2 id="主要用了什麼方法"&gt;主要用了什麼方法：&lt;/h2&gt;
+&lt;p&gt;two pointers&lt;/p&gt;
+&lt;h2 id="用了多久"&gt;用了多久:&lt;/h2&gt;
+&lt;h2 id="卡在哪裡"&gt;卡在哪裡：&lt;/h2&gt;
+&lt;p&gt;嘗試超過兩個小時一直想使用for攻略這種題目，再嘗試一遍還是失敗
+用了錯誤的方式處理此問題，知道是雙向跑Index移動，但是因為對於這類型沒有概念&lt;/p&gt;</description></item><item><title>605. Can Place Flowers</title><link>https://could562073.github.io/post/2026-05-11-605.-can-place-flowers/</link><pubDate>Mon, 11 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-05-11-605.-can-place-flowers/</guid><description>&lt;h1 id="605-can-place-flowers"&gt;605. Can Place Flowers&lt;/h1&gt;
+&lt;h2 id="主要用了什麼方法"&gt;主要用了什麼方法：&lt;/h2&gt;
+&lt;p&gt;for loop&lt;/p&gt;
+&lt;h2 id="用了多久"&gt;用了多久:&lt;/h2&gt;
+&lt;p&gt;over 30min&lt;/p&gt;
+&lt;h2 id="卡在哪裡"&gt;卡在哪裡：&lt;/h2&gt;
+&lt;p&gt;看了editorial的解答才理解怎麼合理處理邊界問題
+處理array邊界的時候不太熟悉，導致再處理index思考過久&lt;/p&gt;
+&lt;h2 id="time-complexity"&gt;Time Complexity:&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;O(n)&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>1431.Kids With the Greatest Number of Candies</title><link>https://could562073.github.io/post/2026-05-08-1431.kids-with-the-greatest-number-of-candies/</link><pubDate>Fri, 08 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-05-08-1431.kids-with-the-greatest-number-of-candies/</guid><description>&lt;h1 id="1431kids-with-the-greatest-number-of-candies"&gt;1431.Kids With the Greatest Number of Candies&lt;/h1&gt;
+&lt;h2 id="主要用了什麼方法"&gt;主要用了什麼方法：&lt;/h2&gt;
+&lt;p&gt;兩個for loop&lt;/p&gt;
+&lt;h2 id="用了多久"&gt;用了多久:&lt;/h2&gt;
+&lt;p&gt;19m 15s，思考了大概快15分鐘後還是看不懂題目在問的規律，後來看hint 1 後 解出此題&lt;/p&gt;
+&lt;p&gt;run time時 語法錯誤紀錄:
+1.少加;
+2.int[].length 是length 不是length()
+3.for loop 陣列index out of bound(用了&amp;lt;=&lt;/p&gt;</description></item><item><title>1071. Greatest Common Divisor of Strings</title><link>https://could562073.github.io/post/2026-04-29-1071.-greatest-common-divisor-of-strings/</link><pubDate>Wed, 29 Apr 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-04-29-1071.-greatest-common-divisor-of-strings/</guid><description>&lt;h1 id="1071-greatest-common-divisor-of-strings"&gt;1071. Greatest Common Divisor of Strings&lt;/h1&gt;
+&lt;h3 id="主要用了什麼方法"&gt;主要用了什麼方法：&lt;/h3&gt;
+&lt;p&gt;這題思路比較複雜一點，主要參考了Editorial來寫&lt;/p&gt;
+&lt;p&gt;
+ &lt;img src="image.png" alt="alt text"&gt;
+
+
+(這個圖清楚說明了該怎麼去抓到gcp字段並且不斷loop出最後的字串)&lt;/p&gt;
+&lt;h3 id="用了多久"&gt;用了多久:&lt;/h3&gt;
+&lt;p&gt;將近兩個小時，大概花15分鐘思考，15分鐘看Editorial做參考在自己寫，但寫的時間大概花一個小時，還是看了答案才真正寫出能summit的最終版&lt;/p&gt;</description></item><item><title>1768. Merge Strings Alternately</title><link>https://could562073.github.io/post/2026-04-28-1768.-merge-strings-alternately/</link><pubDate>Tue, 28 Apr 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-04-28-1768.-merge-strings-alternately/</guid><description>&lt;h1 id="1768-merge-strings-alternately"&gt;1768. Merge Strings Alternately&lt;/h1&gt;
+&lt;h3 id="主要用了什麼方法"&gt;主要用了什麼方法：&lt;/h3&gt;
+&lt;p&gt;For迴圈&lt;/p&gt;
+&lt;h3 id="用了多久"&gt;用了多久:&lt;/h3&gt;
+&lt;p&gt;將近兩個小時&lt;/p&gt;
+&lt;h3 id="卡在哪裡"&gt;卡在哪裡：&lt;/h3&gt;
+&lt;p&gt;因為用了for迴圈需要先定義長度，所以卡很久，剩餘元素一直處理不好，卡在兩個長度不一致時會有的情況，一直在想怎麼處理剩餘元素撈取的問題&lt;/p&gt;</description></item></channel></rss>

@@ -2,7 +2,7 @@
 title = "1768. Merge Strings Alternately"
 date = 2026-04-28
 draft = false
-tags = ["LeetCode"、"easy"]
+tags = ["LeetCode", "easy"]
 categories = ["LeetCode"]
 +++
 

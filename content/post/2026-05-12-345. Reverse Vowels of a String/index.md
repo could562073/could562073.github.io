@@ -2,7 +2,7 @@
 title = "345. Reverse Vowels of a String"
 date = 2026-05-12
 draft = false
-tags = ["LeetCode"、"easy"]
+tags = ["LeetCode", "easy"]
 categories = ["LeetCode"]
 +++
 

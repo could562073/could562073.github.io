@@ -2,7 +2,7 @@
 title = "605. Can Place Flowers"
 date = 2026-05-11
 draft = false
-tags = ["LeetCode"、"easy"]
+tags = ["LeetCode", "easy"]
 categories = ["LeetCode"]
 +++
 

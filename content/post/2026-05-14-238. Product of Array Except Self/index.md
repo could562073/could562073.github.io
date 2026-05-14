@@ -2,7 +2,7 @@
 title = "238. Product of Array Except Self"
 date = 2026-05-14
 draft = false
-tags = ["LeetCode"、"meduim"]
+tags = ["LeetCode", "meduim"]
 categories = ["LeetCode"]
 +++
 

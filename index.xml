@@ -1,26 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>RexChen Blog</title><link>https://could562073.github.io/</link><description>Recent content on RexChen Blog</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Thu, 14 May 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://could562073.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>238. Product of Array Except Self</title><link>https://could562073.github.io/post/2026-05-14-238.-product-of-array-except-self/</link><pubDate>Thu, 14 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-05-14-238.-product-of-array-except-self/</guid><description>&lt;h1 id="238-product-of-array-except-self"&gt;238. Product of Array Except Self&lt;/h1&gt;
-&lt;h2 id="題目要求"&gt;題目要求&lt;/h2&gt;
-&lt;p&gt;給定一個整數陣列 &lt;code&gt;nums&lt;/code&gt;，回傳一個陣列 &lt;code&gt;answer&lt;/code&gt;，使得 &lt;code&gt;answer[i]&lt;/code&gt; 等於 &lt;code&gt;nums&lt;/code&gt; 中&lt;strong&gt;除了 &lt;code&gt;nums[i]&lt;/code&gt; 之外&lt;/strong&gt;所有元素的乘積。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;不能使用除法&lt;/li&gt;
-&lt;li&gt;時間複雜度必須是 O(n)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;h2 id="暴力解會超時"&gt;暴力解（會超時）&lt;/h2&gt;
-&lt;h3 id="思路"&gt;思路&lt;/h3&gt;
-&lt;p&gt;對每個位置 &lt;code&gt;i&lt;/code&gt;，用內層迴圈把其他所有元素乘起來。&lt;/p&gt;</description></item><item><title>151. Reverse Words in a String</title><link>https://could562073.github.io/post/2026-05-13-151.-reverse-words-in-a-string/</link><pubDate>Wed, 13 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-05-13-151.-reverse-words-in-a-string/</guid><description>&lt;h1 id="151-reverse-words-in-a-string"&gt;151. Reverse Words in a String&lt;/h1&gt;
-&lt;h2 id="主要用了什麼方法"&gt;主要用了什麼方法：&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;ver1: for loop 搭配 StringBuilder String.split(&amp;rsquo; &amp;lsquo;); 等等&lt;/li&gt;
-&lt;li&gt;ver2: while 跟 charArray 對一個位置進行操作，速度快上不少&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="用了多久"&gt;用了多久:&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;ver1: ~38min&lt;/li&gt;
-&lt;li&gt;ver2: &amp;gt;45min&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="卡在哪裡"&gt;卡在哪裡：&lt;/h2&gt;
-&lt;p&gt;ver2: 主要還是在雙指針移動的位置上思考很久，最後還是需要參考別人答案和ai的解法來進行最後的提交，但是基本概念以理解，在指針位置操作上需要許多步驟，很容易會忘記自己在做什麼，可能需要做一些pseudo code幫助自己理解整個步驟&lt;/p&gt;</description></item><item><title>334. Increasing Triplet Subsequence</title><link>https://could562073.github.io/post/2026-05-13-151.-reverse-words-in-a-string-copy/</link><pubDate>Wed, 13 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-05-13-151.-reverse-words-in-a-string-copy/</guid><description>&lt;p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>RexChen Blog</title><link>https://could562073.github.io/</link><description>Recent content on RexChen Blog</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 15 May 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://could562073.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>334. Increasing Triplet Subsequence</title><link>https://could562073.github.io/post/2026-05-15-334.-increasing-triplet-subsequence/</link><pubDate>Fri, 15 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-05-15-334.-increasing-triplet-subsequence/</guid><description>&lt;p&gt;
  &lt;img src="image.png" alt="alt text"&gt;
 
 &lt;/p&gt;
@@ -53,7 +31,29 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="學到什麼"&gt;學到什麼：&lt;/h3&gt;
-&lt;p&gt;題目在問什麼很重要，必須快速理解到題目想問的重點，才能推導出實際的演算法&lt;/p&gt;</description></item><item><title>334. Increasing Triplet Subsequence</title><link>https://could562073.github.io/post/example/</link><pubDate>Wed, 13 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/example/</guid><description>&lt;h2 id="主要用了什麼方法"&gt;主要用了什麼方法：&lt;/h2&gt;
+&lt;p&gt;題目在問什麼很重要，必須快速理解到題目想問的重點，才能推導出實際的演算法&lt;/p&gt;</description></item><item><title>238. Product of Array Except Self</title><link>https://could562073.github.io/post/2026-05-14-238.-product-of-array-except-self/</link><pubDate>Thu, 14 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-05-14-238.-product-of-array-except-self/</guid><description>&lt;h1 id="238-product-of-array-except-self"&gt;238. Product of Array Except Self&lt;/h1&gt;
+&lt;h2 id="題目要求"&gt;題目要求&lt;/h2&gt;
+&lt;p&gt;給定一個整數陣列 &lt;code&gt;nums&lt;/code&gt;，回傳一個陣列 &lt;code&gt;answer&lt;/code&gt;，使得 &lt;code&gt;answer[i]&lt;/code&gt; 等於 &lt;code&gt;nums&lt;/code&gt; 中&lt;strong&gt;除了 &lt;code&gt;nums[i]&lt;/code&gt; 之外&lt;/strong&gt;所有元素的乘積。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;不能使用除法&lt;/li&gt;
+&lt;li&gt;時間複雜度必須是 O(n)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="暴力解會超時"&gt;暴力解（會超時）&lt;/h2&gt;
+&lt;h3 id="思路"&gt;思路&lt;/h3&gt;
+&lt;p&gt;對每個位置 &lt;code&gt;i&lt;/code&gt;，用內層迴圈把其他所有元素乘起來。&lt;/p&gt;</description></item><item><title>151. Reverse Words in a String</title><link>https://could562073.github.io/post/2026-05-13-151.-reverse-words-in-a-string/</link><pubDate>Wed, 13 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-05-13-151.-reverse-words-in-a-string/</guid><description>&lt;h1 id="151-reverse-words-in-a-string"&gt;151. Reverse Words in a String&lt;/h1&gt;
+&lt;h2 id="主要用了什麼方法"&gt;主要用了什麼方法：&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;ver1: for loop 搭配 StringBuilder String.split(&amp;rsquo; &amp;lsquo;); 等等&lt;/li&gt;
+&lt;li&gt;ver2: while 跟 charArray 對一個位置進行操作，速度快上不少&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="用了多久"&gt;用了多久:&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;ver1: ~38min&lt;/li&gt;
+&lt;li&gt;ver2: &amp;gt;45min&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="卡在哪裡"&gt;卡在哪裡：&lt;/h2&gt;
+&lt;p&gt;ver2: 主要還是在雙指針移動的位置上思考很久，最後還是需要參考別人答案和ai的解法來進行最後的提交，但是基本概念以理解，在指針位置操作上需要許多步驟，很容易會忘記自己在做什麼，可能需要做一些pseudo code幫助自己理解整個步驟&lt;/p&gt;</description></item><item><title>334. Increasing Triplet Subsequence</title><link>https://could562073.github.io/post/example/</link><pubDate>Wed, 13 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/example/</guid><description>&lt;h2 id="主要用了什麼方法"&gt;主要用了什麼方法：&lt;/h2&gt;
 &lt;h2 id="用了多久"&gt;用了多久:&lt;/h2&gt;
 &lt;h2 id="卡在哪裡"&gt;卡在哪裡：&lt;/h2&gt;
 &lt;h2 id="time-complexity"&gt;Time Complexity:&lt;/h2&gt;

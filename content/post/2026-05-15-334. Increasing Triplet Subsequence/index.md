@@ -1,6 +1,6 @@
 +++
 title = "334. Increasing Triplet Subsequence"
-date = 2026-05-13
+date = 2026-05-15
 draft = false
 tags = ["LeetCode", "meduim"]
 categories = ["LeetCode"]

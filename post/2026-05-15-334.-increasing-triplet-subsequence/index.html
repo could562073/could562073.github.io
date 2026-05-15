@@ -26,7 +26,27 @@ post-container"><p><img src=image.png alt="alt text"></p><h2 id=主要用了什�
 </span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>false</span>;
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h3 id=學到什麼>學到什麼：</h3><p>題目在問什麼很重要，必須快速理解到題目想問的重點，才能推導出實際的演算法</p></div><div class="col-lg-3 col-lg-offset-0
+</span></span></code></pre></div><h3 id=學到什麼>學到什麼：</h3><p>題目在問什麼很重要，必須快速理解到題目想問的重點，才能推導出實際的演算法</p><h2 id=best-solution>Best Solution:</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>Solution</span> {
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd>boolean</span> <span style=color:#50fa7b>increasingTriplet</span>(<span style=color:#8be9fd>int</span><span style=color:#ff79c6>[]</span> nums) {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span>(nums <span style=color:#ff79c6>==</span> <span style=color:#ff79c6>null</span> <span style=color:#ff79c6>||</span> nums.<span style=color:#50fa7b>length</span> <span style=color:#ff79c6>&lt;</span> 3) <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>false</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd>int</span> i<span style=color:#ff79c6>=</span>Integer.<span style=color:#50fa7b>MAX_VALUE</span>;
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd>int</span> j<span style=color:#ff79c6>=</span>Integer.<span style=color:#50fa7b>MAX_VALUE</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>for</span>(<span style=color:#8be9fd>int</span> m<span style=color:#ff79c6>=</span>0; m<span style=color:#ff79c6>&lt;</span>nums.<span style=color:#50fa7b>length</span>; m<span style=color:#ff79c6>++</span>){
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>if</span>(nums<span style=color:#ff79c6>[</span>m<span style=color:#ff79c6>]</span> <span style=color:#ff79c6>&lt;=</span> i){
+</span></span><span style=display:flex><span>                i <span style=color:#ff79c6>=</span> nums<span style=color:#ff79c6>[</span>m<span style=color:#ff79c6>]</span>;
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>else</span> <span style=color:#ff79c6>if</span>(nums<span style=color:#ff79c6>[</span>m<span style=color:#ff79c6>]</span> <span style=color:#ff79c6>&lt;=</span> j){
+</span></span><span style=display:flex><span>                j <span style=color:#ff79c6>=</span> nums<span style=color:#ff79c6>[</span>m<span style=color:#ff79c6>]</span>;
+</span></span><span style=display:flex><span>            } <span style=color:#ff79c6>else</span>{
+</span></span><span style=display:flex><span>                <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>true</span>;
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>false</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>最佳做法除去無法判斷的input之外，每一次的if只走一遍，我寫的是三次if，多次判斷下來還是會差一點點時間損耗</p></div><div class="col-lg-3 col-lg-offset-0
 col-md-3 col-md-offset-0
 col-sm-12
 col-xs-12

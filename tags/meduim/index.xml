@@ -20,4 +20,43 @@
 &lt;li&gt;ver2: &amp;gt;45min&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id="卡在哪裡"&gt;卡在哪裡：&lt;/h2&gt;
-&lt;p&gt;ver2: 主要還是在雙指針移動的位置上思考很久，最後還是需要參考別人答案和ai的解法來進行最後的提交，但是基本概念以理解，在指針位置操作上需要許多步驟，很容易會忘記自己在做什麼，可能需要做一些pseudo code幫助自己理解整個步驟&lt;/p&gt;</description></item></channel></rss>
+&lt;p&gt;ver2: 主要還是在雙指針移動的位置上思考很久，最後還是需要參考別人答案和ai的解法來進行最後的提交，但是基本概念以理解，在指針位置操作上需要許多步驟，很容易會忘記自己在做什麼，可能需要做一些pseudo code幫助自己理解整個步驟&lt;/p&gt;</description></item><item><title>334. Increasing Triplet Subsequence</title><link>https://could562073.github.io/post/2026-05-13-151.-reverse-words-in-a-string-copy/</link><pubDate>Wed, 13 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-05-13-151.-reverse-words-in-a-string-copy/</guid><description>&lt;p&gt;
+ &lt;img src="image.png" alt="alt text"&gt;
+
+&lt;/p&gt;
+&lt;h2 id="主要用了什麼方法"&gt;主要用了什麼方法：&lt;/h2&gt;
+&lt;p&gt;for loop&lt;/p&gt;
+&lt;h2 id="用了多久"&gt;用了多久:&lt;/h2&gt;
+&lt;p&gt;38min&lt;/p&gt;
+&lt;h2 id="卡在哪裡"&gt;卡在哪裡：&lt;/h2&gt;
+&lt;p&gt;某個test case過不去，發現有BUG，後來參考別人做法，大致邏輯相符，if我多做了一些不必要的判斷&lt;/p&gt;
+&lt;h2 id="time-complexity"&gt;Time Complexity:&lt;/h2&gt;
+&lt;p&gt;O(n)&lt;/p&gt;
+&lt;h2 id="space-complexity"&gt;Space Complexity:&lt;/h2&gt;
+&lt;p&gt;O(1)&lt;/p&gt;
+&lt;h2 id="my-solution"&gt;My Solution:&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;class&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;Solution&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;public&lt;/span&gt; &lt;span style="color:#8be9fd"&gt;boolean&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;increasingTriplet&lt;/span&gt;(&lt;span style="color:#8be9fd"&gt;int&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;[]&lt;/span&gt; nums) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8be9fd"&gt;int&lt;/span&gt; i&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;Integer.&lt;span style="color:#50fa7b"&gt;MAX_VALUE&lt;/span&gt;,j&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;Integer.&lt;span style="color:#50fa7b"&gt;MAX_VALUE&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;for&lt;/span&gt;(&lt;span style="color:#8be9fd"&gt;int&lt;/span&gt; m&lt;span style="color:#ff79c6"&gt;=&lt;/span&gt;0; m&lt;span style="color:#ff79c6"&gt;&amp;lt;&lt;/span&gt;nums.&lt;span style="color:#50fa7b"&gt;length&lt;/span&gt;; m&lt;span style="color:#ff79c6"&gt;++&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;if&lt;/span&gt;(nums&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;m&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;&amp;lt;&lt;/span&gt; i){
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; i &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; nums&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;m&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;if&lt;/span&gt;(i &lt;span style="color:#ff79c6"&gt;&amp;lt;&lt;/span&gt; nums&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;m&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;&amp;amp;&amp;amp;&lt;/span&gt; nums&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;m&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;&amp;lt;&lt;/span&gt; j){
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; j &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; nums&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;m&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;if&lt;/span&gt;(i&lt;span style="color:#ff79c6"&gt;&amp;lt;&lt;/span&gt; j &lt;span style="color:#ff79c6"&gt;&amp;amp;&amp;amp;&lt;/span&gt; j &lt;span style="color:#ff79c6"&gt;&amp;lt;&lt;/span&gt; nums&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;m&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;return&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;return&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;false&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="學到什麼"&gt;學到什麼：&lt;/h3&gt;
+&lt;p&gt;題目在問什麼很重要，必須快速理解到題目想問的重點，才能推導出實際的演算法&lt;/p&gt;</description></item><item><title>334. Increasing Triplet Subsequence</title><link>https://could562073.github.io/post/example/</link><pubDate>Wed, 13 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/example/</guid><description>&lt;h2 id="主要用了什麼方法"&gt;主要用了什麼方法：&lt;/h2&gt;
+&lt;h2 id="用了多久"&gt;用了多久:&lt;/h2&gt;
+&lt;h2 id="卡在哪裡"&gt;卡在哪裡：&lt;/h2&gt;
+&lt;h2 id="time-complexity"&gt;Time Complexity:&lt;/h2&gt;
+&lt;h2 id="space-complexity"&gt;Space Complexity:&lt;/h2&gt;
+&lt;h2 id="my-solution"&gt;My Solution:&lt;/h2&gt;
+&lt;h3 id="學到什麼"&gt;學到什麼：&lt;/h3&gt;</description></item></channel></rss>

@@ -47,3 +47,30 @@ class Solution {
 
 ### 學到什麼：
 題目在問什麼很重要，必須快速理解到題目想問的重點，才能推導出實際的演算法
+
+## Best Solution:
+
+```java
+class Solution {
+    public boolean increasingTriplet(int[] nums) {
+        if(nums == null || nums.length < 3) return false;
+
+        int i=Integer.MAX_VALUE;
+        int j=Integer.MAX_VALUE;
+
+        for(int m=0; m<nums.length; m++){
+            if(nums[m] <= i){
+                i = nums[m];
+            }
+            else if(nums[m] <= j){
+                j = nums[m];
+            } else{
+                return true;
+            }
+        }
+        return false;
+    }
+}
+```
+
+最佳做法除去無法判斷的input之外，每一次的if只走一遍，我寫的是三次if，多次判斷下來還是會差一點點時間損耗

@@ -1,5 +1,5 @@
 +++
-title = "五年後的自己，回顧這段無事荒誕的時光
+title = "五年後的自己，回顧這段無事荒誕的時光"
 date = 2026-05-06
 draft = false
 tags = ["PERSONAL"]

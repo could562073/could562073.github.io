@@ -1,5 +1,5 @@
 baseURL = "https://could562073.github.io/"
-title = "RexChen Blog"
+title = "Rex's Lab"
 theme = "hugo-theme-cleanwhite"
 languageCode = "en-us"
 preserveTaxonomyNames = true
@@ -20,7 +20,7 @@ home = ["HTML", "RSS"]   # 暫不開 Algolia，要的話加 "Algolia"
 
 [params]
   header_image = "images/home_bg.jpg"
-  SEOTitle = "RexChen Blog"
+  SEOTitle = "Rex's Lab"
   description = "Coding, investing, living — all of it, unfiltered. This is Rex's corner of the internet, written in pursuit of a life with no limits."
   keyword = "Rex, RexChen, blog, coding, investing, life"
   slogan = "Think. Do. Write it down."

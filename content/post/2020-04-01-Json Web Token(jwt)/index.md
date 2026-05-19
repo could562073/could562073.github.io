@@ -2,8 +2,8 @@
 title = "Json Web Token(jwt)"
 date = 2020-04-01
 draft = false
-tags = ["JWT"]
-categories = ["NOTE"]
+tags = ["SOFTWARE"、"JWT"]
+categories = ["SOFTWARE"]
 +++
 
 Json Web Token(jwt) (history note from hackMD)

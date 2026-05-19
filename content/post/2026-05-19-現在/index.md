@@ -1,5 +1,5 @@
 +++
-title = "現在
+title = "現在"
 date = 2026-05-19
 draft = false
 tags = ["PERSONAL"]

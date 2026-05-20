@@ -1,6 +1,6 @@
 +++
 title = "283. Move Zeroes"
-date = 2026-05-15
+date = 2026-05-21
 draft = false
 tags = ["LeetCode", "easy"]
 categories = ["LeetCode"]

@@ -57,3 +57,38 @@ class Solution {
 ## Accepted
 
 ![alt text](image-1.png)
+
+
+## ai recommand solution
+
+String有一個charAt()方法，用這個可以省兩個記憶體空間
+(果然把java基礎都忘光光了哇哈哈!)
+
+time: O(n), space: o(1)
+
+```java
+class Solution {
+    public boolean isSubsequence(String s, String t) {
+        // 邊界條件處理
+        if (s.length() == 0) return true;
+        if (t.length() == 0) return false;
+        
+        int sPointer = 0;
+        int tPointer = 0;
+        
+        // 用一個簡單的 loop 走訪 t
+        while (tPointer < t.length()) {
+            // 如果字元匹配成功，s 的指標往後移
+            if (t.charAt(tPointer) == s.charAt(sPointer)) {
+                sPointer++;
+                // 如果 s 的指標已經走完 s 的長度，代表全部找到了
+                if (sPointer == s.length()) {
+                    return true;
+                }
+            }
+            tPointer++;
+        }
+        return false;
+    }
+}
+```

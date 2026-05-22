@@ -1,4 +1,49 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>LeetCode on Rex's Lab</title><link>https://could562073.github.io/categories/leetcode/</link><description>Recent content in LeetCode on Rex's Lab</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 15 May 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://could562073.github.io/categories/leetcode/index.xml" rel="self" type="application/rss+xml"/><item><title>334. Increasing Triplet Subsequence</title><link>https://could562073.github.io/post/2026-05-15-334.-increasing-triplet-subsequence/</link><pubDate>Fri, 15 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-05-15-334.-increasing-triplet-subsequence/</guid><description>&lt;p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>LeetCode on Rex's Lab</title><link>https://could562073.github.io/categories/leetcode/</link><description>Recent content in LeetCode on Rex's Lab</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 22 May 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://could562073.github.io/categories/leetcode/index.xml" rel="self" type="application/rss+xml"/><item><title>392. Is Subsequence</title><link>https://could562073.github.io/post/2026-05-22-392.-is-subsequence/</link><pubDate>Fri, 22 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-05-22-392.-is-subsequence/</guid><description>&lt;h1 id="392-is-subsequence"&gt;392. Is Subsequence&lt;/h1&gt;
+&lt;p&gt;
+ &lt;img src="image.png" alt="alt text"&gt;
+
+&lt;/p&gt;
+&lt;h2 id="主要用了什麼方法"&gt;主要用了什麼方法：&lt;/h2&gt;
+&lt;p&gt;指針移動 while&lt;/p&gt;
+&lt;h2 id="用了多久"&gt;用了多久:&lt;/h2&gt;
+&lt;p&gt;15 min&lt;/p&gt;
+&lt;h2 id="卡在哪裡"&gt;卡在哪裡：&lt;/h2&gt;
+&lt;p&gt;指針題型已經逐漸熟練，這次沒卡，不過邊界忘了處理，後來補上才過
+且常常有基礎語法錯誤，還是要盡量避免run的時候一直出現語法錯誤&lt;/p&gt;</description></item><item><title>283. Move Zeroes</title><link>https://could562073.github.io/post/2026-05-21-283.-move-zeroes/</link><pubDate>Thu, 21 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-05-21-283.-move-zeroes/</guid><description>&lt;p&gt;
+ &lt;img src="image-1.png" alt="alt text"&gt;
+
+&lt;/p&gt;
+&lt;h2 id="主要用了什麼方法"&gt;主要用了什麼方法：&lt;/h2&gt;
+&lt;p&gt;while&lt;/p&gt;
+&lt;h2 id="用了多久"&gt;用了多久:&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;45min&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="卡在哪裡"&gt;卡在哪裡：&lt;/h2&gt;
+&lt;p&gt;腦袋卡住，指針用法不夠熟練，還是要多練&lt;/p&gt;
+&lt;h2 id="time-complexity"&gt;Time Complexity:&lt;/h2&gt;
+&lt;p&gt;O(n)&lt;/p&gt;
+&lt;h2 id="space-complexity"&gt;Space Complexity:&lt;/h2&gt;
+&lt;p&gt;O(1)&lt;/p&gt;
+&lt;h2 id="my-solution"&gt;My Solution:&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8be9fd;font-style:italic"&gt;class&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;Solution&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8be9fd;font-style:italic"&gt;public&lt;/span&gt; &lt;span style="color:#8be9fd"&gt;void&lt;/span&gt; &lt;span style="color:#50fa7b"&gt;moveZeroes&lt;/span&gt;(&lt;span style="color:#8be9fd"&gt;int&lt;/span&gt;&lt;span style="color:#ff79c6"&gt;[]&lt;/span&gt; nums) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8be9fd"&gt;int&lt;/span&gt; i &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; 0;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8be9fd"&gt;int&lt;/span&gt; n &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; nums.&lt;span style="color:#50fa7b"&gt;length&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8be9fd"&gt;int&lt;/span&gt; j &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; 0;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;while&lt;/span&gt; (i &lt;span style="color:#ff79c6"&gt;&amp;lt;&lt;/span&gt; n) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ff79c6"&gt;if&lt;/span&gt; (nums&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;i&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;!=&lt;/span&gt; 0) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8be9fd"&gt;int&lt;/span&gt; temp &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; nums&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;i&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; nums&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;i&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; nums&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;j&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; nums&lt;span style="color:#ff79c6"&gt;[&lt;/span&gt;j&lt;span style="color:#ff79c6"&gt;]&lt;/span&gt; &lt;span style="color:#ff79c6"&gt;=&lt;/span&gt; temp;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; j&lt;span style="color:#ff79c6"&gt;++&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; i&lt;span style="color:#ff79c6"&gt;++&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="學到什麼"&gt;學到什麼：&lt;/h3&gt;
+&lt;p&gt;指針需要多練習&lt;/p&gt;</description></item><item><title>334. Increasing Triplet Subsequence</title><link>https://could562073.github.io/post/2026-05-15-334.-increasing-triplet-subsequence/</link><pubDate>Fri, 15 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-05-15-334.-increasing-triplet-subsequence/</guid><description>&lt;p&gt;
  &lt;img src="image.png" alt="alt text"&gt;
 
 &lt;/p&gt;

@@ -4,7 +4,11 @@
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
       "Bash(git push *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(hugo --minify)",
+      "Bash(Select-String \"283\")",
+      "Bash(gh run *)",
+      "PowerShell(gh run *)"
     ]
   }
 }

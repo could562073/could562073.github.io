@@ -30,7 +30,32 @@ post-container"><h1 id=392-is-subsequence>392. Is Subsequence</h1><p><img src=im
 </span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>false</span>;
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h3 id=學到什麼>學到什麼：</h3><ol><li>邊界處理</li><li>基礎語法error需要盡量避免</li></ol><h2 id=accepted>Accepted</h2><p><img src=image-1.png alt="alt text"></p></div><div class="col-lg-3 col-lg-offset-0
+</span></span></code></pre></div><h3 id=學到什麼>學到什麼：</h3><ol><li>邊界處理</li><li>基礎語法error需要盡量避免</li></ol><h2 id=accepted>Accepted</h2><p><img src=image-1.png alt="alt text"></p><h2 id=ai-recommand-solution>ai recommand solution</h2><p>String有一個charAt()方法，用這個可以省兩個記憶體空間
+(果然把java基礎都忘光光了哇哈哈!)</p><p>time: O(n), space: o(1)</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>Solution</span> {
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd>boolean</span> <span style=color:#50fa7b>isSubsequence</span>(String s, String t) {
+</span></span><span style=display:flex><span>        <span style=color:#6272a4>// 邊界條件處理</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span> (s.<span style=color:#50fa7b>length</span>() <span style=color:#ff79c6>==</span> 0) <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>true</span>;
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span> (t.<span style=color:#50fa7b>length</span>() <span style=color:#ff79c6>==</span> 0) <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>false</span>;
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd>int</span> sPointer <span style=color:#ff79c6>=</span> 0;
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd>int</span> tPointer <span style=color:#ff79c6>=</span> 0;
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=color:#6272a4>// 用一個簡單的 loop 走訪 t</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>while</span> (tPointer <span style=color:#ff79c6>&lt;</span> t.<span style=color:#50fa7b>length</span>()) {
+</span></span><span style=display:flex><span>            <span style=color:#6272a4>// 如果字元匹配成功，s 的指標往後移</span>
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>if</span> (t.<span style=color:#50fa7b>charAt</span>(tPointer) <span style=color:#ff79c6>==</span> s.<span style=color:#50fa7b>charAt</span>(sPointer)) {
+</span></span><span style=display:flex><span>                sPointer<span style=color:#ff79c6>++</span>;
+</span></span><span style=display:flex><span>                <span style=color:#6272a4>// 如果 s 的指標已經走完 s 的長度，代表全部找到了</span>
+</span></span><span style=display:flex><span>                <span style=color:#ff79c6>if</span> (sPointer <span style=color:#ff79c6>==</span> s.<span style=color:#50fa7b>length</span>()) {
+</span></span><span style=display:flex><span>                    <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>true</span>;
+</span></span><span style=display:flex><span>                }
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>            tPointer<span style=color:#ff79c6>++</span>;
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>false</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div></div><div class="col-lg-3 col-lg-offset-0
 col-md-3 col-md-offset-0
 col-sm-12
 col-xs-12

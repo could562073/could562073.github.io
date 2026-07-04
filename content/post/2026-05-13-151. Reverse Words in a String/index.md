@@ -2,7 +2,7 @@
 title = "151. Reverse Words in a String"
 date = 2026-05-13
 draft = false
-tags = ["LeetCode", "meduim"]
+tags = ["LeetCode", "medium"]
 categories = ["LeetCode"]
 +++
 

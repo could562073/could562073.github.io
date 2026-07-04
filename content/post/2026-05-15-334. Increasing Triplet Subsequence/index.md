@@ -2,7 +2,7 @@
 title = "334. Increasing Triplet Subsequence"
 date = 2026-05-15
 draft = false
-tags = ["LeetCode", "meduim"]
+tags = ["LeetCode", "medium"]
 categories = ["LeetCode"]
 +++
 

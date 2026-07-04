@@ -2,7 +2,7 @@
 title = "443. String Compression"
 date = 2026-05-15
 draft = false
-tags = ["LeetCode", "meduim"]
+tags = ["LeetCode", "medium"]
 categories = ["LeetCode"]
 +++
 

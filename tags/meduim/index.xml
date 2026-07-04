@@ -1,4 +1,14 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Meduim on Rex's Lab</title><link>https://could562073.github.io/tags/meduim/</link><description>Recent content in Meduim on Rex's Lab</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 15 May 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://could562073.github.io/tags/meduim/index.xml" rel="self" type="application/rss+xml"/><item><title>334. Increasing Triplet Subsequence</title><link>https://could562073.github.io/post/2026-05-15-334.-increasing-triplet-subsequence/</link><pubDate>Fri, 15 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-05-15-334.-increasing-triplet-subsequence/</guid><description>&lt;p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Meduim on Rex's Lab</title><link>https://could562073.github.io/tags/meduim/</link><description>Recent content in Meduim on Rex's Lab</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 22 May 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://could562073.github.io/tags/meduim/index.xml" rel="self" type="application/rss+xml"/><item><title>11. Container With Most Water</title><link>https://could562073.github.io/post/2026-07-05-392.-is-subsequence-copy/</link><pubDate>Fri, 22 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-07-05-392.-is-subsequence-copy/</guid><description>&lt;h1 id="11-container-with-most-water"&gt;11. Container With Most Water&lt;/h1&gt;
+&lt;p&gt;
+ &lt;img src="image.png" alt="alt text"&gt;
+
+&lt;/p&gt;
+&lt;h2 id="主要用了什麼方法"&gt;主要用了什麼方法：&lt;/h2&gt;
+&lt;p&gt;指針移動 while&lt;/p&gt;
+&lt;h2 id="用了多久"&gt;用了多久:&lt;/h2&gt;
+&lt;p&gt;30 min+&lt;/p&gt;
+&lt;h2 id="卡在哪裡"&gt;卡在哪裡：&lt;/h2&gt;
+&lt;p&gt;題目的理解深度不夠，其中一個test case卡住，後來用GPT協助釐清我的邏輯誤點，本來使用四個指針紀錄位置，但實際上只需要兩個指針紀錄即可，在題目理解深度不足導致錯誤，後來修正後完成答案&lt;/p&gt;</description></item><item><title>334. Increasing Triplet Subsequence</title><link>https://could562073.github.io/post/2026-05-15-334.-increasing-triplet-subsequence/</link><pubDate>Fri, 15 May 2026 00:00:00 +0000</pubDate><guid>https://could562073.github.io/post/2026-05-15-334.-increasing-triplet-subsequence/</guid><description>&lt;p&gt;
  &lt;img src="image.png" alt="alt text"&gt;
 
 &lt;/p&gt;
